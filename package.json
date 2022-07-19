@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server --ignore client",
-    "client": "npm start --prefix ../frontend/auction-front",
+    "client": "npm start --prefix auction-front",
     "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "author": "",

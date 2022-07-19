@@ -34,7 +34,7 @@ const Wrapper = styled.section`
     flex-wrap: wrap;
   }
   .serwis {
-    color: #f9bc60;
+    color: gold;
   }
   .main-photo {
     max-width: 700px;

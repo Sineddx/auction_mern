@@ -275,3 +275,22 @@ ul {
   margin: 0 auto;
   margin-top: -1rem;
 }
+.example-enter {
+  opacity: 0;
+}
+
+.example-enter-active {
+  opacity: 1;
+
+  transition: transform 1s ease, opacity 300ms ease;
+}
+
+.example-exit {
+  opacity: 1;
+
+}
+
+.example-exit-active {
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
+}

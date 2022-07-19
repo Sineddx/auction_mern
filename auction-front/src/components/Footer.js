@@ -11,8 +11,8 @@ const Footer = () => {
 };
 
 const Wrapper = styled.footer`
+  padding-top: 3rem;
   position: relative;
-  bottom: 0;
   margin-top: 10%;
   width: 100vw;
   background-color: var(--card-bg);
