@@ -1,4 +1,6 @@
 import Footer from "./Footer";
 import Header from "./Header";
-
-export { Footer, Header };
+import FormRow from "./FormRow";
+import NavLinks from "./NavLinks";
+import Alert from "./Alert";
+export { Footer, Header, FormRow, NavLinks, Alert };

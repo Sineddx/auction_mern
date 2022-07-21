@@ -1,56 +1,37 @@
-import logo from "../assets/images/logo_transparent.png";
 import styled from "styled-components";
 import { useState } from "react";
 import Modal from "./Modal";
-import { CSSTransition, Transition } from "react-transition-group";
-import { GiHamburgerMenu } from "react-icons/gi";
+import Logo from "./Logo";
+import { NavLink } from "react-router-dom";
+import { useAppContext } from "../context/appContext";
 const Header = () => {
   const [show, setShow] = useState(false);
+  const { user } = useAppContext();
   const toggleMenu = (e) => {
-    // setTimeout(() => {
-    //   setShow(!show);
-    // }, 300);
     setShow(!show);
     if (e) {
       e.stopPropagation();
     }
   };
-  const duration = 300;
-  const defaultStyle = {
-    transition: `opacity ${duration}ms ease`,
-    opacity: 0,
-  };
-  const transitionStyles = {
-    entering: { opacity: 0.5 },
-    entered: { opacity: 0.5 },
-    exiting: { opacity: 0.5 },
-    exited: { opacity: 0.5 },
-  };
+
   return (
     <Wrapper className="wrapper">
       <div className="custom">
-        <div>
-          <img className="service-logo" src={logo} alt="Logo" />
-        </div>
+        <NavLink to="/">
+          <Logo logoClass="service-logo" />
+        </NavLink>
         <div className="searchbar">
           <input className="inputfield" placeholder="Czego szukasz?" />
         </div>
         <div className="user-panel">
           <div className="account" onClick={toggleMenu}>
-            <p>MOJE KONTO</p>
+            <p>{user ? user.name : "MOJE KONTO"}</p>
           </div>
           <div className="icon-one" onClick={toggleMenu}>
             <div className="hamburger hamburger-one"></div>
           </div>
         </div>
         {show && <Modal show={show} close={toggleMenu} />}
-
-        {/* <div className={`user-options ${show && "show"}`}>
-            <button>Zaloguj się</button>
-            <p>
-              Nie posiadasz konta? <a href="#">Zarejestruj się </a>
-            </p>
-          </div> */}
       </div>
     </Wrapper>
   );
@@ -59,15 +40,9 @@ const Header = () => {
 const Wrapper = styled.div`
   background: var(--card-bg);
   width: 100vw;
+  min-width: 380px;
 
-  .modal {
-    transition: width 300ms;
-    width: 0;
-  }
-  .show {
-    width: 250px;
-  }
-
+  top: 0;
   .user-options {
     border: 0.5px solid black;
     background-color: white;

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { Error, Home, SharedLayout, SearchResult } from "./pages";
+import { Error, Home, SharedLayout, SearchResult, Register } from "./pages";
 function App() {
   return (
     <BrowserRouter>
@@ -7,6 +7,7 @@ function App() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
           <Route path="search" element={<SearchResult />} />
+          <Route path="signin" element={<Register />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
