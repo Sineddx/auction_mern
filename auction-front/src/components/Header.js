@@ -6,9 +6,21 @@ import { NavLink } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
 const Header = () => {
   const [show, setShow] = useState(false);
-  const { user } = useAppContext();
+  const { user, logout } = useAppContext();
+  // const toggleMenu = (e) => {
+  //   setShow(!show);
+  //   if (e) {
+  //     e.stopPropagation();
+  //   }
+  // };
   const toggleMenu = (e) => {
-    setShow(!show);
+    if (show) {
+      setTimeout(() => {
+        setShow(false);
+      }, 300);
+      return;
+    }
+    setShow(true);
     if (e) {
       e.stopPropagation();
     }
@@ -24,6 +36,11 @@ const Header = () => {
           <input className="inputfield" placeholder="Czego szukasz?" />
         </div>
         <div className="user-panel">
+          {user && (
+            <div className="account logout" onClick={logout}>
+              <p>Wyloguj</p>
+            </div>
+          )}
           <div className="account" onClick={toggleMenu}>
             <p>{user ? user.name : "MOJE KONTO"}</p>
           </div>
@@ -74,6 +91,8 @@ const Wrapper = styled.div`
 
   .user-panel {
     color: yellow;
+    display: flex;
+    gap: 5px;
   }
   .service-logo {
     max-width: 200px;

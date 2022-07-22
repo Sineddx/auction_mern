@@ -39,6 +39,7 @@ const login = async (req, res) => {
   }
   const tokenUser = createTokenUser(user);
   let refreshToken = "";
+
   const existingToken = await Token.findOne({ user: user._id });
   if (existingToken) {
     const { isValid } = existingToken;
@@ -53,15 +54,31 @@ const login = async (req, res) => {
     return;
   }
   refreshToken = crypto.randomBytes(40).toString("hex");
+
   const userAgent = req.headers["user-agent"];
   const ip = req.ip;
   const userToken = { refreshToken, ip, userAgent, user: user._id };
+
   await Token.create(userToken);
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
-  res.status(StatusCodes.CREATED).json({
-    msg: "Success! Account created!",
+  res.status(StatusCodes.OK).json({
+    msg: "Success!",
     user: { name: user.name, surname: user.surname, id: user._id },
   });
 };
 
-export { register, login };
+const logout = async (req, res) => {
+  await Token.findOneAndDelete({
+    user: req.user.userId,
+  });
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.cookie("refreshToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: "User logged out!" });
+};
+export { register, login, logout };

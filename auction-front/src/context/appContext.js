@@ -1,12 +1,14 @@
 import React, { useReducer, useContext } from "react";
 import reducer from "./reducer";
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
   SETUP_USER_BEGIN,
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
+  LOGOUT_USER,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -52,17 +54,37 @@ const AppProvider = ({ children }) => {
         payload: { user, alertText },
       });
       localStorage.setItem("user", JSON.stringify(user));
+      showToast("Pomyślnie zalogowano!");
     } catch (e) {
       dispatch({
         type: SETUP_USER_ERROR,
         payload: { msg: alertText2 || e.response.data.msg },
       });
+      showToast(alertText2, "warning");
     }
     clearAlert();
   };
 
+  const logout = async () => {
+    try {
+      await axios.delete("/api/v1/auth/logout");
+    } catch (error) {
+      console.log(error);
+    }
+    dispatch({ type: LOGOUT_USER });
+    localStorage.removeItem("user");
+    showToast("Pomyślnie wylogowano!");
+  };
+  const showToast = (string, type) => {
+    if (type === "warning") {
+      toast.warn(string);
+      return;
+    }
+    toast.success(string);
+    return;
+  };
   return (
-    <AppContext.Provider value={{ ...state, setupUser, displayAlert }}>
+    <AppContext.Provider value={{ ...state, setupUser, displayAlert, logout }}>
       {children}
     </AppContext.Provider>
   );

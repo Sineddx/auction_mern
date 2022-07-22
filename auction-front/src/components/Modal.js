@@ -10,9 +10,7 @@ const Modal = ({ close, show }) => {
   const [hide, setHide] = useState(false);
   const closeIt = () => {
     setHide(true);
-    setTimeout(() => {
-      close();
-    }, 300);
+    close();
   };
   const modalRef = useRef();
 
