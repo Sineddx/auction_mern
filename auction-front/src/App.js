@@ -1,5 +1,12 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { Error, Home, SharedLayout, SearchResult, Register } from "./pages";
+import {
+  Error,
+  Home,
+  SharedLayout,
+  SearchResult,
+  Register,
+  AddProduct,
+} from "./pages";
 function App() {
   return (
     <BrowserRouter>
@@ -8,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="search" element={<SearchResult />} />
           <Route path="signin" element={<Register />} />
+          <Route path="add-product" element={<AddProduct />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

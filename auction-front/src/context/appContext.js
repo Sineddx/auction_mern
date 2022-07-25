@@ -9,6 +9,9 @@ import {
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
   LOGOUT_USER,
+  ADD_IMAGE_BEGIN,
+  ADD_IMAGE_SUCCESS,
+  ADD_IMAGE_ERROR,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -83,8 +86,34 @@ const AppProvider = ({ children }) => {
     toast.success(string);
     return;
   };
+  const addImage = async (e) => {
+    const imageFile = e.target.files;
+    const formData = new FormData();
+    for (let i = 0; i < imageFile.length; i++) {
+      formData.append("images", imageFile[i]);
+    }
+    console.log(formData);
+    let imageValue;
+
+    try {
+      const {
+        data: { urls },
+      } = await axios.post("/api/v1/products/uploads", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return urls;
+    } catch (e) {
+      imageValue = null;
+      console.log(e);
+    }
+  };
   return (
-    <AppContext.Provider value={{ ...state, setupUser, displayAlert, logout }}>
+    <AppContext.Provider
+      value={{ ...state, setupUser, displayAlert, logout, addImage }}
+    >
       {children}
     </AppContext.Provider>
   );

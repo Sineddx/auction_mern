@@ -3,4 +3,5 @@ import Header from "./Header";
 import FormRow from "./FormRow";
 import NavLinks from "./NavLinks";
 import Alert from "./Alert";
-export { Footer, Header, FormRow, NavLinks, Alert };
+import ImagesPanel from "./ImagesPanel";
+export { Footer, Header, FormRow, NavLinks, Alert, ImagesPanel };

@@ -6,3 +6,7 @@ export const SETUP_USER_SUCCESS = "SETUP_USER_SUCCESS";
 export const SETUP_USER_ERROR = "SETUP_USER_ERROR";
 
 export const LOGOUT_USER = "LOGOUT_USER";
+
+export const ADD_IMAGE_BEGIN = "ADD_IMAGE";
+export const ADD_IMAGE_SUCCESS = "ADD_IMAGE_SUCCESS";
+export const ADD_IMAGE_ERROR = "ADD_IMAGE_ERROR";

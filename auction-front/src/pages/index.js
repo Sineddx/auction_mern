@@ -3,4 +3,5 @@ import Home from "./Home";
 import SharedLayout from "./SharedLayout";
 import SearchResult from "./SearchResult";
 import Register from "./Register";
-export { Error, Home, SharedLayout, SearchResult, Register };
+import AddProduct from "./AddProduct";
+export { Error, Home, SharedLayout, SearchResult, Register, AddProduct };

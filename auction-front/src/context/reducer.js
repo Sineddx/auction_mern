@@ -5,6 +5,9 @@ import {
   SETUP_USER_ERROR,
   SETUP_USER_SUCCESS,
   LOGOUT_USER,
+  ADD_IMAGE_BEGIN,
+  ADD_IMAGE_SUCCESS,
+  ADD_IMAGE_ERROR,
 } from "./actions";
 
 const reducer = (state, action) => {

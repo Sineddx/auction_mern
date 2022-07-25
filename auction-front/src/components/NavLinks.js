@@ -8,7 +8,7 @@ const NavLinks = ({ toggleMenu }) => {
       {}
       {user
         ? links
-            .filter((link) => link.restricted === false)
+            .filter((link) => link.hideIfUser === false)
             .map((link) => {
               const { text, path, id, icon } = link;
               return (
@@ -25,22 +25,24 @@ const NavLinks = ({ toggleMenu }) => {
                 </NavLink>
               );
             })
-        : links.map((link) => {
-            const { text, path, id, icon } = link;
-            return (
-              <NavLink
-                to={path}
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-                key={id}
-                onClick={toggleMenu}
-              >
-                <span className="icon">{icon}</span>
-                {text}
-              </NavLink>
-            );
-          })}
+        : links
+            .filter((link) => link.public === true)
+            .map((link) => {
+              const { text, path, id, icon } = link;
+              return (
+                <NavLink
+                  to={path}
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                  key={id}
+                  onClick={toggleMenu}
+                >
+                  <span className="icon">{icon}</span>
+                  {text}
+                </NavLink>
+              );
+            })}
     </div>
   );
 };
