@@ -1,42 +1,59 @@
-import { useEffect, useState, useCallback } from "react";
-import { FormRow, Alert, ImagesPanel } from "../components";
+import { useEffect, useRef, useState } from "react";
+import { FormRow, Alert, ImagesPanel, FormRowSelect } from "../components";
 import styled from "styled-components";
 import FormRowFile from "../components/FormRowFile";
 import { useAppContext } from "../context/appContext";
-import Images from "../components/Images";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 const AddProduct = () => {
-  const { showAlert, addImage } = useAppContext();
+  const { showAlert, addImage, urls } = useAppContext();
   const initialState = {
-    name: "kek",
-    urls: [],
+    name: "",
     price: 0,
-    desc: "",
-    currentUrl: "",
+    description: "",
+    category: "Książki",
   };
   const [values, setValues] = useState(initialState);
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+  const categories = [
+    "Książki",
+    "Uroda",
+    "Firma i usługi",
+    "Dziecko",
+    "Zdrowie",
+    "Sport",
+    "Motoryzacja",
+    "Moda",
+    "Kultura i rozrywka",
+    "Elektronika",
+  ];
   const handleImage = async (e) => {
-    let data;
     try {
-      data = await addImage(e);
-      console.log(data);
+      await addImage(e);
     } catch (e) {}
-    setValues({
-      ...values,
-      urls: [...values.urls, ...data],
-      currentUrl: data[0],
-    });
-    console.log(values.urls);
     e.target.value = null;
   };
-  console.log(values);
+  const priceRef = useRef();
+  useEffect(() => {
+    const calculatePrice = (e) => {
+      if (priceRef.current && !priceRef.current.contains(e.target)) {
+        const price = Number(values.price).toFixed(2);
+        setValues({ ...values, price: price });
+        priceRef.current.value = price;
+      } else {
+        return;
+      }
+    };
+    document.body.addEventListener("click", calculatePrice);
+    return () => document.body.removeEventListener("click", calculatePrice);
+  }, [values.price]);
+  console.log(priceRef);
   return (
     <Wrapper>
       <form className="form">
         {showAlert && <Alert />}
-        {values.urls.length === 0 && (
+        {urls.length === 0 && (
           <FormRowFile
             type="file"
             name="image"
@@ -46,21 +63,53 @@ const AddProduct = () => {
             className="firstupload"
           />
         )}
-
-        {values.urls.length > 0 && (
-          <ImagesPanel
-            urls={values.urls}
-            handleImage={handleImage}
-            currentUrl={values.currentUrl}
-          />
+        {urls.length > 0 && (
+          <ImagesPanel urls={values.urls} handleImage={handleImage} />
         )}
-        {/* {values.urls.length > 0 && <Images urls={values.urls} />} */}
+        <FormRow
+          type="text"
+          name="name"
+          value={values.name}
+          handleChange={handleChange}
+          labelText="Nazwa przedmiotu"
+          required={true}
+        />
+        <FormRow
+          type="textarea"
+          name="description"
+          value={values.description}
+          handleChange={handleChange}
+          labelText="Opis przedmiotu"
+          required={true}
+          textarea={true}
+        />
+        <FormRowSelect
+          name="category"
+          value={values.category}
+          handleChange={handleChange}
+          labelText="Kategoria"
+          list={categories}
+        />
+
+        <FormRow
+          ref={priceRef}
+          type="number"
+          name="price"
+          cssName="price"
+          valueAsNumber={values.price}
+          handleChange={handleChange}
+          labelText="Cena przedmiotu(PLN)"
+          required={true}
+        />
       </form>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.section`
+  .prod-description {
+    width: 900px;
+  }
   .buttons {
     display: flex;
     justify-content: center;

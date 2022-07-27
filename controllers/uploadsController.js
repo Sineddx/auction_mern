@@ -2,6 +2,7 @@ import path from "path";
 import { StatusCodes } from "http-status-codes";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import { imageObject } from "../utils/imageObject.js";
 
 const uploadProductImage = async (req, res) => {
   const files = req.files.images;
@@ -14,7 +15,11 @@ const uploadProductImage = async (req, res) => {
           folder: "products",
         });
         fs.unlinkSync(file.tempFilePath);
-        urls.unshift(result.secure_url);
+        const newImage = imageObject({
+          url: result.secure_url,
+          id: result.public_id,
+        });
+        urls.unshift(newImage);
       })
     );
   } else {
@@ -23,13 +28,18 @@ const uploadProductImage = async (req, res) => {
       folder: "products",
     });
     fs.unlinkSync(files.tempFilePath);
-    urls.push(result.secure_url);
+    const newImage = imageObject({
+      url: result.secure_url,
+      id: result.public_id,
+    });
+    urls.push(newImage);
   }
+  console.log(urls);
   return res.status(StatusCodes.OK).json({ urls });
 };
-export { uploadProductImage };
-// {
-//   image: {
-//     src: result.secure_url;
-//   }
-// }
+const deleteUploadedImage = async (req, res) => {
+  const { id } = req.body;
+  await cloudinary.uploader.destroy(id);
+  res.status(StatusCodes.OK).json({ msg: "image deleted!" });
+};
+export { uploadProductImage, deleteUploadedImage };

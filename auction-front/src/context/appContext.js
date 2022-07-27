@@ -12,6 +12,9 @@ import {
   ADD_IMAGE_BEGIN,
   ADD_IMAGE_SUCCESS,
   ADD_IMAGE_ERROR,
+  CHANGE_BIG_PHOTO,
+  DELETE_IMAGE_BEGIN,
+  DELETE_IMAGE_SUCCESS,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -23,6 +26,8 @@ const initialState = {
   displayAlert: false,
   alertText: "",
   alertType: "",
+  currentUrl: "",
+  urls: [],
 };
 
 const AppContext = React.createContext();
@@ -87,14 +92,13 @@ const AppProvider = ({ children }) => {
     return;
   };
   const addImage = async (e) => {
+    dispatch({ type: ADD_IMAGE_BEGIN });
     const imageFile = e.target.files;
     const formData = new FormData();
     for (let i = 0; i < imageFile.length; i++) {
       formData.append("images", imageFile[i]);
     }
     console.log(formData);
-    let imageValue;
-
     try {
       const {
         data: { urls },
@@ -103,16 +107,39 @@ const AppProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-
+      dispatch({ type: ADD_IMAGE_SUCCESS, payload: { urls } });
       return urls;
     } catch (e) {
-      imageValue = null;
       console.log(e);
     }
   };
+  const deleteImageFromCloud = async (id) => {
+    dispatch({ type: DELETE_IMAGE_BEGIN });
+    const obj = {};
+    obj.id = id;
+    try {
+      await axios.post("/api/v1/products/uploads/destroy", obj);
+      dispatch({ type: DELETE_IMAGE_SUCCESS, payload: { id } });
+    } catch (error) {
+      console.log("smth went wrong");
+    }
+  };
+  const changeBigPhoto = (e) => {
+    const src = e.target.src;
+    console.log(src);
+    dispatch({ type: CHANGE_BIG_PHOTO, payload: { src } });
+  };
   return (
     <AppContext.Provider
-      value={{ ...state, setupUser, displayAlert, logout, addImage }}
+      value={{
+        ...state,
+        setupUser,
+        displayAlert,
+        logout,
+        addImage,
+        deleteImageFromCloud,
+        changeBigPhoto,
+      }}
     >
       {children}
     </AppContext.Provider>

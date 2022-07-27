@@ -1,18 +1,35 @@
-const FormRow = ({ type, name, value, handleChange, labelText, required }) => {
+import { forwardRef } from "react";
+
+const FormRow = (
+  { type, name, value, handleChange, labelText, required, textarea, cssName },
+  ref
+) => {
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
         {labelText || name}
       </label>
-      <input
-        type={type}
-        value={value}
-        name={name}
-        onChange={handleChange}
-        className="form-input"
-        required={required}
-      />
+      {!textarea ? (
+        <input
+          ref={ref}
+          type={type}
+          value={value}
+          name={name}
+          onChange={handleChange}
+          className={`form-input ${cssName}`}
+          required={required}
+        />
+      ) : (
+        <textarea
+          type={type}
+          value={value}
+          name={name}
+          onChange={handleChange}
+          className="form-input"
+          required={required}
+        ></textarea>
+      )}
     </div>
   );
 };
-export default FormRow;
+export default forwardRef(FormRow);

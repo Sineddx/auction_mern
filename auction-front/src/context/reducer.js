@@ -8,6 +8,9 @@ import {
   ADD_IMAGE_BEGIN,
   ADD_IMAGE_SUCCESS,
   ADD_IMAGE_ERROR,
+  CHANGE_BIG_PHOTO,
+  DELETE_IMAGE_SUCCESS,
+  DELETE_IMAGE_BEGIN,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -57,6 +60,48 @@ const reducer = (state, action) => {
       ...state,
       user: null,
     };
+  }
+  if (action.type === ADD_IMAGE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === ADD_IMAGE_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      urls: [...state.urls, ...action.payload.urls],
+      currentUrl: action.payload.urls[0].url,
+    };
+  }
+  if (action.type === CHANGE_BIG_PHOTO) {
+    return {
+      ...state,
+      currentUrl: action.payload.src,
+    };
+  }
+  if (action.type === DELETE_IMAGE_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === DELETE_IMAGE_SUCCESS) {
+    let urls = state.urls.filter((url) => url.id !== action.payload.id);
+
+    return urls.length > 0
+      ? {
+          ...state,
+          urls: urls,
+          isLoading: false,
+          currentUrl: urls[0].url,
+        }
+      : {
+          ...state,
+          urls: urls,
+          isLoading: false,
+        };
   }
   throw new Error(`no such action : ${action.type}`);
 };

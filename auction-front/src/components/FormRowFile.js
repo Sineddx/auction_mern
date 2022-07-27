@@ -6,14 +6,19 @@ const FormRowFile = ({
   labelText,
   required,
   hide,
+  id,
 }) => {
   return (
     <div className="form-row">
-      <label htmlFor={name} className="form-label">
-        {labelText || name}
-      </label>
+      {!hide && (
+        <label htmlFor={name} className="form-label">
+          {labelText || name}
+        </label>
+      )}
+
       <input
-        type={type}
+        id={id}
+        type="file"
         value={value}
         name={name}
         onChange={handleChange}
@@ -21,6 +26,7 @@ const FormRowFile = ({
         required={required}
         accept="image/x-png, image/jpeg, image/jpg"
         multiple="multiple"
+        style={hide && { display: "none" }}
       />
     </div>
   );

@@ -1,50 +1,52 @@
 import styled from "styled-components";
 import Thumbnails from "./Thumbnails";
 import FormRowFile from "./FormRowFile";
+import { useAppContext } from "../context/appContext";
 
-const ImagesPanel = ({ urls, handleImage, currentUrl }) => {
+const ImagesPanel = ({ handleImage }) => {
+  const { urls, currentUrl, changeBigPhoto, isLoading } = useAppContext();
+
   return (
     <Wrapper>
-      <input
-        type="file"
-        style={{ display: "none" }}
-        id="image"
-        onChange={handleImage}
-      ></input>
+      <FormRowFile handleChange={handleImage} hide={true} id="image" />
       <div className="big-photo-container">
-        <img src={currentUrl} role="presentation" className="big-image" />
+        {isLoading ? (
+          <div className="loading"></div>
+        ) : (
+          <img src={currentUrl} role="presentation" className="big-image" />
+        )}
       </div>
       <div className="thumbs">
-        {/* <div className="small-image-settings">
-          <img
-            src="https://res.cloudinary.com/chmuramacieja/image/upload/v1658740377/product-images/tmp-16-1658740376393_tsvg11.jpg"
-            className="small-image"
-          ></img>
-          <div className="delete">usuń</div>
-        </div> */}
-        <Thumbnails urls={urls} />
-        <div className="small-image add-new">
-          <label htmlFor="image" className="add-new-image">
-            +
-          </label>
-        </div>
+        <Thumbnails urls={urls} changeBigPhoto={changeBigPhoto} />
+        <label htmlFor="image">
+          <div className="small-image add-new">
+            <div className="plus-button">+</div>
+          </div>
+        </label>
       </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  border: 1px solid black;
+  .loading {
+    width: 6rem;
+    height: 6rem;
+    border: 5px solid var(--backgroundColor);
+    border-radius: 50%;
+    border-top-color: var(--card-bg);
+    padding: 8rem;
+  }
   .add-new-row {
     display: none;
   }
   .big-photo-container {
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.15);
   }
   .big-image {
-    width: 90%;
+    max-height: 300px;
   }
   .small-image {
     width: 60px;
@@ -74,6 +76,7 @@ const Wrapper = styled.div`
     color: var(--card-bg);
     font-size: small;
     gap: 5px;
+    cursor: pointer;
   }
   .delete {
     cursor: pointer;
@@ -83,15 +86,21 @@ const Wrapper = styled.div`
     border: 3px solid var(--card-bg);
   }
   .add-new-image {
-    background-color: var(--card-bg);
-    border-radius: 50%;
-    width: 40%;
-    height: 40%;
-    color: #fff;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: larger;
+    align-content: center;
+  }
+  .plus-button {
+    background-color: var(--card-bg);
+    border: 1px solid black;
+    border-radius: 50%;
+    color: #fff;
+    padding-left: 7px;
+    padding-right: 7px;
   }
 `;
 export default ImagesPanel;
