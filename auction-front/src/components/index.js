@@ -7,6 +7,8 @@ import ImagesPanel from "./ImagesPanel";
 import FormRowSelect from "./FormRowSelect";
 import RadioAuctionType from "./RadioAuctionType";
 import DeliveryOptions from "./DeliveryOptions";
+import SearchItem from "./SearchItem";
+import SearchFilter from "./SearchFilter";
 export {
   Footer,
   Header,
@@ -17,4 +19,6 @@ export {
   FormRowSelect,
   RadioAuctionType,
   DeliveryOptions,
+  SearchItem,
+  SearchFilter,
 };

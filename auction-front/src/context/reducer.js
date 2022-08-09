@@ -14,6 +14,8 @@ import {
   ADD_PRODUCT_BEGIN,
   ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_ERROR,
+  GET_ITEMS_SUCCESS,
+  GET_ITEMS_BEGIN,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -22,7 +24,7 @@ const reducer = (state, action) => {
       ...state,
       showAlert: true,
       alertType: "danger",
-      alertText: "Proszę uzupełnić wszystkie pola",
+      alertText: action.payload.details,
     };
   }
   if (action.type === CLEAR_ALERT) {
@@ -112,12 +114,32 @@ const reducer = (state, action) => {
       isLoading: true,
     };
   }
-  if(action.type === ADD_PRODUCT_SUCCESS){
-    return{
+  if (action.type === ADD_PRODUCT_SUCCESS) {
+    return {
       ...state,
       isLoading: false,
-      
-    }
+      urls: [],
+      currentUrl: "",
+    };
+  }
+  if (action.type === ADD_PRODUCT_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+    };
+  }
+  if (action.type === GET_ITEMS_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === GET_ITEMS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      products: [...action.payload.products],
+    };
   }
   throw new Error(`no such action : ${action.type}`);
 };

@@ -6,10 +6,12 @@ const ProductSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      minLength: 5,
     },
     price: {
       type: Number,
       required: true,
+      default: 9999999,
     },
     image: {
       type: [{}],
@@ -55,6 +57,11 @@ const ProductSchema = new mongoose.Schema(
     expiringDate: {
       type: Date,
       required: [true, "Please provide a date"],
+    },
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   { timestamps: true }

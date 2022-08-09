@@ -2,6 +2,7 @@ import React, { useReducer, useContext } from "react";
 import reducer from "./reducer";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
@@ -18,6 +19,8 @@ import {
   ADD_PRODUCT_BEGIN,
   ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_ERROR,
+  GET_ITEMS_SUCCESS,
+  GET_ITEMS_BEGIN,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -31,6 +34,8 @@ const initialState = {
   alertType: "",
   currentUrl: "",
   urls: [],
+  products: [],
+  page: 1,
 };
 
 const AppContext = React.createContext();
@@ -38,8 +43,12 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const displayAlert = () => {
-    dispatch({ type: DISPLAY_ALERT });
+  const displayAlert = (info) => {
+    let details = "Proszę uzupełnić pola";
+    if (info) {
+      details = info;
+    }
+    dispatch({ type: DISPLAY_ALERT, payload: { details } });
     clearAlert();
   };
   const clearAlert = () => {
@@ -141,10 +150,22 @@ const AppProvider = ({ children }) => {
       await axios.post("/api/v1/products/", obj);
       dispatch({ type: ADD_PRODUCT_SUCCESS });
       showToast("Pomyślnie dodano produkt!");
-      return true;
+      return { added: true, msg: "Wszystko ok" };
     } catch (error) {
-      dispatch({ type: ADD_PRODUCT_ERROR, payload: { error } });
-      return false;
+      console.log(error);
+      dispatch({ type: ADD_PRODUCT_ERROR });
+
+      return { added: false, msg: error.response.data.msg };
+    }
+  };
+  const getProducts = async () => {
+    dispatch({ type: GET_ITEMS_BEGIN });
+    try {
+      const { data } = await axios.get("/api/v1/products");
+      const { products } = data;
+      dispatch({ type: GET_ITEMS_SUCCESS, payload: { products } });
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -158,6 +179,8 @@ const AppProvider = ({ children }) => {
         deleteImageFromCloud,
         changeBigPhoto,
         addProduct,
+        showToast,
+        getProducts,
       }}
     >
       {children}

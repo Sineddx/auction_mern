@@ -57,8 +57,7 @@ const Header = () => {
 const Wrapper = styled.div`
   background: var(--card-bg);
   width: 100vw;
-  min-width: 380px;
-
+  min-width: 100vw;
   top: 0;
   .user-options {
     border: 0.5px solid black;
@@ -123,7 +122,7 @@ const Wrapper = styled.div`
   @media (max-width: 700px) {
     .custom {
       flex-direction: column;
-      padding-right: 0;
+
       padding-bottom: 2rem;
       padding-top: 1rem;
     }
@@ -137,6 +136,7 @@ const Wrapper = styled.div`
     .account {
       display: none;
     }
+
     .hamburger {
       top: 50%;
       left: 10%;

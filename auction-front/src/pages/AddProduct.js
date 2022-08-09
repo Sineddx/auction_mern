@@ -13,7 +13,7 @@ import FormRowFile from "../components/FormRowFile";
 import { useAppContext } from "../context/appContext";
 const AddProduct = () => {
   const navigate = useNavigate();
-  const { showAlert, addImage, urls, addProduct, displayAlert } =
+  const { showAlert, addImage, urls, addProduct, displayAlert, showToast } =
     useAppContext();
   const initialState = {
     name: "",
@@ -85,18 +85,24 @@ const AddProduct = () => {
       displayAlert();
       return;
     }
-    if (
-      (auctionType !== "advertisement" && !price) ||
-      deliveryOptions.length === 0
-    ) {
+    if (auctionType !== "advertisement" && !price) {
       displayAlert();
       return;
     }
-    const isAdded = await addProduct(values);
-    isAdded &&
+    const response = await addProduct(values);
+    response.added &&
       setTimeout(() => {
         navigate("/");
-      }, 1500);
+      }, 1000);
+
+    if (!response.added) {
+      if (response.msg === "Authentication Invalid") {
+        showToast("Użytkownik niezalogowany", "warning");
+        navigate("/signin?login=true");
+      } else {
+        displayAlert(response.msg);
+      }
+    }
   };
   // useEffect(() => {
   //   const calculatePrice = (e) => {

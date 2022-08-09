@@ -7,6 +7,7 @@ import {
   Register,
   AddProduct,
 } from "./pages";
+import ProtectedRoute from "./pages/ProtectedRoute";
 function App() {
   return (
     <BrowserRouter>
@@ -15,7 +16,14 @@ function App() {
           <Route index element={<Home />} />
           <Route path="search" element={<SearchResult />} />
           <Route path="signin" element={<Register />} />
-          <Route path="add-product" element={<AddProduct />} />
+          <Route
+            path="add-product"
+            element={
+              <ProtectedRoute>
+                <AddProduct />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
