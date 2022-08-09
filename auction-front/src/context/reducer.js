@@ -11,6 +11,9 @@ import {
   CHANGE_BIG_PHOTO,
   DELETE_IMAGE_SUCCESS,
   DELETE_IMAGE_BEGIN,
+  ADD_PRODUCT_BEGIN,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_ERROR,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -102,6 +105,19 @@ const reducer = (state, action) => {
           urls: urls,
           isLoading: false,
         };
+  }
+  if (action.type === ADD_PRODUCT_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if(action.type === ADD_PRODUCT_SUCCESS){
+    return{
+      ...state,
+      isLoading: false,
+      
+    }
   }
   throw new Error(`no such action : ${action.type}`);
 };

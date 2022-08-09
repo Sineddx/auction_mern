@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 const FormRow = (
-  { type, name, value, handleChange, labelText, required, textarea, cssName },
+  { type, name, value, handleChange, labelText, textarea, cssName },
   ref
 ) => {
   return (
@@ -17,7 +17,6 @@ const FormRow = (
           name={name}
           onChange={handleChange}
           className={`form-input ${cssName}`}
-          required={required}
         />
       ) : (
         <textarea
@@ -26,7 +25,6 @@ const FormRow = (
           name={name}
           onChange={handleChange}
           className="form-input"
-          required={required}
         ></textarea>
       )}
     </div>

@@ -5,4 +5,16 @@ import NavLinks from "./NavLinks";
 import Alert from "./Alert";
 import ImagesPanel from "./ImagesPanel";
 import FormRowSelect from "./FormRowSelect";
-export { Footer, Header, FormRow, NavLinks, Alert, ImagesPanel, FormRowSelect };
+import RadioAuctionType from "./RadioAuctionType";
+import DeliveryOptions from "./DeliveryOptions";
+export {
+  Footer,
+  Header,
+  FormRow,
+  NavLinks,
+  Alert,
+  ImagesPanel,
+  FormRowSelect,
+  RadioAuctionType,
+  DeliveryOptions,
+};

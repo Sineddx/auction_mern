@@ -15,6 +15,9 @@ import {
   CHANGE_BIG_PHOTO,
   DELETE_IMAGE_BEGIN,
   DELETE_IMAGE_SUCCESS,
+  ADD_PRODUCT_BEGIN,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_ERROR,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -111,6 +114,7 @@ const AppProvider = ({ children }) => {
       return urls;
     } catch (e) {
       console.log(e);
+      return;
     }
   };
   const deleteImageFromCloud = async (id) => {
@@ -129,6 +133,20 @@ const AppProvider = ({ children }) => {
     console.log(src);
     dispatch({ type: CHANGE_BIG_PHOTO, payload: { src } });
   };
+  const addProduct = async (data) => {
+    dispatch({ type: ADD_PRODUCT_BEGIN });
+    const obj = { image: [...state.urls], ...data };
+
+    try {
+      await axios.post("/api/v1/products/", obj);
+      dispatch({ type: ADD_PRODUCT_SUCCESS });
+      showToast("Pomyślnie dodano produkt!");
+      return true;
+    } catch (error) {
+      dispatch({ type: ADD_PRODUCT_ERROR, payload: { error } });
+      return false;
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -139,6 +157,7 @@ const AppProvider = ({ children }) => {
         addImage,
         deleteImageFromCloud,
         changeBigPhoto,
+        addProduct,
       }}
     >
       {children}
