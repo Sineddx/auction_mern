@@ -16,9 +16,34 @@ import {
   ADD_PRODUCT_ERROR,
   GET_ITEMS_SUCCESS,
   GET_ITEMS_BEGIN,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
+  CHANGE_PAGE,
 } from "./actions";
 
 const reducer = (state, action) => {
+  if (action.type === CLEAR_VALUES) {
+    return {
+      ...state,
+      searchCategory: "Wszystkie",
+      searchStates: "Wszystkie",
+      searchAuctionType: "Wszystkie",
+      sort: "latest",
+    };
+  }
+  if (action.type === CHANGE_PAGE) {
+    return {
+      ...state,
+      page: action.payload.page,
+    };
+  }
+  if (action.type === HANDLE_CHANGE) {
+    return {
+      ...state,
+      page: 1,
+      [action.payload.name]: action.payload.value,
+    };
+  }
   if (action.type === DISPLAY_ALERT) {
     return {
       ...state,
@@ -139,6 +164,8 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       products: [...action.payload.products],
+      totalProducts: action.payload.totalProducts,
+      numOfPages: action.payload.numOfPages,
     };
   }
   throw new Error(`no such action : ${action.type}`);

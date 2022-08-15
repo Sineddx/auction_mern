@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FormRowFile from "../components/FormRowFile";
 import { useAppContext } from "../context/appContext";
+import { categoriesList, statesList } from "../utils/arrays";
 const AddProduct = () => {
   const navigate = useNavigate();
   const { showAlert, addImage, urls, addProduct, displayAlert, showToast } =
@@ -25,6 +26,7 @@ const AddProduct = () => {
     location: "",
     deliveryOptions: [],
     expiringDate: "",
+    state: "Wszystkie",
   };
   const [values, setValues] = useState(initialState);
   const handleChange = (e) => {
@@ -50,18 +52,7 @@ const AddProduct = () => {
   useEffect(() => {
     console.log(values);
   }, [values]);
-  const categories = [
-    "Książki",
-    "Uroda",
-    "Firma i usługi",
-    "Dziecko",
-    "Zdrowie",
-    "Sport",
-    "Motoryzacja",
-    "Moda",
-    "Kultura i rozrywka",
-    "Elektronika",
-  ];
+
   const handleImage = async (e) => {
     try {
       await addImage(e);
@@ -80,8 +71,16 @@ const AddProduct = () => {
       quantity,
       deliveryOptions,
       expiringDate,
+      state,
     } = values;
-    if (!name || !location || !description || !auctionType || !expiringDate) {
+    if (
+      !name ||
+      !location ||
+      !description ||
+      !auctionType ||
+      !expiringDate ||
+      state === "Wszystkie"
+    ) {
       displayAlert();
       return;
     }
@@ -156,7 +155,7 @@ const AddProduct = () => {
           value={values.category}
           handleChange={handleChange}
           labelText="Kategoria"
-          list={categories}
+          list={categoriesList}
         />
 
         <RadioAuctionType
@@ -185,6 +184,13 @@ const AddProduct = () => {
             labelText={"ilość sztuk produktu"}
           />
         )}
+        <FormRowSelect
+          labelText="Województwa"
+          name="state"
+          value={values.state}
+          handleChange={handleChange}
+          list={["Wszystkie", ...statesList]}
+        />
         <FormRow
           type="text"
           name="location"

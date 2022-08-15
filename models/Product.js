@@ -46,6 +46,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide a location"],
     },
+    state: {
+      type: String,
+      required: [true, "Please provide your state"],
+    },
     deliveryOptions: {
       type: [String],
       required: [true, "Please provide delivery options"],

@@ -9,6 +9,8 @@ import RadioAuctionType from "./RadioAuctionType";
 import DeliveryOptions from "./DeliveryOptions";
 import SearchItem from "./SearchItem";
 import SearchFilter from "./SearchFilter";
+import Loading from "./Loading";
+import PageBtnContainer from "./PageBtnContainer";
 export {
   Footer,
   Header,
@@ -21,4 +23,6 @@ export {
   DeliveryOptions,
   SearchItem,
   SearchFilter,
+  Loading,
+  PageBtnContainer,
 };

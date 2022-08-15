@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import ReactDOM from "react-dom";
 import { useState, useRef, useEffect } from "react";
-import { BiLogIn, BiRegistered } from "react-icons/bi";
-import { MdContactSupport } from "react-icons/md";
 import NavLinks from "./NavLinks";
 
 const modalRoot = document.getElementById("root-portal");

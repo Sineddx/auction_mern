@@ -21,6 +21,9 @@ import {
   ADD_PRODUCT_ERROR,
   GET_ITEMS_SUCCESS,
   GET_ITEMS_BEGIN,
+  HANDLE_CHANGE,
+  CLEAR_VALUES,
+  CHANGE_PAGE,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -36,6 +39,14 @@ const initialState = {
   urls: [],
   products: [],
   page: 1,
+  search: "",
+  refresh: false,
+  totalProducts: 0,
+  numOfPages: 0,
+  searchCategory: "Wszystkie",
+  searchStates: "Wszystkie",
+  searchAuctionType: "Wszystkie",
+  sort: "latest",
 };
 
 const AppContext = React.createContext();
@@ -43,6 +54,17 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const handleChange = ({ name, value }) => {
+    dispatch({
+      type: HANDLE_CHANGE,
+      payload: { name, value },
+    });
+  };
+  const clearFilter = () => {
+    dispatch({
+      type: CLEAR_VALUES,
+    });
+  };
   const displayAlert = (info) => {
     let details = "Proszę uzupełnić pola";
     if (info) {
@@ -159,14 +181,32 @@ const AppProvider = ({ children }) => {
     }
   };
   const getProducts = async () => {
+    const {
+      search,
+      page,
+      searchCategory,
+      searchStates,
+      searchAuctionType,
+      sort,
+    } = state;
+    let url = `/api/v1/products?page=${page}&category=${searchCategory}&state=${searchStates}&auctionType=${searchAuctionType}&sort=${sort}`;
+    if (search) {
+      url = url + `&search=${search}`;
+    }
     dispatch({ type: GET_ITEMS_BEGIN });
     try {
-      const { data } = await axios.get("/api/v1/products");
-      const { products } = data;
-      dispatch({ type: GET_ITEMS_SUCCESS, payload: { products } });
+      const { data } = await axios.get(url);
+      const { products, totalProducts, numOfPages } = data;
+      dispatch({
+        type: GET_ITEMS_SUCCESS,
+        payload: { products, totalProducts, numOfPages },
+      });
     } catch (error) {
       console.log(error);
     }
+  };
+  const changePage = (page) => {
+    dispatch({ type: CHANGE_PAGE, payload: { page } });
   };
   return (
     <AppContext.Provider
@@ -181,6 +221,9 @@ const AppProvider = ({ children }) => {
         addProduct,
         showToast,
         getProducts,
+        handleChange,
+        clearFilter,
+        changePage,
       }}
     >
       {children}

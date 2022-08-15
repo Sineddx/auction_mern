@@ -1,26 +1,47 @@
 import styled from "styled-components";
-import image from "../assets/images/ayano1.png";
-const SearchItem = () => {
+const SearchItem = ({
+  auctionItem: { name, price, image, location, _id, auctionType },
+}) => {
+  let auctionTypePL;
+  if (auctionType === "advertisement") {
+    auctionTypePL = "Ogłoszenie";
+  }
+  if (auctionType === "bid") {
+    auctionTypePL = "Licytacja";
+  }
+  if (auctionType === "buyNow") {
+    auctionTypePL = "Kup teraz";
+  }
+
   return (
     <Wrapper>
       <div className="wrapper">
         <div className="item-container">
           <div className="item-image">
-            <img src={image} alt="" />
+            <img
+              src={
+                image[0]
+                  ? image[0].url
+                  : "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png"
+              }
+              alt=""
+            />
           </div>
           <div className="auction-details">
             <div>
               <div className="auction-name">
-                <p>super produkt</p>
+                <p>{name}</p>
               </div>
               <div className="city">
-                <span>Miasto: Będzin</span>
+                <span>Miasto: {location}</span>
               </div>
             </div>
             <div>
               <div className="price">
-                <span>99.50ZŁ</span>
-                <span className="auction-type">KUP TERAZ</span>
+                {auctionType !== "advertisement" ? (
+                  <span>{price.toFixed(2)}ZŁ</span>
+                ) : null}
+                <span className="auction-type">{auctionTypePL}</span>
               </div>
             </div>
           </div>
@@ -78,7 +99,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: 700;
     color: var(--card-bg);
     padding-top: 1.4rem;
@@ -92,6 +113,9 @@ const Wrapper = styled.div`
     padding: 0.2rem 0.5rem;
     border-radius: 0.4rem;
     box-shadow: 2px 2px 2px 2px;
+  }
+  .price span {
+    padding: 0.1rem;
   }
   @media (max-width: 600px) {
     width: 95%;

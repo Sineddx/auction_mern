@@ -9,7 +9,6 @@ const SharedLayout = () => {
       <ToastContainer autoClose={3000} />
       <Header />
       <Outlet />
-      <Footer />
     </main>
   );
 };

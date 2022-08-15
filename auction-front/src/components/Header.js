@@ -4,15 +4,14 @@ import Modal from "./Modal";
 import Logo from "./Logo";
 import { NavLink } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
+import { useNavigate } from "react-router-dom";
+import { BiRefresh } from "react-icons/bi";
 const Header = () => {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const { user, logout } = useAppContext();
-  // const toggleMenu = (e) => {
-  //   setShow(!show);
-  //   if (e) {
-  //     e.stopPropagation();
-  //   }
-  // };
+  const { user, logout, search, handleChange, refresh, clearFilter } =
+    useAppContext();
+
   const toggleMenu = (e) => {
     if (show) {
       setTimeout(() => {
@@ -25,15 +24,34 @@ const Header = () => {
       e.stopPropagation();
     }
   };
-
+  const handleSearch = (e) => {
+    handleChange({ name: e.target.name, value: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleChange({ name: "refresh", value: !refresh });
+    navigate("/search");
+  };
+  const handleChangePage = () => {
+    clearFilter();
+  };
   return (
     <Wrapper className="wrapper">
       <div className="custom">
-        <NavLink to="/">
+        <NavLink to="/" onClick={handleChangePage}>
           <Logo logoClass="service-logo" />
         </NavLink>
+
         <div className="searchbar">
-          <input className="inputfield" placeholder="Czego szukasz?" />
+          <form onSubmit={handleSubmit}>
+            <input
+              name="search"
+              className="inputfield"
+              placeholder="Czego szukasz?"
+              value={search}
+              onChange={handleSearch}
+            />
+          </form>
         </div>
         <div className="user-panel">
           {user && (
@@ -194,7 +212,6 @@ const Wrapper = styled.div`
     height: 100%;
     border-radius: 2rem;
     border: none;
-    box-shadow: 0rem 0.2rem 0.8rem 0.1rem gold;
     text-align: center;
     font-size: 1.2rem;
   }

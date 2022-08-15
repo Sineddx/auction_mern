@@ -21,3 +21,8 @@ export const ADD_PRODUCT_ERROR = "ADD_PRODUCT_ERROR";
 
 export const GET_ITEMS_BEGIN = "GET_ITEMS_BEGIN";
 export const GET_ITEMS_SUCCESS = "GET_ITEMS_SUCCESS";
+
+export const HANDLE_CHANGE = "HANDLE_CHANGE";
+export const CLEAR_VALUES = "CLEAR_VALUES";
+
+export const CHANGE_PAGE = "CHANGE_PAGE";
