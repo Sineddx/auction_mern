@@ -5,7 +5,7 @@ import Logo from "./Logo";
 import { NavLink } from "react-router-dom";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
-import { BiRefresh } from "react-icons/bi";
+
 const Header = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -30,7 +30,11 @@ const Header = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleChange({ name: "refresh", value: !refresh });
-    navigate("/search");
+    if (!search) {
+      navigate("/search?page=1");
+    } else {
+      navigate(`/search?page=1&search=${search}`);
+    }
   };
   const handleChangePage = () => {
     clearFilter();
@@ -43,8 +47,9 @@ const Header = () => {
         </NavLink>
 
         <div className="searchbar">
-          <form onSubmit={handleSubmit}>
+          <form className="search-form" onSubmit={handleSubmit}>
             <input
+              onSubmit={handleSubmit}
               name="search"
               className="inputfield"
               placeholder="Czego szukasz?"
@@ -220,6 +225,9 @@ const Wrapper = styled.div`
     width: 30%;
     height: 5vh;
     transition: transform 0.1s;
+  }
+  .search-form {
+    height: 100%;
   }
   .searchbar:hover {
     transform: scale(1.03);

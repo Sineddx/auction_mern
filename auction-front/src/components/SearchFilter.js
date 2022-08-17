@@ -7,8 +7,11 @@ import {
   statesList,
 } from "../utils/arrays";
 import { useAppContext } from "../context/appContext";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const SearchFilter = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     searchCategory,
     searchStates,
@@ -16,13 +19,25 @@ const SearchFilter = () => {
     sort,
     handleChange,
     clearFilter,
+    getProducts,
+    prepareFilter,
   } = useAppContext();
+
   const handleSearch = (e) => {
     handleChange({ name: e.target.name, value: e.target.value });
+    const { name, value } = e?.target;
+    searchParams.set(name, value);
+    setSearchParams(searchParams);
   };
   const handleClear = () => {
     clearFilter();
   };
+  useEffect(() => {
+    const currentParams = Object.fromEntries([...searchParams]);
+    prepareFilter(currentParams);
+    getProducts(currentParams);
+  }, [searchParams]);
+
   return (
     <Wrapper>
       <div className="filter-area">
@@ -80,6 +95,9 @@ const Wrapper = styled.section`
     color: #fff;
     text-align: center;
     cursor: pointer;
+  }
+  @media (max-width: 600px) {
+    width: 95%;
   }
 `;
 export default SearchFilter;

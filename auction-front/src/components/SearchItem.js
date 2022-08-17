@@ -14,7 +14,7 @@ const SearchItem = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper auctionType={auctionTypePL}>
       <div className="wrapper">
         <div className="item-container">
           <div className="item-image">
@@ -32,16 +32,14 @@ const SearchItem = ({
               <div className="auction-name">
                 <p>{name}</p>
               </div>
+              <div className="price-container">
+                {auctionType !== "advertisement" ? (
+                  <span className="price">{price.toFixed(2)} ZŁ</span>
+                ) : null}{" "}
+                <span className="auction-type">{auctionTypePL}</span>
+              </div>
               <div className="city">
                 <span>Miasto: {location}</span>
-              </div>
-            </div>
-            <div>
-              <div className="price">
-                {auctionType !== "advertisement" ? (
-                  <span>{price.toFixed(2)}ZŁ</span>
-                ) : null}
-                <span className="auction-type">{auctionTypePL}</span>
               </div>
             </div>
           </div>
@@ -90,33 +88,32 @@ const Wrapper = styled.div`
     padding-left: 0.5rem;
   }
   .auction-name {
-    font-size: larger;
     font-weight: 900;
     text-transform: uppercase;
     color: var(--card-bg);
   }
   .price {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    font-size: x-large;
     font-weight: 700;
     color: var(--card-bg);
-    padding-top: 1.4rem;
   }
+  .price-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .auction-type {
-    font-size: small;
+    font-size: 0.7rem;
     text-transform: uppercase;
     font-weight: bold;
-    background-color: var(--card-bg);
+    background-color: ${(props) =>
+      props.auctionType === "Kup teraz" ? "green" : "blue"};
+    /* to fix later (major color changes soon) */
     color: white;
-    padding: 0.2rem 0.5rem;
     border-radius: 0.4rem;
-    box-shadow: 2px 2px 2px 2px;
+    padding: 0.5rem;
   }
-  .price span {
-    padding: 0.1rem;
-  }
+
   @media (max-width: 600px) {
     width: 95%;
     .price {

@@ -10,21 +10,18 @@ import { useAppContext } from "../context/appContext";
 const SearchResult = () => {
   const {
     isLoading,
-    getProducts,
-    page,
     products,
-    search,
-    refresh,
-    sort,
-    searchStates,
-    searchCategory,
-    searchAuctionType,
     totalProducts,
     numOfPages,
+    page,
+    searchCategory,
+    searchStates,
+    searchAuctionType,
+    sort,
+    search,
+    refresh,
+    getProducts,
   } = useAppContext();
-  useEffect(() => {
-    getProducts();
-  }, [refresh, sort, searchStates, searchCategory, searchAuctionType, page]);
 
   if (isLoading) {
     return (

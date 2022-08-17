@@ -24,6 +24,7 @@ import {
   HANDLE_CHANGE,
   CLEAR_VALUES,
   CHANGE_PAGE,
+  PREPARE_FILTER,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -39,10 +40,10 @@ const initialState = {
   urls: [],
   products: [],
   page: 1,
-  search: "",
   refresh: false,
   totalProducts: 0,
   numOfPages: 0,
+  search: "",
   searchCategory: "Wszystkie",
   searchStates: "Wszystkie",
   searchAuctionType: "Wszystkie",
@@ -180,19 +181,20 @@ const AppProvider = ({ children }) => {
       return { added: false, msg: error.response.data.msg };
     }
   };
-  const getProducts = async () => {
-    const {
-      search,
-      page,
-      searchCategory,
-      searchStates,
-      searchAuctionType,
-      sort,
-    } = state;
-    let url = `/api/v1/products?page=${page}&category=${searchCategory}&state=${searchStates}&auctionType=${searchAuctionType}&sort=${sort}`;
-    if (search) {
-      url = url + `&search=${search}`;
+  const getProducts = async (params) => {
+    const queryObject = {
+      page: params.page || 1,
+      searchCategory: params.searchCategory || "Wszystkie",
+      searchStates: params.searchStates || "Wszystkie",
+      searchAuctionType: params.searchAuctionType || "Wszystkie",
+      sort: params.sort || "latest",
+      search: params.search || state.search,
+    };
+    let url = `/api/v1/products?page=${queryObject.page}&category=${queryObject.searchCategory}&state=${queryObject.searchStates}&auctionType=${queryObject.searchAuctionType}&sort=${queryObject.sort}`;
+    if (queryObject.search) {
+      url = url + `&search=${queryObject.search}`;
     }
+
     dispatch({ type: GET_ITEMS_BEGIN });
     try {
       const { data } = await axios.get(url);
@@ -206,7 +208,11 @@ const AppProvider = ({ children }) => {
     }
   };
   const changePage = (page) => {
+    console.log(page);
     dispatch({ type: CHANGE_PAGE, payload: { page } });
+  };
+  const prepareFilter = (params) => {
+    dispatch({ type: PREPARE_FILTER, payload: { params } });
   };
   return (
     <AppContext.Provider
@@ -224,6 +230,7 @@ const AppProvider = ({ children }) => {
         handleChange,
         clearFilter,
         changePage,
+        prepareFilter,
       }}
     >
       {children}

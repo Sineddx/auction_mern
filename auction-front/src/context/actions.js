@@ -26,3 +26,4 @@ export const HANDLE_CHANGE = "HANDLE_CHANGE";
 export const CLEAR_VALUES = "CLEAR_VALUES";
 
 export const CHANGE_PAGE = "CHANGE_PAGE";
+export const PREPARE_FILTER = "PREPARE_FILTER";

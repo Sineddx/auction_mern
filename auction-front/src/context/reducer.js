@@ -19,6 +19,7 @@ import {
   HANDLE_CHANGE,
   CLEAR_VALUES,
   CHANGE_PAGE,
+  PREPARE_FILTER,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -166,6 +167,17 @@ const reducer = (state, action) => {
       products: [...action.payload.products],
       totalProducts: action.payload.totalProducts,
       numOfPages: action.payload.numOfPages,
+    };
+  }
+  if (action.type === PREPARE_FILTER) {
+    return {
+      ...state,
+      searchCategory: action.payload.params.searchCategory || "Wszystkie",
+      searchStates: action.payload.params.searchStates || "Wszystkie",
+      searchAuctionType: action.payload.params.searchAuctionType || "Wszystkie",
+      sort: action.payload.params.sort || "latest",
+      search: action.payload.params.search || state.search,
+      page: action.payload.params.page || state.page,
     };
   }
   throw new Error(`no such action : ${action.type}`);
