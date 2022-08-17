@@ -1,5 +1,6 @@
 import Product from "../models/Product.js";
 import { StatusCodes } from "http-status-codes";
+import { BadRequestError } from "../errors/index.js";
 
 const createProduct = async (req, res) => {
   req.body.user = req.user.userId;
@@ -61,5 +62,13 @@ const getAllProducts = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ products, totalProducts, numOfPages });
 };
+const getSingleOffer = async (req, res) => {
+  const { id } = req.params;
+  const offer = await Product.findOne({ _id: id });
+  if (!offer) {
+    throw new BadRequestError("Cant find that offer");
+  }
+  res.status(StatusCodes.OK).json({ offer });
+};
 
-export { createProduct, getAllProducts };
+export { createProduct, getAllProducts, getSingleOffer };

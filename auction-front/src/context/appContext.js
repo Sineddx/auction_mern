@@ -25,6 +25,9 @@ import {
   CLEAR_VALUES,
   CHANGE_PAGE,
   PREPARE_FILTER,
+  GET_SINGLE_OFFER_BEGIN,
+  GET_SINGLE_OFFER_SUCCESS,
+  GET_SINGLE_OFFER_ERROR,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -48,6 +51,7 @@ const initialState = {
   searchStates: "Wszystkie",
   searchAuctionType: "Wszystkie",
   sort: "latest",
+  singleOffer: {},
 };
 
 const AppContext = React.createContext();
@@ -207,6 +211,20 @@ const AppProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const getSingleOffer = async (id) => {
+    dispatch({ type: GET_SINGLE_OFFER_BEGIN });
+    try {
+      const { data } = await axios.get(`/api/v1/products/${id}`);
+      const { offer } = await data;
+      dispatch({
+        type: GET_SINGLE_OFFER_SUCCESS,
+        payload: { offer },
+      });
+      return offer;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const changePage = (page) => {
     console.log(page);
     dispatch({ type: CHANGE_PAGE, payload: { page } });
@@ -231,6 +249,7 @@ const AppProvider = ({ children }) => {
         clearFilter,
         changePage,
         prepareFilter,
+        getSingleOffer,
       }}
     >
       {children}

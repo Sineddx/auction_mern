@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 const SearchItem = ({
   auctionItem: { name, price, image, location, _id, auctionType },
 }) => {
+  const navigate = useNavigate();
   let auctionTypePL;
   if (auctionType === "advertisement") {
     auctionTypePL = "Ogłoszenie";
@@ -12,10 +14,13 @@ const SearchItem = ({
   if (auctionType === "buyNow") {
     auctionTypePL = "Kup teraz";
   }
+  const handleClick = () => {
+    navigate(`/offer?name=${name}&code=${_id}`);
+  };
 
   return (
     <Wrapper auctionType={auctionTypePL}>
-      <div className="wrapper">
+      <div className="wrapper" onClick={handleClick}>
         <div className="item-container">
           <div className="item-image">
             <img
@@ -107,7 +112,7 @@ const Wrapper = styled.div`
     text-transform: uppercase;
     font-weight: bold;
     background-color: ${(props) =>
-      props.auctionType === "Kup teraz" ? "green" : "blue"};
+      props.auctionType === "Kup teraz" ? "yellow" : "green"};
     /* to fix later (major color changes soon) */
     color: white;
     border-radius: 0.4rem;

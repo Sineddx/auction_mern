@@ -13,14 +13,6 @@ const SearchResult = () => {
     products,
     totalProducts,
     numOfPages,
-    page,
-    searchCategory,
-    searchStates,
-    searchAuctionType,
-    sort,
-    search,
-    refresh,
-    getProducts,
   } = useAppContext();
 
   if (isLoading) {

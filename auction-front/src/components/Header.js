@@ -142,6 +142,26 @@ const Wrapper = styled.div`
   .account p::after {
     content: " ⬅";
   }
+
+  .inputfield {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    border: none;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+  .searchbar {
+    width: 30%;
+    height: 5vh;
+    transition: transform 0.1s;
+  }
+  .search-form {
+    height: 100%;
+  }
+  .searchbar:hover {
+    transform: scale(1.03);
+  }
   @media (max-width: 700px) {
     .custom {
       flex-direction: column;
@@ -167,7 +187,7 @@ const Wrapper = styled.div`
       height: 6px;
       background: #fcfcfc;
       position: absolute;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      /* box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2); */
       transition: 0.5s;
     }
     .hamburger:before {
@@ -182,7 +202,7 @@ const Wrapper = styled.div`
       top: -50px;
       left: -50px;
       padding: 0 1rem;
-      width: 100px;
+      width: 50px;
       height: 100px;
       cursor: pointer;
     }
@@ -211,26 +231,12 @@ const Wrapper = styled.div`
       transform: rotate(135deg);
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
     }
-  }
-  .inputfield {
-    width: 100%;
-    height: 100%;
-    border-radius: 2rem;
-    border: none;
-    text-align: center;
-    font-size: 1.2rem;
-  }
-  .searchbar {
-    min-width: 320px;
-    width: 30%;
-    height: 5vh;
-    transition: transform 0.1s;
-  }
-  .search-form {
-    height: 100%;
-  }
-  .searchbar:hover {
-    transform: scale(1.03);
+    .searchbar {
+      min-width: 65%;
+    }
+    .inputfield {
+      font-size: 0.8rem;
+    }
   }
 `;
 export default Header;

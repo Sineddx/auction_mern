@@ -20,9 +20,25 @@ import {
   CLEAR_VALUES,
   CHANGE_PAGE,
   PREPARE_FILTER,
+  GET_SINGLE_OFFER_BEGIN,
+  GET_SINGLE_OFFER_SUCCESS,
+  GET_SINGLE_OFFER_ERROR,
 } from "./actions";
 
 const reducer = (state, action) => {
+  if (action.type === GET_SINGLE_OFFER_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }
+  if (action.type === GET_SINGLE_OFFER_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      singleOffer: { ...action.payload.offer },
+    };
+  }
   if (action.type === CLEAR_VALUES) {
     return {
       ...state,

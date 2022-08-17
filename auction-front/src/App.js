@@ -6,8 +6,10 @@ import {
   SearchResult,
   Register,
   AddProduct,
+  SingleOffer,
 } from "./pages";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import "react-image-gallery/styles/css/image-gallery.css";
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +18,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="search" element={<SearchResult />} />
           <Route path="signin" element={<Register />} />
+          <Route path="offer" element={<SingleOffer />} />
           <Route
             path="add-product"
             element={
