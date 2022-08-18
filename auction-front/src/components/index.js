@@ -11,6 +11,7 @@ import SearchItem from "./SearchItem";
 import SearchFilter from "./SearchFilter";
 import Loading from "./Loading";
 import PageBtnContainer from "./PageBtnContainer";
+import OfferOptions from "./OfferOptions";
 export {
   Footer,
   Header,
@@ -25,4 +26,5 @@ export {
   SearchFilter,
   Loading,
   PageBtnContainer,
+  OfferOptions,
 };

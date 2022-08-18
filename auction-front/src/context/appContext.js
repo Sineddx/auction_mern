@@ -216,6 +216,17 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await axios.get(`/api/v1/products/${id}`);
       const { offer } = await data;
+      let fixHeight;
+      let finalLink;
+      const fixedImages = [];
+      offer.price = offer.price.toFixed(2);
+      offer.image.map((img) => {
+        fixHeight = img.url.split("upload/");
+        fixHeight[0] = fixHeight[0] + "upload/w_1000,h_600,c_pad/";
+        finalLink = fixHeight.join("");
+        fixedImages.push({ original: finalLink, thumbnail: finalLink });
+      });
+      offer.image = await fixedImages;
       dispatch({
         type: GET_SINGLE_OFFER_SUCCESS,
         payload: { offer },
