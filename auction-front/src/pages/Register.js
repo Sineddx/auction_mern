@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { useAppContext } from "../context/appContext";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import styled from "styled-components";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import Wrapper from "../assets/wrappers/pages/Register";
 import { FormRow, Alert } from "../components";
 
 const Register = () => {
   let [params] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isLoading, user, showAlert, displayAlert, setupUser } =
     useAppContext();
   let isActive = JSON.parse(params.getAll("login").toString());
+
   const initialState = {
     name: "",
     surname: "",
@@ -21,17 +23,23 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
 
   useEffect(() => {
+    console.log(location.state);
     setValues({ ...values, isMember: isActive });
     if (user) {
       setTimeout(() => {
-        navigate("/");
-      }, 3000);
+        if (location.state) {
+          navigate(-1);
+        } else {
+          navigate("/");
+        }
+      }, 1000);
     }
   }, [isActive, user]);
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, isMember, birthday, surname } = values;
@@ -56,6 +64,7 @@ const Register = () => {
       });
     }
   };
+
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
@@ -118,7 +127,12 @@ const Register = () => {
         </div>
         <p>
           {values.isMember ? "Nie zarejestrowany?" : "Posiadasz już konto?"}
-          <button type="button" onClick={toggleMember} className="member-btn">
+          <button
+            type="button"
+            onClick={toggleMember}
+            className="member-btn"
+            disabled={isLoading}
+          >
             {values.isMember ? "Zarejestruj" : "Zaloguj"}
           </button>
         </p>
@@ -127,27 +141,4 @@ const Register = () => {
   );
 };
 
-const Wrapper = styled.section`
-  .buttons {
-    display: flex;
-    justify-content: center;
-  }
-  .form {
-    border-top: 5px solid var(--card-bg);
-  }
-  .buttons button {
-    margin-left: 0.3rem;
-  }
-  .btn-clear {
-    background-color: #e16162;
-  }
-  .member-btn {
-    background: transparent;
-    border: transparent;
-    color: var(--card-bg);
-  }
-  p {
-    text-align: center;
-  }
-`;
 export default Register;

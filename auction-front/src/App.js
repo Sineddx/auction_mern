@@ -5,7 +5,7 @@ import {
   SharedLayout,
   SearchResult,
   Register,
-  AddProduct,
+  AddOffer,
   SingleOffer,
 } from "./pages";
 import ProtectedRoute from "./pages/ProtectedRoute";
@@ -23,7 +23,7 @@ function App() {
             path="add-product"
             element={
               <ProtectedRoute>
-                <AddProduct />
+                <AddOffer />
               </ProtectedRoute>
             }
           />

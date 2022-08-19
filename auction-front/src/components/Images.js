@@ -1,6 +1,6 @@
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import styled from "styled-components";
+import Wrapper from "../assets/wrappers/components/Images";
 const handleDragStart = (e) => e.preventDefault();
 
 const items = [
@@ -43,13 +43,5 @@ const Images = ({ urls }) => {
     </Wrapper>
   );
 };
-const Wrapper = styled.div`
-  .item {
-    width: 80%;
-  }
-  .item-container {
-    display: flex;
-    justify-content: center;
-  }
-`;
+
 export default Images;

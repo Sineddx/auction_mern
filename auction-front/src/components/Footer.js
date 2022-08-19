@@ -1,5 +1,4 @@
-import styled from "styled-components";
-
+import Wrapper from "../assets/wrappers/components/Footer";
 const Footer = () => {
   return (
     <Wrapper>
@@ -10,11 +9,4 @@ const Footer = () => {
   );
 };
 
-const Wrapper = styled.footer`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: var(--card-bg);
-  color: var(--card-bg);
-`;
 export default Footer;

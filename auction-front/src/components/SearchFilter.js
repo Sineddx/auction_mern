@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import Wrapper from "../assets/wrappers/components/SearchFilter";
 import { FormRowSelect } from "./index";
 import {
   categoriesList,
@@ -19,7 +19,7 @@ const SearchFilter = () => {
     sort,
     handleChange,
     clearFilter,
-    getProducts,
+    getOffers,
     prepareFilter,
   } = useAppContext();
 
@@ -27,6 +27,7 @@ const SearchFilter = () => {
     handleChange({ name: e.target.name, value: e.target.value });
     const { name, value } = e?.target;
     searchParams.set(name, value);
+    searchParams.set("page", 1);
     setSearchParams(searchParams);
   };
   const handleClear = () => {
@@ -35,7 +36,7 @@ const SearchFilter = () => {
   useEffect(() => {
     const currentParams = Object.fromEntries([...searchParams]);
     prepareFilter(currentParams);
-    getProducts(currentParams);
+    getOffers(currentParams);
   }, [searchParams]);
 
   return (
@@ -77,27 +78,4 @@ const SearchFilter = () => {
   );
 };
 
-const Wrapper = styled.section`
-  margin: 1rem auto 0 auto;
-  width: 65%;
-  min-height: 100%;
-  .filter-area {
-    width: 100%;
-    background-color: #fff;
-    display: grid;
-    padding: 0.5rem;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 2rem;
-    row-gap: 0.5rem;
-  }
-  .clear-values {
-    background-color: var(--green-dark);
-    color: #fff;
-    text-align: center;
-    cursor: pointer;
-  }
-  @media (max-width: 600px) {
-    width: 95%;
-  }
-`;
 export default SearchFilter;

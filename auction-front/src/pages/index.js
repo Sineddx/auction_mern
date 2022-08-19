@@ -3,7 +3,7 @@ import Home from "./Home";
 import SharedLayout from "./SharedLayout";
 import SearchResult from "./SearchResult";
 import Register from "./Register";
-import AddProduct from "./AddProduct";
+import AddOffer from "./AddOffer";
 import SingleOffer from "./SingleOffer";
 export {
   Error,
@@ -11,6 +11,6 @@ export {
   SharedLayout,
   SearchResult,
   Register,
-  AddProduct,
+  AddOffer,
   SingleOffer,
 };

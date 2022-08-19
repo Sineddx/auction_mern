@@ -1,5 +1,3 @@
-import styled from "styled-components";
-import { useEffect } from "react";
 import {
   SearchItem,
   SearchFilter,
@@ -7,13 +5,9 @@ import {
   PageBtnContainer,
 } from "../components";
 import { useAppContext } from "../context/appContext";
+import Wrapper from "../assets/wrappers/pages/SearchResult";
 const SearchResult = () => {
-  const {
-    isLoading,
-    products,
-    totalProducts,
-    numOfPages,
-  } = useAppContext();
+  const { isLoading, offers, totalOffers, numOfPages } = useAppContext();
 
   if (isLoading) {
     return (
@@ -23,7 +17,7 @@ const SearchResult = () => {
       </Wrapper>
     );
   }
-  if (products.length === 0) {
+  if (offers.length === 0) {
     return (
       <Wrapper>
         <SearchFilter />
@@ -34,21 +28,13 @@ const SearchResult = () => {
   return (
     <Wrapper>
       <SearchFilter />
-      <div className="results-number">
-        Znalezionych wyników: {totalProducts}
-      </div>
-      {products.map((auctionItem, index) => {
+      <div className="results-number">Znalezionych wyników: {totalOffers}</div>
+      {offers.map((auctionItem, index) => {
         return <SearchItem key={index} auctionItem={auctionItem} />;
       })}
       {numOfPages > 1 && <PageBtnContainer />}
     </Wrapper>
   );
 };
-const Wrapper = styled.section`
-  .results-number {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-  }
-`;
+
 export default SearchResult;

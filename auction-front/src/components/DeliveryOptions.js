@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import Wrapper from "../assets/wrappers/components/DeliveryOptions";
 
 const DeliveryOptions = ({ handleChange }) => {
   return (
@@ -75,10 +75,3 @@ const DeliveryOptions = ({ handleChange }) => {
   );
 };
 export default DeliveryOptions;
-
-const Wrapper = styled.div`
-  .single-option {
-    display: flex;
-    justify-content: space-between;
-  }
-`;

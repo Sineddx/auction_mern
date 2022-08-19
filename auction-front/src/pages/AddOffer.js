@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import Wrapper from "../assets/wrappers/pages/AddProduct";
 import {
   FormRow,
   Alert,
@@ -6,13 +6,13 @@ import {
   FormRowSelect,
   RadioAuctionType,
   DeliveryOptions,
+  FormRowFile,
 } from "../components";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import FormRowFile from "../components/FormRowFile";
 import { useAppContext } from "../context/appContext";
 import { categoriesList, statesList } from "../utils/arrays";
-const AddProduct = () => {
+const AddOffer = () => {
   const navigate = useNavigate();
   const { showAlert, addImage, urls, addProduct, displayAlert, showToast } =
     useAppContext();
@@ -29,10 +29,16 @@ const AddProduct = () => {
     state: "Wszystkie",
   };
   const [values, setValues] = useState(initialState);
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    console.log(values);
   };
+
+  const handlePriceChange = (e) => {
+    const fixPrice = Number(e.target.value).toFixed(2);
+    setValues({ ...values, [e.target.name]: fixPrice });
+  };
+
   const handleDeliveryOptionsChange = (e) => {
     const alreadyExist = [...values.deliveryOptions].find((option) => {
       return option === e.target.value;
@@ -49,9 +55,6 @@ const AddProduct = () => {
       });
     }
   };
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
 
   const handleImage = async (e) => {
     try {
@@ -59,7 +62,7 @@ const AddProduct = () => {
     } catch (e) {}
     e.target.value = null;
   };
-  const priceRef = useRef();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {
@@ -81,10 +84,12 @@ const AddProduct = () => {
       !expiringDate ||
       state === "Wszystkie"
     ) {
+      window.scrollTo(0, 0);
       displayAlert();
       return;
     }
     if (auctionType !== "advertisement" && !price) {
+      window.scrollTo(0, 0);
       displayAlert();
       return;
     }
@@ -103,19 +108,7 @@ const AddProduct = () => {
       }
     }
   };
-  // useEffect(() => {
-  //   const calculatePrice = (e) => {
-  //     if (priceRef.current && !priceRef.current.contains(e.target)) {
-  //       const price = Number(values.price).toFixed(2);
-  //       setValues({ ...values, price: price });
-  //       priceRef.current.value = price;
-  //     } else {
-  //       return;
-  //     }
-  //   };
-  //   document.body.addEventListener("click", calculatePrice);
-  //   return () => document.body.removeEventListener("click", calculatePrice);
-  // }, [values.price]);
+
   return (
     <Wrapper>
       <form className="form">
@@ -164,12 +157,11 @@ const AddProduct = () => {
         />
         {values.auctionType !== "advertisement" && (
           <FormRow
-            ref={priceRef}
             type="number"
             name="price"
             cssName="price"
             valueAsNumber={values.price}
-            handleChange={handleChange}
+            handleChange={handlePriceChange}
             labelText="Cena przedmiotu(PLN)"
             required={true}
           />
@@ -217,31 +209,4 @@ const AddProduct = () => {
     </Wrapper>
   );
 };
-
-const Wrapper = styled.section`
-  .prod-description {
-    width: 900px;
-  }
-  .buttons {
-    display: flex;
-    justify-content: center;
-  }
-  .form {
-    border-top: 5px solid var(--card-bg);
-  }
-  .buttons button {
-    margin-left: 0.3rem;
-  }
-  .btn-clear {
-    background-color: #e16162;
-  }
-  .member-btn {
-    background: transparent;
-    border: transparent;
-    color: var(--card-bg);
-  }
-  p {
-    text-align: center;
-  }
-`;
-export default AddProduct;
+export default AddOffer;

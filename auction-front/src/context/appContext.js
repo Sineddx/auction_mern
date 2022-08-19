@@ -6,28 +6,21 @@ import { toast } from "react-toastify";
 import {
   DISPLAY_ALERT,
   CLEAR_ALERT,
-  SETUP_USER_BEGIN,
   SETUP_USER_SUCCESS,
   SETUP_USER_ERROR,
   LOGOUT_USER,
-  ADD_IMAGE_BEGIN,
   ADD_IMAGE_SUCCESS,
-  ADD_IMAGE_ERROR,
   CHANGE_BIG_PHOTO,
-  DELETE_IMAGE_BEGIN,
   DELETE_IMAGE_SUCCESS,
-  ADD_PRODUCT_BEGIN,
-  ADD_PRODUCT_SUCCESS,
-  ADD_PRODUCT_ERROR,
-  GET_ITEMS_SUCCESS,
-  GET_ITEMS_BEGIN,
+  ADD_OFFER_SUCCESS,
+  ADD_OFFER_ERROR,
+  GET_OFFERS_SUCCESS,
   HANDLE_CHANGE,
   CLEAR_VALUES,
   CHANGE_PAGE,
   PREPARE_FILTER,
-  GET_SINGLE_OFFER_BEGIN,
   GET_SINGLE_OFFER_SUCCESS,
-  GET_SINGLE_OFFER_ERROR,
+  TURN_LOADING_ON,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -41,17 +34,16 @@ const initialState = {
   alertType: "",
   currentUrl: "",
   urls: [],
-  products: [],
+  offers: [],
   page: 1,
   refresh: false,
-  totalProducts: 0,
+  totalOffers: 0,
   numOfPages: 0,
   search: "",
   searchCategory: "Wszystkie",
   searchStates: "Wszystkie",
   searchAuctionType: "Wszystkie",
   sort: "latest",
-  singleOffer: {},
 };
 
 const AppContext = React.createContext();
@@ -89,7 +81,7 @@ const AppProvider = ({ children }) => {
     alertText,
     alertText2,
   }) => {
-    dispatch({ type: SETUP_USER_BEGIN });
+    dispatch({ type: TURN_LOADING_ON });
     try {
       const { data } = await axios.post(
         `/api/v1/auth/${endPoint}`,
@@ -131,13 +123,12 @@ const AppProvider = ({ children }) => {
     return;
   };
   const addImage = async (e) => {
-    dispatch({ type: ADD_IMAGE_BEGIN });
+    dispatch({ type: TURN_LOADING_ON });
     const imageFile = e.target.files;
     const formData = new FormData();
     for (let i = 0; i < imageFile.length; i++) {
       formData.append("images", imageFile[i]);
     }
-    console.log(formData);
     try {
       const {
         data: { urls },
@@ -149,12 +140,11 @@ const AppProvider = ({ children }) => {
       dispatch({ type: ADD_IMAGE_SUCCESS, payload: { urls } });
       return urls;
     } catch (e) {
-      console.log(e);
       return;
     }
   };
   const deleteImageFromCloud = async (id) => {
-    dispatch({ type: DELETE_IMAGE_BEGIN });
+    dispatch({ type: TURN_LOADING_ON });
     const obj = {};
     obj.id = id;
     try {
@@ -169,23 +159,22 @@ const AppProvider = ({ children }) => {
     console.log(src);
     dispatch({ type: CHANGE_BIG_PHOTO, payload: { src } });
   };
-  const addProduct = async (data) => {
-    dispatch({ type: ADD_PRODUCT_BEGIN });
+  const addOffer = async (data) => {
+    dispatch({ type: TURN_LOADING_ON });
     const obj = { image: [...state.urls], ...data };
 
     try {
       await axios.post("/api/v1/products/", obj);
-      dispatch({ type: ADD_PRODUCT_SUCCESS });
+      dispatch({ type: ADD_OFFER_SUCCESS });
       showToast("Pomyślnie dodano produkt!");
       return { added: true, msg: "Wszystko ok" };
     } catch (error) {
       console.log(error);
-      dispatch({ type: ADD_PRODUCT_ERROR });
-
+      dispatch({ type: ADD_OFFER_ERROR });
       return { added: false, msg: error.response.data.msg };
     }
   };
-  const getProducts = async (params) => {
+  const getOffers = async (params) => {
     const queryObject = {
       page: params.page || 1,
       searchCategory: params.searchCategory || "Wszystkie",
@@ -199,12 +188,12 @@ const AppProvider = ({ children }) => {
       url = url + `&search=${queryObject.search}`;
     }
 
-    dispatch({ type: GET_ITEMS_BEGIN });
+    dispatch({ type: TURN_LOADING_ON });
     try {
       const { data } = await axios.get(url);
       const { products, totalProducts, numOfPages } = data;
       dispatch({
-        type: GET_ITEMS_SUCCESS,
+        type: GET_OFFERS_SUCCESS,
         payload: { products, totalProducts, numOfPages },
       });
     } catch (error) {
@@ -212,7 +201,7 @@ const AppProvider = ({ children }) => {
     }
   };
   const getSingleOffer = async (id) => {
-    dispatch({ type: GET_SINGLE_OFFER_BEGIN });
+    dispatch({ type: TURN_LOADING_ON });
     try {
       const { data } = await axios.get(`/api/v1/products/${id}`);
       const { offer } = await data;
@@ -229,7 +218,6 @@ const AppProvider = ({ children }) => {
       offer.image = await fixedImages;
       dispatch({
         type: GET_SINGLE_OFFER_SUCCESS,
-        payload: { offer },
       });
       return offer;
     } catch (error) {
@@ -253,9 +241,9 @@ const AppProvider = ({ children }) => {
         addImage,
         deleteImageFromCloud,
         changeBigPhoto,
-        addProduct,
+        addOffer,
         showToast,
-        getProducts,
+        getOffers,
         handleChange,
         clearFilter,
         changePage,

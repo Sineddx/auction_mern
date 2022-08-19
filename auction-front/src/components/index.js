@@ -12,6 +12,7 @@ import SearchFilter from "./SearchFilter";
 import Loading from "./Loading";
 import PageBtnContainer from "./PageBtnContainer";
 import OfferOptions from "./OfferOptions";
+import FormRowFile from "./FormRowFile";
 export {
   Footer,
   Header,
@@ -27,4 +28,5 @@ export {
   Loading,
   PageBtnContainer,
   OfferOptions,
+  FormRowFile,
 };

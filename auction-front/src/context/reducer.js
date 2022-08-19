@@ -1,32 +1,25 @@
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
-  SETUP_USER_BEGIN,
   SETUP_USER_ERROR,
   SETUP_USER_SUCCESS,
   LOGOUT_USER,
-  ADD_IMAGE_BEGIN,
   ADD_IMAGE_SUCCESS,
-  ADD_IMAGE_ERROR,
   CHANGE_BIG_PHOTO,
   DELETE_IMAGE_SUCCESS,
-  DELETE_IMAGE_BEGIN,
-  ADD_PRODUCT_BEGIN,
-  ADD_PRODUCT_SUCCESS,
-  ADD_PRODUCT_ERROR,
-  GET_ITEMS_SUCCESS,
-  GET_ITEMS_BEGIN,
+  ADD_OFFER_SUCCESS,
+  ADD_OFFER_ERROR,
+  GET_OFFERS_SUCCESS,
   HANDLE_CHANGE,
   CLEAR_VALUES,
   CHANGE_PAGE,
   PREPARE_FILTER,
-  GET_SINGLE_OFFER_BEGIN,
   GET_SINGLE_OFFER_SUCCESS,
-  GET_SINGLE_OFFER_ERROR,
+  TURN_LOADING_ON,
 } from "./actions";
 
 const reducer = (state, action) => {
-  if (action.type === GET_SINGLE_OFFER_BEGIN) {
+  if (action.type === TURN_LOADING_ON) {
     return {
       ...state,
       isLoading: true,
@@ -36,7 +29,6 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: false,
-      singleOffer: { ...action.payload.offer },
     };
   }
   if (action.type === CLEAR_VALUES) {
@@ -77,12 +69,7 @@ const reducer = (state, action) => {
       alertText: "",
     };
   }
-  if (action.type === SETUP_USER_BEGIN) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  }
+
   if (action.type === SETUP_USER_SUCCESS) {
     return {
       ...state,
@@ -108,12 +95,7 @@ const reducer = (state, action) => {
       user: null,
     };
   }
-  if (action.type === ADD_IMAGE_BEGIN) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  }
+
   if (action.type === ADD_IMAGE_SUCCESS) {
     return {
       ...state,
@@ -128,12 +110,7 @@ const reducer = (state, action) => {
       currentUrl: action.payload.src,
     };
   }
-  if (action.type === DELETE_IMAGE_BEGIN) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  }
+
   if (action.type === DELETE_IMAGE_SUCCESS) {
     let urls = state.urls.filter((url) => url.id !== action.payload.id);
 
@@ -150,13 +127,8 @@ const reducer = (state, action) => {
           isLoading: false,
         };
   }
-  if (action.type === ADD_PRODUCT_BEGIN) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  }
-  if (action.type === ADD_PRODUCT_SUCCESS) {
+
+  if (action.type === ADD_OFFER_SUCCESS) {
     return {
       ...state,
       isLoading: false,
@@ -164,24 +136,19 @@ const reducer = (state, action) => {
       currentUrl: "",
     };
   }
-  if (action.type === ADD_PRODUCT_ERROR) {
+  if (action.type === ADD_OFFER_ERROR) {
     return {
       ...state,
       isLoading: false,
     };
   }
-  if (action.type === GET_ITEMS_BEGIN) {
-    return {
-      ...state,
-      isLoading: true,
-    };
-  }
-  if (action.type === GET_ITEMS_SUCCESS) {
+
+  if (action.type === GET_OFFERS_SUCCESS) {
     return {
       ...state,
       isLoading: false,
-      products: [...action.payload.products],
-      totalProducts: action.payload.totalProducts,
+      offers: [...action.payload.products],
+      totalOffers: action.payload.totalProducts,
       numOfPages: action.payload.numOfPages,
     };
   }

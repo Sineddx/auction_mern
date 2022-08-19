@@ -36,3 +36,11 @@ export const sortList = [
   "Najniższa cena",
   "Najwyższa cena",
 ];
+export const images = [
+  {
+    original:
+      "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png",
+    thumbnail:
+      "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png",
+  },
+];

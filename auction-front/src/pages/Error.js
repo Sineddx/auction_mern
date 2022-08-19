@@ -1,11 +1,11 @@
-import main from "../assets/images/404.svg";
 import { Link } from "react-router-dom";
-import Wrapper from "../assets/wrappers/ErrorPage";
+import errorImage from "../assets/images/404.svg";
+import Wrapper from "../assets/wrappers/pages/ErrorPage";
 const Error = () => {
   return (
     <Wrapper className="full-page">
       <div>
-        <img src={main} alt="strona nie znaleziona" />
+        <img src={errorImage} alt="strona nie znaleziona" />
         <h3>Strona nie znaleziona!</h3>
         <p>
           Po przeszukaniu wszystkich możliwości, nie udało nam się znaleźć
