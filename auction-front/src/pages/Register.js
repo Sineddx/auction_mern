@@ -23,7 +23,6 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
 
   useEffect(() => {
-    console.log(location.state);
     setValues({ ...values, isMember: isActive });
     if (user) {
       setTimeout(() => {

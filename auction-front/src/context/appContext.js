@@ -164,10 +164,16 @@ const AppProvider = ({ children }) => {
     const obj = { image: [...state.urls], ...data };
 
     try {
-      await axios.post("/api/v1/products/", obj);
+      const { data } = await axios.post("/api/v1/products/", obj);
+      const { product } = data;
       dispatch({ type: ADD_OFFER_SUCCESS });
       showToast("Pomyślnie dodano produkt!");
-      return { added: true, msg: "Wszystko ok" };
+      return {
+        added: true,
+        msg: "Wszystko ok",
+        name: product.name,
+        code: product._id,
+      };
     } catch (error) {
       console.log(error);
       dispatch({ type: ADD_OFFER_ERROR });

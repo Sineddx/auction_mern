@@ -1,7 +1,9 @@
 import Wrapper from "../assets/wrappers/components/SearchItem";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import "moment/locale/pl";
 const SearchItem = ({
-  auctionItem: { name, price, image, location, _id, auctionType },
+  auctionItem: { name, price, image, location, _id, auctionType, expiringDate },
 }) => {
   const navigate = useNavigate();
   let auctionTypePL;
@@ -17,7 +19,8 @@ const SearchItem = ({
   const handleClick = () => {
     navigate(`/offer?name=${name}&code=${_id}`);
   };
-
+  moment.locale("pl");
+  moment().format("LTS");
   return (
     <Wrapper auctionType={auctionTypePL}>
       <div className="wrapper" onClick={handleClick}>
@@ -36,6 +39,7 @@ const SearchItem = ({
             <div>
               <div className="auction-name">
                 <p>{name}</p>
+                <p>{moment(expiringDate).fromNow()}</p>
               </div>
               <div className="price-container">
                 {auctionType !== "advertisement" ? (

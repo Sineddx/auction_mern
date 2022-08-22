@@ -34,6 +34,13 @@ const links = [
     hideIfUser: false,
     public: true,
   },
+  {
+    id: 5,
+    text: "Wyloguj",
+    path: "/",
+    hideIfUser: false,
+    public: false,
+  },
 ];
 
 export default links;

@@ -2,7 +2,15 @@ import { NavLink } from "react-router-dom";
 import links from "../utils/links";
 import { useAppContext } from "../context/appContext";
 const NavLinks = ({ toggleMenu }) => {
-  const { user } = useAppContext();
+  const { user, logout } = useAppContext();
+  const handleClick = (id) => {
+    if (id === 5) {
+      toggleMenu();
+      logout();
+    } else {
+      toggleMenu();
+    }
+  };
   return (
     <div className="modal-body">
       {}
@@ -18,7 +26,7 @@ const NavLinks = ({ toggleMenu }) => {
                     isActive ? "nav-link active" : "nav-link"
                   }
                   key={id}
-                  onClick={toggleMenu}
+                  onClick={() => handleClick(id)}
                 >
                   <span className="icon">{icon}</span>
                   {text}
@@ -36,7 +44,7 @@ const NavLinks = ({ toggleMenu }) => {
                     isActive ? "nav-link active" : "nav-link"
                   }
                   key={id}
-                  onClick={toggleMenu}
+                  onClick={handleClick}
                 >
                   <span className="icon">{icon}</span>
                   {text}

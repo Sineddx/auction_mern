@@ -59,11 +59,6 @@ const Header = () => {
           </form>
         </div>
         <div className="user-panel">
-          {user && (
-            <div className="account logout" onClick={logout}>
-              <p>Wyloguj</p>
-            </div>
-          )}
           <div className="account" onClick={toggleMenu}>
             <p>{user ? user.name : "MOJE KONTO"}</p>
           </div>

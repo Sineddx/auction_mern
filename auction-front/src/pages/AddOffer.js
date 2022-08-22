@@ -14,7 +14,7 @@ import { useAppContext } from "../context/appContext";
 import { categoriesList, statesList } from "../utils/arrays";
 const AddOffer = () => {
   const navigate = useNavigate();
-  const { showAlert, addImage, urls, addProduct, displayAlert, showToast } =
+  const { showAlert, addImage, urls, addOffer, displayAlert, showToast } =
     useAppContext();
   const initialState = {
     name: "",
@@ -93,10 +93,10 @@ const AddOffer = () => {
       displayAlert();
       return;
     }
-    const response = await addProduct(values);
+    const response = await addOffer(values);
     response.added &&
       setTimeout(() => {
-        navigate("/");
+        navigate(`/offer?name=${response.name}&code=${response.code}`);
       }, 1000);
 
     if (!response.added) {

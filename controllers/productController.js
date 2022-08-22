@@ -13,7 +13,9 @@ const createProduct = async (req, res) => {
 const getAllProducts = async (req, res) => {
   const { search, category, state, auctionType, sort } = req.query;
 
-  const queryObject = {};
+  const queryObject = {
+    status: "active",
+  };
   if (category && category !== "Wszystkie") {
     queryObject.category = category;
   }
