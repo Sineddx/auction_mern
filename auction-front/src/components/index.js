@@ -13,6 +13,8 @@ import Loading from "./Loading";
 import PageBtnContainer from "./PageBtnContainer";
 import OfferOptions from "./OfferOptions";
 import FormRowFile from "./FormRowFile";
+import Conversation from "./Conversation";
+import ChatBox from "./ChatBox";
 export {
   Footer,
   Header,
@@ -29,4 +31,6 @@ export {
   PageBtnContainer,
   OfferOptions,
   FormRowFile,
+  Conversation,
+  ChatBox,
 };

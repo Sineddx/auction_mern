@@ -22,7 +22,7 @@ const register = async (req, res) => {
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
   res
     .status(StatusCodes.CREATED)
-    .json({ msg: "Success! Account created!", user });
+    .json({ msg: "Success! Account created!", tokenUser });
 };
 const login = async (req, res) => {
   const { email, password } = req.body;

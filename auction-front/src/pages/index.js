@@ -5,6 +5,7 @@ import SearchResult from "./SearchResult";
 import Register from "./Register";
 import AddOffer from "./AddOffer";
 import SingleOffer from "./SingleOffer";
+import Messages from "./Messages";
 export {
   Error,
   Home,
@@ -13,4 +14,5 @@ export {
   Register,
   AddOffer,
   SingleOffer,
+  Messages,
 };

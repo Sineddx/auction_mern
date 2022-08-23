@@ -237,6 +237,39 @@ const AppProvider = ({ children }) => {
   const prepareFilter = (params) => {
     dispatch({ type: PREPARE_FILTER, payload: { params } });
   };
+  const userChats = async (id) => {
+    try {
+      const { data } = await axios.get(`/api/v1/chat/${id}`);
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getUser = async () => {};
+  const getOtherUser = async (id) => {
+    try {
+      const { data } = await axios.get(`/api/v1/user/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getMessages = async (id) => {
+    try {
+      const { data } = await axios.get(`/api/v1/message/${id}`);
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const sendMessage = async (message) => {
+    try {
+      const { data } = await axios.post("/api/v1/message/", message);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -255,6 +288,10 @@ const AppProvider = ({ children }) => {
         changePage,
         prepareFilter,
         getSingleOffer,
+        userChats,
+        getOtherUser,
+        getMessages,
+        sendMessage,
       }}
     >
       {children}

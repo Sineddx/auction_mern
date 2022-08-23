@@ -7,6 +7,7 @@ import {
   Register,
   AddOffer,
   SingleOffer,
+  Messages,
 } from "./pages";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -19,6 +20,7 @@ function App() {
           <Route path="search" element={<SearchResult />} />
           <Route path="signin" element={<Register />} />
           <Route path="offer" element={<SingleOffer />} />
+          <Route path="messages" element={<Messages />} />
           <Route
             path="add-product"
             element={
