@@ -72,7 +72,14 @@ const ProductSchema = new mongoose.Schema(
       default: "active",
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+ProductSchema.virtual("users", {
+  ref: "User",
+  localField: "_id",
+  foreignField: "product",
+  justOne: false,
+});
 
 export default mongoose.model("Product", ProductSchema);

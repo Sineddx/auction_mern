@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import BadRequestError from "../errors/bad-request.js";
 import User from "../models/User.js";
 
 const getSingleUser = async (req, res) => {
@@ -7,6 +8,9 @@ const getSingleUser = async (req, res) => {
 };
 const getOtherUser = async (req, res) => {
   const { id } = req.params;
+  if (!id) {
+    throw new BadRequestError("No id in request");
+  }
   const result = await User.findOne({ _id: id });
   res.status(StatusCodes.OK).json(result);
 };

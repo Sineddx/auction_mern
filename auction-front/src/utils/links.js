@@ -1,5 +1,6 @@
-import { BiLogIn, BiRegistered } from "react-icons/bi";
+import { BiLogIn, BiRegistered, BiLogOut } from "react-icons/bi";
 import { MdContactSupport } from "react-icons/md";
+import { AiOutlineMessage } from "react-icons/ai";
 
 const links = [
   {
@@ -35,9 +36,18 @@ const links = [
     public: true,
   },
   {
+    id: 6,
+    text: "Wiadomości",
+    path: "/user/messages",
+    icon: <AiOutlineMessage />,
+    hideIfUser: false,
+    public: false,
+  },
+  {
     id: 5,
     text: "Wyloguj",
     path: "/",
+    icon: <BiLogOut />,
     hideIfUser: false,
     public: false,
   },

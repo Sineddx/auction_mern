@@ -14,8 +14,8 @@ const Wrapper = styled.div`
     gap: 1rem;
     cursor: pointer;
     transition: opacity 0.3s ease;
-    color: #001e1d;
-    border-top: 1px solid #004643;
+    color: var(--card-bg);
+    border-top: 1px solid var(--card-bg);
   }
   .modal-body a:hover {
     opacity: 0.7;
@@ -59,7 +59,6 @@ const Wrapper = styled.div`
     animation-name: example;
     animation-duration: 300ms;
     animation-fill-mode: forwards;
-    border-left: 1px solid #001e1d;
     border-top: 1px solid #001e1d;
     border-right: 1px solid #001e1d;
   }

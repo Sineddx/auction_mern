@@ -37,6 +37,7 @@ const UserSchema = new mongoose.Schema(
     birthday: {
       type: Date,
     },
+    auctions: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true }
 );

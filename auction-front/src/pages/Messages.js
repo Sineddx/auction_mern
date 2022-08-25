@@ -1,43 +1,45 @@
 import Wrapper from "../assets/wrappers/pages/Messages";
 import { useAppContext } from "../context/appContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Conversation, ChatBox } from "../components";
-import { io } from "socket.io-client";
+
 const Messages = () => {
+  const { user, userChats, socket } = useAppContext();
   const [chats, setChats] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
-  const { user, userChats } = useAppContext();
   const [sendMessageSocket, setSendMessageSocket] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
-  const socket = useRef();
   useEffect(() => {
     const getChats = async () => {
       const data = await userChats(user.id);
       setChats(data);
-      console.log(data);
     };
     getChats();
-  }, [user.id]);
+  }, [user]);
 
   useEffect(() => {
-    socket.current = io("http://localhost:8800");
-    socket.current.emit("new-user-add", user.id);
-    socket.current.on("get-users", (users) => {
+    socket.emit("new-user-add", user.id);
+    socket.on("get-users", (users) => {
       setOnlineUsers(users);
     });
   }, [user]);
 
+  const checkOnlineStatus = (chat) => {
+    const chatMembers = chat.members.find((member) => member !== user.id);
+    const online = onlineUsers.find((user) => user.userId === chatMembers);
+    return online ? true : false;
+  };
+
   useEffect(() => {
     if (sendMessageSocket !== null) {
-      socket.current.emit("send-message", sendMessageSocket);
+      socket.emit("send-message", sendMessageSocket);
     }
   }, [sendMessageSocket]);
 
   useEffect(() => {
-    socket.current.on("receive-message", (data) => {
-      console.log(data);
+    socket.on("receive-message", (data) => {
       setReceiveMessage(data);
     });
   }, []);
@@ -50,9 +52,13 @@ const Messages = () => {
           <div className="Chat-container">
             <h2>Rozmowy</h2>
             <div className="Chat-list">
-              {chats.map((chat) => (
-                <div onClick={() => setCurrentChat(chat)}>
-                  <Conversation data={chat} currentUserId={user.id} />
+              {chats.map((chat, index) => (
+                <div key={index} onClick={() => setCurrentChat(chat)}>
+                  <Conversation
+                    data={chat}
+                    currentUserId={user.id}
+                    online={checkOnlineStatus(chat)}
+                  />
                 </div>
               ))}
             </div>

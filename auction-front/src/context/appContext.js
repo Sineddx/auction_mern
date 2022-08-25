@@ -1,6 +1,7 @@
 import React, { useReducer, useContext } from "react";
 import reducer from "./reducer";
 import axios from "axios";
+import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 
 import {
@@ -50,6 +51,9 @@ const AppContext = React.createContext();
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const socket = io.connect("http://localhost:5000", {
+    transports: ['websocket'],
+  });
 
   const handleChange = ({ name, value }) => {
     dispatch({
@@ -93,6 +97,7 @@ const AppProvider = ({ children }) => {
         payload: { user, alertText },
       });
       localStorage.setItem("user", JSON.stringify(user));
+      socket.emit("new-user-add", user.id);
       showToast("Pomyślnie zalogowano!");
     } catch (e) {
       dispatch({
@@ -247,6 +252,9 @@ const AppProvider = ({ children }) => {
   };
   const getUser = async () => {};
   const getOtherUser = async (id) => {
+    if (!id) {
+      return;
+    }
     try {
       const { data } = await axios.get(`/api/v1/user/${id}`);
       return data;
@@ -292,6 +300,7 @@ const AppProvider = ({ children }) => {
         getOtherUser,
         getMessages,
         sendMessage,
+        socket,
       }}
     >
       {children}

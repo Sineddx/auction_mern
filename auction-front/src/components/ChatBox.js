@@ -12,6 +12,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const scroll = useRef();
 
   useEffect(() => {
     if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
@@ -25,7 +26,6 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       const data = await getOtherUser(userId);
       setUserData(data);
     };
-    getUserData();
     if (chat !== null) getUserData();
   }, [chat, currentUserId]);
   //fetching data for messages
@@ -37,11 +37,16 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 
     if (chat !== null) fetchMessages();
   }, [chat]);
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
   };
   const handleSend = async (e) => {
-    e.preventDefault();
+    // if (e) {
+    //   e.preventDefault();
+    // }
     const message = {
       senderId: currentUserId,
       text: newMessage,
@@ -71,7 +76,6 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
                       <span>
                         {userData?.name} {userData?.surname}
                       </span>
-                      <span>Online</span>
                     </div>
                   </div>
                 </div>
@@ -83,6 +87,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
             <div className="chat-body">
               {messages?.map((message, index) => (
                 <div
+                  ref={scroll}
                   key={index}
                   className={
                     message.senderId === currentUserId
@@ -101,6 +106,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
                 value={newMessage}
                 onChange={handleChange}
                 placeholder="Napisz coś.."
+                onEnter={handleSend}
               />
               <div className="send-button btn" onClick={handleSend}>
                 Wyślij

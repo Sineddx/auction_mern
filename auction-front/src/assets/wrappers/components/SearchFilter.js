@@ -1,25 +1,25 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
-  margin: 1rem auto 0 auto;
-  width: 65%;
-  min-height: 100%;
+  margin: 0.8rem 0.8rem 0 15%;
+  width: 15%;
   .filter-area {
-    width: 100%;
+    /* width: 100%; */
     background-color: #fff;
     display: grid;
     padding: 0.5rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     column-gap: 2rem;
     row-gap: 0.5rem;
   }
   .clear-values {
-    background-color: var(--green-dark);
+    background-color: var(--card-bg);
     color: #fff;
     text-align: center;
     cursor: pointer;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     width: 95%;
+    margin: 0 auto;
   }
 `;
 export default Wrapper;

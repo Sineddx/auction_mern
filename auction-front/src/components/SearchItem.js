@@ -3,7 +3,16 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/pl";
 const SearchItem = ({
-  auctionItem: { name, price, image, location, _id, auctionType, expiringDate },
+  auctionItem: {
+    name,
+    price,
+    image,
+    location,
+    _id,
+    auctionType,
+    expiringDate,
+    user,
+  },
 }) => {
   const navigate = useNavigate();
   let auctionTypePL;
@@ -38,17 +47,19 @@ const SearchItem = ({
           <div className="auction-details">
             <div>
               <div className="auction-name">
-                <p>{name}</p>
-                <p>{moment(expiringDate).fromNow()}</p>
+                <span className="name">{name}</span>
+                {/* <p>Koniec aukcji: {moment(expiringDate).fromNow()}</p> */}
+                <br></br>
+                <span className="seller-name">Sprzedawca: {user.email}</span>
               </div>
               <div className="price-container">
+                <span className="auction-type">{auctionTypePL}</span>
                 {auctionType !== "advertisement" ? (
                   <span className="price">{price.toFixed(2)} ZŁ</span>
                 ) : null}{" "}
-                <span className="auction-type">{auctionTypePL}</span>
               </div>
               <div className="city">
-                <span>Miasto: {location}</span>
+                <span>Sosnowiec</span>
               </div>
             </div>
           </div>

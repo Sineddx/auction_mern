@@ -1,9 +1,12 @@
 import styled from "styled-components";
 const Wrapper = styled.div`
   .lds-dual-ring {
-    width: 150px;
-    height: 150px;
+    width: 500px;
+    height: 500px;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .lds-dual-ring:after {
     content: " ";

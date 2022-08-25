@@ -29,10 +29,12 @@ const SearchResult = () => {
     <Wrapper>
       <SearchFilter />
       <div className="results-number">Znalezionych wyników: {totalOffers}</div>
-      {offers.map((auctionItem, index) => {
-        return <SearchItem key={index} auctionItem={auctionItem} />;
-      })}
-      {numOfPages > 1 && <PageBtnContainer />}
+      <div className="all-items">
+        {offers.map((auctionItem, index) => {
+          return <SearchItem key={index} auctionItem={auctionItem} />;
+        })}
+        {numOfPages > 1 && <PageBtnContainer />}
+      </div>
     </Wrapper>
   );
 };

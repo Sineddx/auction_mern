@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/appContext";
 
-const Conversation = ({ data, currentUserId }) => {
+const Conversation = ({ data, currentUserId, online }) => {
   const defaultImage =
     "https://raw.githubusercontent.com/ZainRk/MERN-SocialMedia-ZAINKEEPSCODE/master/server/public/images/defaultProfile.png";
   const { getOtherUser } = useAppContext();
@@ -19,7 +19,7 @@ const Conversation = ({ data, currentUserId }) => {
     <>
       <div className="follower conversation">
         <div>
-          <div className="online-dot"></div>
+          {online && <div className="online-dot"></div>}
           <div className="user-data">
             <img
               src={defaultImage}
@@ -30,7 +30,7 @@ const Conversation = ({ data, currentUserId }) => {
               <span>
                 {userData?.name} {userData?.surname}
               </span>
-              <span>Online</span>
+              <span>{online ? "Dostępny" : "Niedostępny"}</span>
             </div>
           </div>
         </div>

@@ -37,7 +37,7 @@ const getAllProducts = async (req, res) => {
     queryObject.name = { $regex: search, $options: "i" };
   }
 
-  let result = Product.find(queryObject);
+  let result = Product.find(queryObject).populate("user");
 
   if (sort === "Ostatnio dodane") {
     result = result.sort("-createdAt");
@@ -61,7 +61,7 @@ const getAllProducts = async (req, res) => {
   const products = await result;
   const totalProducts = await Product.countDocuments(queryObject);
   const numOfPages = Math.ceil(totalProducts / limit);
-
+console.log(products);
   res.status(StatusCodes.OK).json({ products, totalProducts, numOfPages });
 };
 const getSingleOffer = async (req, res) => {

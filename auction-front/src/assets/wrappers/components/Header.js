@@ -46,8 +46,8 @@ const Wrapper = styled.div`
   .account {
     /* box-shadow: 0rem 0.2rem 0.8rem 0.1rem gold; */
     padding: 0 1rem;
-    color: var(--card-bg);
-    background-color: #abd1c6;
+    color: var(--main-bg);
+    background-color: #534592;
     cursor: pointer;
     border-radius: 2rem;
     width: auto;

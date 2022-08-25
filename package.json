@@ -17,6 +17,7 @@
     "cloudinary": "^1.30.1",
     "concurrently": "^7.2.2",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -28,6 +29,7 @@
     "mongoose-sequence": "^5.3.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.5.1",
     "start": "^5.1.0",
     "validator": "^13.7.0"
   },

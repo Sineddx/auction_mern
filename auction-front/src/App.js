@@ -20,7 +20,14 @@ function App() {
           <Route path="search" element={<SearchResult />} />
           <Route path="signin" element={<Register />} />
           <Route path="offer" element={<SingleOffer />} />
-          <Route path="messages" element={<Messages />} />
+          <Route
+            path="user/messages"
+            element={
+              <ProtectedRoute>
+                <Messages />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="add-product"
             element={
