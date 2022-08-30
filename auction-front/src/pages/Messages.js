@@ -10,12 +10,17 @@ const Messages = () => {
   const [sendMessageSocket, setSendMessageSocket] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     const getChats = async () => {
       const data = await userChats(user.id);
       setChats(data);
+      if (data.length > 0) {
+        setCurrentChat(data[0]);
+      }
     };
+
     getChats();
   }, [user]);
 
@@ -43,24 +48,31 @@ const Messages = () => {
       setReceiveMessage(data);
     });
   }, []);
-
+  const clickHandler = () => {
+    setToggle(!toggle);
+  };
   return (
-    <Wrapper>
+    <Wrapper toggle={toggle}>
       <div className="Chat">
         {/* Left Side*/}
         <div className="Left-side-chat">
           <div className="Chat-container">
             <h2>Rozmowy</h2>
+            <div className="low-resolution" onClick={clickHandler}>
+              ...
+            </div>
             <div className="Chat-list">
-              {chats.map((chat, index) => (
-                <div key={index} onClick={() => setCurrentChat(chat)}>
-                  <Conversation
-                    data={chat}
-                    currentUserId={user.id}
-                    online={checkOnlineStatus(chat)}
-                  />
-                </div>
-              ))}
+              {chats.length > 0
+                ? chats.map((chat, index) => (
+                    <div key={index} onClick={() => setCurrentChat(chat)}>
+                      <Conversation
+                        data={chat}
+                        currentUserId={user.id}
+                        online={checkOnlineStatus(chat)}
+                      />
+                    </div>
+                  ))
+                : "Brak aktywnych rozmów"}
             </div>
           </div>
         </div>

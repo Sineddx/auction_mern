@@ -6,7 +6,7 @@ import moment from "moment";
 import "moment/locale/pl";
 
 const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
-  const { getOtherUser, getMessages, user, sendMessage } = useAppContext();
+  const { getOtherUser, getMessages, sendMessage } = useAppContext();
   const defaultImage =
     "https://raw.githubusercontent.com/ZainRk/MERN-SocialMedia-ZAINKEEPSCODE/master/server/public/images/defaultProfile.png";
   const [userData, setUserData] = useState(null);
@@ -19,6 +19,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       setMessages([...messages, receiveMessage]);
     }
   }, [receiveMessage]);
+
   //fetching data for header
   useEffect(() => {
     const userId = chat?.members?.find((id) => id !== currentUserId);
@@ -69,6 +70,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
                   <div className="user-data">
                     <img
                       src={defaultImage}
+                      alt="zdjęcie użytkownika"
                       className="followerImage"
                       style={{ width: "50px", height: "50px" }}
                     />
@@ -101,14 +103,14 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
               ))}
             </div>
             <div className="chat-sender">
-              <div>+</div>
               <InputEmoji
+                className="emoji-input"
                 value={newMessage}
                 onChange={handleChange}
                 placeholder="Napisz coś.."
                 onEnter={handleSend}
               />
-              <div className="send-button btn" onClick={handleSend}>
+              <div className="btn btn-send" onClick={handleSend}>
                 Wyślij
               </div>
             </div>

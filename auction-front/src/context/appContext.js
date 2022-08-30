@@ -52,7 +52,7 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const socket = io.connect("http://localhost:5000", {
-    transports: ['websocket'],
+    transports: ["websocket"],
   });
 
   const handleChange = ({ name, value }) => {
@@ -224,7 +224,7 @@ const AppProvider = ({ children }) => {
         fixHeight = img.url.split("upload/");
         fixHeight[0] = fixHeight[0] + "upload/w_1000,h_600,c_pad/";
         finalLink = fixHeight.join("");
-        fixedImages.push({ original: finalLink, thumbnail: finalLink });
+        return fixedImages.push({ original: finalLink, thumbnail: finalLink });
       });
       offer.image = await fixedImages;
       dispatch({
@@ -250,7 +250,15 @@ const AppProvider = ({ children }) => {
       console.log(e);
     }
   };
-  const getUser = async () => {};
+  const getUser = async () => {
+    const { user } = state;
+    try {
+      const { data } = await axios.get(`/api/v1/user/${user.id}`);
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const getOtherUser = async (id) => {
     if (!id) {
       return;
@@ -278,6 +286,15 @@ const AppProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const createChat = async (obj) => {
+    try {
+      await axios.post("/api/v1/chat", obj);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
   return (
     <AppContext.Provider
       value={{
@@ -297,10 +314,12 @@ const AppProvider = ({ children }) => {
         prepareFilter,
         getSingleOffer,
         userChats,
+        getUser,
         getOtherUser,
         getMessages,
         sendMessage,
         socket,
+        createChat,
       }}
     >
       {children}

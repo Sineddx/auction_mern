@@ -6,6 +6,7 @@ import Register from "./Register";
 import AddOffer from "./AddOffer";
 import SingleOffer from "./SingleOffer";
 import Messages from "./Messages";
+import Checkout from "./Checkout";
 export {
   Error,
   Home,
@@ -15,4 +16,5 @@ export {
   AddOffer,
   SingleOffer,
   Messages,
+  Checkout,
 };

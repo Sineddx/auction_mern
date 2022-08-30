@@ -1,16 +1,18 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
   .Chat {
-    position: relative;
-    display: grid;
-    grid-template-columns: 22% auto;
-    gap: 1rem;
+    /* position: relative; */
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
   }
 
   .Left-side-chat {
+    width: 20%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-top: 2rem;
   }
 
   .Chat-container {
@@ -22,7 +24,7 @@ const Wrapper = styled.section`
     padding: 1rem;
     height: auto;
     min-height: 80vh;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .Chat-list {
@@ -32,6 +34,9 @@ const Wrapper = styled.section`
   }
 
   .Right-side-chat {
+    width: 70%;
+    margin-top: 2rem;
+    margin-right: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -75,13 +80,95 @@ const Wrapper = styled.section`
   .name :first-child {
     font-weight: 900;
   }
-
-  @media screen and (max-width: 768px) {
-    .Chat {
-      grid-template-columns: 16% auto;
+  .low-resolution {
+    display: none;
+    text-align: center;
+    font-weight: 600;
+  }
+  @keyframes left-side-animation-begin {
+    from {
+      width: 10%;
     }
-    .follower.conversation > div > .name {
+    to {
+      width: 50%;
+    }
+  }
+  @keyframes left-side-animation-end {
+    from {
+      width: 50%;
+    }
+    to {
+      width: 10%;
+    }
+  }
+  @keyframes right-side-animation-begin {
+    from {
+      width: 80%;
+    }
+    to {
+      width: 50%;
+    }
+  }
+  @keyframes right-side-animation-end {
+    from {
+      width: 50%;
+    }
+    to {
+      width: 80%;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .Chat-container {
+      padding: 0;
+    }
+    .followerImage {
+      max-width: 100%;
+    }
+    .low-resolution {
+      display: block;
+    }
+    .Left-side-chat {
+      margin-top: 1rem;
+      margin-left: 0.2rem;
+      width: 10%;
+      ${(props) => {
+        if (props.toggle) {
+          return `
+          animation-name: left-side-animation-begin;
+          animation-duration: 0.3s;
+          animation-fill-mode: forwards;
+          `;
+        } else {
+          return `
+          animation-name: left-side-animation-end;
+          animation-duration: 0.3s;
+          animation-fill-mode: forwards;
+          `;
+        }
+      }}
+    }
+    .Left-side-chat h2 {
       display: none;
+    }
+    .Right-side-chat {
+      width: 90%;
+      margin: 1rem 0 0 0;
+      ${(props) => {
+        if (props.toggle) {
+          return `
+          animation-name: right-side-animation-begin;
+          animation-duration: 0.3s;
+          animation-fill-mode: forwards;
+          `;
+        } else {
+          return `
+          animation-name: right-side-animation-end;
+          animation-duration: 0.3s;
+          animation-direction: forwards;
+          `;
+        }
+      }}
     }
   }
 `;

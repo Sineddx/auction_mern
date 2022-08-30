@@ -2,6 +2,16 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
+const singleAddressSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  addressLine1: { type: String, required: true },
+  addressLine2: { type: String },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  zipCode: { type: Number, required: true },
+  telephone: { type: Number, required: true },
+});
+
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -23,12 +33,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide password"],
       minlength: 6,
+      select: false,
     },
     surname: {
       type: String,
       required: [true, "Please provide surname"],
       minLength: 6,
     },
+    addresses: [singleAddressSchema],
     role: {
       type: String,
       enum: ["admin", "user"],
@@ -37,7 +49,14 @@ const UserSchema = new mongoose.Schema(
     birthday: {
       type: Date,
     },
-    auctions: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+    nickname: {
+      type: String,
+      required: [true, "Please provide nickname"],
+      unique: true,
+    },
+    addedAuctions: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+    purchasedItems: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+    soldItems: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
   },
   { timestamps: true }
 );

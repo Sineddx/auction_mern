@@ -4,7 +4,8 @@ const Wrapper = styled.section`
     background: var(--cardColor);
     border-radius: 1rem;
     display: grid;
-    grid-template-rows: 14vh 60vh 13vh;
+    grid-template-rows: 10vh 60vh 10vh;
+    margin-bottom: 2rem;
   }
 
   .chat-header {
@@ -18,11 +19,11 @@ const Wrapper = styled.section`
     flex-direction: column;
     gap: 0.5rem;
     padding: 1.5rem;
-    overflow: scroll;
+    overflow: auto;
   }
 
   .message {
-    background: var(--buttonBg);
+    background: grey;
     color: white;
     padding: 0.7rem;
     border-radius: 1rem 1rem 1rem 0;
@@ -42,14 +43,16 @@ const Wrapper = styled.section`
   .own {
     align-self: flex-end;
     border-radius: 1rem 1rem 0 1rem;
-    background: linear-gradient(98.63deg, #24e4f0 0%, #358ff9 100%);
+    background: #6e60b3;
+    /* background: linear-gradient(98.63deg, #534592 0%, #24e4f0 100%); */
+    /* background: linear-gradient(98.63deg,  5%, #6e60b3 70%); */
   }
 
   .chat-sender {
     background: white;
     display: flex;
     justify-content: space-between;
-    height: 3.5rem;
+    height: 6rem;
     align-items: center;
     gap: 1rem;
     padding: 0.8rem;
@@ -57,16 +60,32 @@ const Wrapper = styled.section`
     align-self: end;
   }
   .chat-sender > input {
-    height: 70%;
+    /* border: 1px solid green;
+    height: 90%;
     background-color: rgb(236, 236, 236);
     border-radius: 0.5rem;
     border: none;
     outline: none;
     flex: 1;
     font-size: 14px;
-    padding: 0px 15px 0px 15px;
+    padding: 0px 15px 0px 15px; */
   }
-  .chat-sender > div:nth-of-type(1) {
+
+  /* .chat-sender > div {
+    height: 70%;
+    padding: 0px 15px 0px 15px;
+  } */
+  .btn-send {
+    padding: 1rem 1rem 1rem 1rem;
+  }
+  .name {
+    display: flex;
+    justify-content: center;
+  }
+`;
+export default Wrapper;
+
+/* .chat-sender > div:nth-of-type(1) {
     background: rgb(233, 233, 233);
     border-radius: 0.5rem;
     display: flex;
@@ -74,10 +93,4 @@ const Wrapper = styled.section`
     justify-content: center;
     font-weight: bold;
     cursor: pointer;
-  }
-  .chat-sender > div {
-    height: 70%;
-    padding: 0px 15px 0px 15px;
-  }
-`;
-export default Wrapper;
+  } */

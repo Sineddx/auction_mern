@@ -61,15 +61,15 @@ const getAllProducts = async (req, res) => {
   const products = await result;
   const totalProducts = await Product.countDocuments(queryObject);
   const numOfPages = Math.ceil(totalProducts / limit);
-console.log(products);
   res.status(StatusCodes.OK).json({ products, totalProducts, numOfPages });
 };
 const getSingleOffer = async (req, res) => {
   const { id } = req.params;
-  const offer = await Product.findOne({ _id: id });
+  const offer = await Product.findOne({ _id: id }).populate("user");
   if (!offer) {
     throw new BadRequestError("Cant find that offer");
   }
+  console.log(offer);
   res.status(StatusCodes.OK).json({ offer });
 };
 

@@ -6,12 +6,19 @@ import createTokenUser from "../utils/createTokenUser.js";
 import crypto from "crypto";
 import { attachCookiesToResponse } from "../utils/jwt.js";
 const register = async (req, res) => {
-  const { email, name, surname, password, birthday } = req.body;
+  const { email, name, surname, password, birthday, nickname } = req.body;
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
     throw new BadRequestError("Email already exists");
   }
-  const user = await User.create({ name, email, surname, password, birthday });
+  const user = await User.create({
+    name,
+    email,
+    surname,
+    password,
+    birthday,
+    nickname,
+  });
   const tokenUser = createTokenUser(user);
   let refreshToken = "";
   refreshToken = crypto.randomBytes(40).toString("hex");
@@ -20,16 +27,18 @@ const register = async (req, res) => {
   const userToken = { refreshToken, ip, userAgent, user: user._id };
   await Token.create(userToken);
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
-  res
-    .status(StatusCodes.CREATED)
-    .json({ msg: "Success! Account created!", tokenUser });
+  res.status(StatusCodes.CREATED).json({
+    msg: "Success! Account created!",
+    user: { name: user.name, surname: user.surname, id: user._id },
+  });
 };
 const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(password);
   if (!email || !password) {
     throw new BadRequestError("Provide all values");
   }
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).select("+password");
   if (!user) {
     throw new UnauthenticatedError("Invalid credentials");
   }

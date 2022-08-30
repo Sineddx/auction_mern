@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/appContext";
+import Wrapper from "../assets/wrappers/components/Conversations";
 
 const Conversation = ({ data, currentUserId, online }) => {
   const defaultImage =
@@ -16,7 +17,7 @@ const Conversation = ({ data, currentUserId, online }) => {
   }, []);
 
   return (
-    <>
+    <Wrapper>
       <div className="follower conversation">
         <div>
           {online && <div className="online-dot"></div>}
@@ -36,7 +37,7 @@ const Conversation = ({ data, currentUserId, online }) => {
         </div>
       </div>
       <hr style={{ width: "85%", border: "0.1px solid #ececec" }}></hr>
-    </>
+    </Wrapper>
   );
 };
 export default Conversation;

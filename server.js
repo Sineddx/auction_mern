@@ -24,6 +24,7 @@ import userRouter from "./routes/userRoutes.js";
 import productRouter from "./routes/productRoutes.js";
 import chatRouter from "./routes/chatRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
+import orderRouter from "./routes/orderRouter.js";
 
 //prepare server
 const app = express();
@@ -91,6 +92,7 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/chat", chatRouter);
 app.use("/api/v1/message", messageRouter);
+app.use("/api/v1/order", orderRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

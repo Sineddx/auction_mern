@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   Error,
   Home,
@@ -8,6 +8,7 @@ import {
   AddOffer,
   SingleOffer,
   Messages,
+  Checkout
 } from "./pages";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -29,7 +30,15 @@ function App() {
             }
           />
           <Route
-            path="add-product"
+          path="checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout/>
+            </ProtectedRoute>
+          }
+          />
+          <Route
+            path="add-auction"
             element={
               <ProtectedRoute>
                 <AddOffer />

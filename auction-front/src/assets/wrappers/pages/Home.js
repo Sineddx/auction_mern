@@ -8,7 +8,8 @@ const Wrapper = styled.section`
   }
 
   .main-photo {
-    max-width: 600px;
+    max-width: 500px;
+    margin-right: 2rem;
   }
 
   .half {
@@ -25,7 +26,27 @@ const Wrapper = styled.section`
   }
   .big-image {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+  }
+  .add-auction-home {
+    margin-left: 8rem;
+    border-top-left-radius: 50px 100px;
+    border-top-right-radius: 50px 100px;
+    border-bottom-left-radius: 50px 100px;
+    border-bottom-right-radius: 50px 100px;
+    width: 15rem;
+    height: 5rem;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    box-shadow: 0px 0px 10px 5px var(--card-bg);
+  }
+  .add-auction-home:hover {
+    color: var(--card-bg);
+    background-color: var(--card-bg) 0.9;
   }
   .single-category {
     padding-top: 0.5rem;
@@ -50,17 +71,20 @@ const Wrapper = styled.section`
     width: 100%;
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 1400px) {
     .center-page {
       margin-top: 1rem;
       flex-direction: column;
     }
     .main-photo {
-      max-width: 300px;
+      display: none;
     }
     .big-image {
-      margin-top: 1rem;
-      margin-bottom: 2rem;
+    }
+    .add-auction-home {
+      margin: 1.5rem 0 1rem 0;
+    }
+    .half {
       justify-content: center;
     }
     .single-category {

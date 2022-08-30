@@ -13,6 +13,7 @@ const Register = () => {
   let isActive = JSON.parse(params.getAll("login").toString());
 
   const initialState = {
+    nickname: "",
     name: "",
     surname: "",
     email: "",
@@ -40,13 +41,15 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
+    console.log(values.password);
     e.preventDefault();
-    const { name, email, password, isMember, birthday, surname } = values;
+    const { name, email, password, isMember, birthday, surname, nickname } =
+      values;
     if (!email || !password || (!isMember && !surname && !birthday && !name)) {
       displayAlert();
       return;
     }
-    const currentUser = { email, password, name, birthday, surname };
+    const currentUser = { email, password, name, birthday, surname, nickname };
     if (isMember) {
       setupUser({
         currentUser,
@@ -90,6 +93,14 @@ const Register = () => {
         />
         {!values.isMember && (
           <>
+            <FormRow
+              type="text"
+              name="nickname"
+              value={values.nickname}
+              handleChange={handleChange}
+              labelText="Nazwa"
+              required={true}
+            />
             <FormRow
               type="text"
               name="name"

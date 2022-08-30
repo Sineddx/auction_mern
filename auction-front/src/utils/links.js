@@ -22,7 +22,7 @@ const links = [
   {
     id: 3,
     text: "Dodaj  Produkt",
-    path: "/add-product",
+    path: "/add-auction",
     icon: <MdContactSupport />,
     hideIfUser: false,
     public: false,

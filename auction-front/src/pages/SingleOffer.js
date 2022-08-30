@@ -2,18 +2,15 @@ import Wrapper from "../assets/wrappers/pages/SingleOffer";
 import ImageGallery from "react-image-gallery";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/appContext";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loading, OfferOptions } from "../components";
 import { images } from "../utils/arrays";
 
 const SingleOffer = () => {
-  const {
-    getSingleOffer,
-    isLoading,
-    user,
-  } = useAppContext();
+  const { getSingleOffer, isLoading, user, createChat } = useAppContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const [oneOffer, setOneOffer] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const id = searchParams.get("code");
@@ -22,8 +19,16 @@ const SingleOffer = () => {
       setOneOffer({ ...data });
     };
     loadOffer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleClick = async (receiverId, senderId) => {
+    const obj = { receiverId, senderId };
+    const chatCreated = await createChat(obj);
+    if (chatCreated === true) {
+      navigate("/user/messages");
+    }
+  };
   {
     return isLoading || !oneOffer ? (
       <Loading />
@@ -46,13 +51,18 @@ const SingleOffer = () => {
                     alt="avatar sprzedawcy"
                   />
                 </div>
-                <span>seller name</span>
+                <span>{oneOffer.user.nickname}</span>
               </div>
-              <button className="btn call-seller">Napisz do sprzedawcy</button>
+              <button
+                onClick={() => handleClick(oneOffer.user._id, user.id)}
+                className="btn call-seller"
+              >
+                Napisz do sprzedawcy
+              </button>
             </div>
             <div className="offer-name">{oneOffer.name}</div>
             <div className="item-description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
+              {/* Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book. It has
@@ -70,7 +80,8 @@ const SingleOffer = () => {
               popularised in the 1960s with the release of Letraset sheets
               containing Lorem Ipsum passages, and more recently with desktop
               publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
+              Lorem Ipsum. */}
+              {oneOffer.description}
             </div>
             {oneOffer.auctionType === "buyNow" && (
               <OfferOptions
