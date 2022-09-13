@@ -8,9 +8,10 @@ import {
   AddOffer,
   SingleOffer,
   Messages,
-  Checkout
+  Checkout,
+  ProtectedRoute,
 } from "./pages";
-import ProtectedRoute from "./pages/ProtectedRoute";
+
 import "react-image-gallery/styles/css/image-gallery.css";
 function App() {
   return (
@@ -30,12 +31,12 @@ function App() {
             }
           />
           <Route
-          path="checkout"
-          element={
-            <ProtectedRoute>
-              <Checkout/>
-            </ProtectedRoute>
-          }
+            path="checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="add-auction"
