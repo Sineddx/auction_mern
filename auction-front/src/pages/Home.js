@@ -37,7 +37,7 @@ const Home = () => {
           >
             Dodaj własną aukcję!
           </div>
-          <img src={img} className="main-photo" alt="zdjecie zachecajace" />
+          {/* <img src={img} className="main-photo" alt="zdjecie zachecajace" /> */}
         </div>
       </div>
     </Wrapper>

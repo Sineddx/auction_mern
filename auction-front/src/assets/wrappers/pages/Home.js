@@ -26,7 +26,7 @@ const Wrapper = styled.section`
   }
   .big-image {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 15px;
   }
@@ -36,12 +36,13 @@ const Wrapper = styled.section`
     border-top-right-radius: 50px 100px;
     border-bottom-left-radius: 50px 100px;
     border-bottom-right-radius: 50px 100px;
-    width: 15rem;
-    height: 5rem;
+    width: 30rem;
+    height: 10rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: 900;
+    font-size: 1.8rem;
     box-shadow: 0px 0px 10px 5px var(--card-bg);
   }
   .add-auction-home:hover {
