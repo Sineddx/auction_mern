@@ -4,12 +4,13 @@ import bcrypt from "bcryptjs";
 
 const singleAddressSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  addressLine1: { type: String, required: true },
-  addressLine2: { type: String },
+  lastName: { type: String, required: true },
+  address1: { type: String, required: true },
+  address2: { type: String },
   city: { type: String, required: true },
   state: { type: String, required: true },
-  zipCode: { type: Number, required: true },
-  telephone: { type: Number, required: true },
+  postalCode: { type: Number, required: true },
+  phone: { type: Number, required: true },
 });
 
 const UserSchema = new mongoose.Schema(

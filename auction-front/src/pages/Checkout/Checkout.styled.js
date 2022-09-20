@@ -42,7 +42,7 @@ const Wrapper = styled.section`
     margin: 0 auto;
   }
   .details {
-    padding: 3rem 1rem 0 1rem;
+    padding: 2rem 1rem 0 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -109,6 +109,30 @@ const Wrapper = styled.section`
   }
   .payment-picked hr {
     width: 70%;
+  }
+  .auction-details {
+    display: flex;
+    padding: 3rem 1rem 0 1rem;
+  }
+  .auction-details img {
+    width: 100%;
+  }
+  .auction-image {
+    width: 25%;
+    border: 1px solid green;
+    display: flex;
+    justify-content: center;
+    margin-right: 1.5rem;
+  }
+  .auction-desc {
+  }
+  .my-addresses-title {
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .addresses-list {
+    width: 60%;
+    margin: 0 auto;
   }
 `;
 
