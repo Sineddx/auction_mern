@@ -24,7 +24,7 @@ const Wrapper = styled.section`
   .ship-payment-details {
     display: flex;
     flex-direction: column;
-    gap: 15rem;
+    gap: 5rem;
   }
 
   .order-summary {
@@ -42,7 +42,7 @@ const Wrapper = styled.section`
     margin: 0 auto;
   }
   .details {
-    padding: 2rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -65,7 +65,7 @@ const Wrapper = styled.section`
   .Adres2 {
     grid-area: Adres2;
   }
-  label::after {
+  .label-edit::after {
     content: "*";
     color: red;
   }
@@ -127,7 +127,7 @@ const Wrapper = styled.section`
   .auction-desc {
   }
   .my-addresses-title {
-    margin-bottom: 0;
+    margin-bottom: -2rem;
     text-align: center;
   }
   .addresses-list {

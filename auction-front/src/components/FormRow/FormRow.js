@@ -1,13 +1,12 @@
 import { forwardRef } from "react";
 
-
 const FormRow = (
   { type, name, value, handleChange, labelText, textarea, cssName },
   ref
 ) => {
   return (
     <div className="form-row">
-      <label htmlFor={name} className="form-label">
+      <label htmlFor={name} className="form-label label-edit">
         {labelText || name}
       </label>
       {!textarea ? (

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const OfferOptions = ({ availability, price, user, auctionType }) => {
+const OfferOptions = ({ availability, price, user, auctionType, auction }) => {
   const [bidValue, setBidValue] = useState(price);
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const increaseAmount = () => {
     if (quantity === availability) {
       return;
@@ -46,6 +46,10 @@ const OfferOptions = ({ availability, price, user, auctionType }) => {
       state: { lastPath: location.pathname + location.search },
     });
   };
+
+  const navigateToCheckout = () => {
+    navigate(`/checkout?auction=${auction._id}&quantity=${quantity}`);
+  };
   if (auctionType === "buyNow") {
     return (
       <div className="offer-price">
@@ -69,7 +73,9 @@ const OfferOptions = ({ availability, price, user, auctionType }) => {
           <span className="availability">Dostępnych: {availability} </span>
         </div>
         {user ? (
-          <button className="btn">Kup teraz</button>
+          <button className="btn" onClick={navigateToCheckout}>
+            Kup teraz
+          </button>
         ) : (
           <button className="btn" onClick={handleLogin}>
             Zaloguj
