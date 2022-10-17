@@ -44,7 +44,7 @@ const RadioDelivery = ({ list, deliveryOptions, changeDeliveryOptions }) => {
   };
   return (
     <>
-      <fieldset>
+      <fieldset className="courier-pick">
         <legend>Wybierz opcję dostawy:</legend>
         {list.map((x, index) => (
           <div key={index}>

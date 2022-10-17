@@ -4,21 +4,24 @@ import {
   DeliveryOptions,
   FormRow,
   FormRowSelect,
+  Loading,
   RadioDelivery,
 } from "../../components";
 import { useAppContext } from "../../context/appContext";
 import blik from "../../assets/images/blik.png";
 import card from "../../assets/images/karta.jpg";
 import { useSearchParams } from "react-router-dom";
-import { InpostGeowidget } from "react-inpost-geowidget";
+
 const Checkout = () => {
-  const { user, getUser, getSingleOffer } = useAppContext();
+  const { user, getUser, getSingleOffer, saveUserAddress, editUserAddress } =
+    useAppContext();
 
   const [userDetails, setUserDetails] = useState();
   const [auctionDetails, setAuctionDetails] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [payment, setPayment] = useState();
   const [select, setSelect] = useState();
+  const [selectValue, setSelectValue] = useState("");
 
   const initialState = {
     name: "",
@@ -29,12 +32,15 @@ const Checkout = () => {
     city: "",
     postalCode: "",
     phone: "",
+    _id: "",
   };
+
   const [deliveryOptions, setDeliveryOptions] = useState({
     id: "",
     pl: "",
     parcelLockerNumber: "",
   });
+
   const [address, setAddress] = useState(initialState);
   useEffect(() => {
     const getAndUpdateAddressFields = async () => {
@@ -56,9 +62,18 @@ const Checkout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const clickHandler = () => {
-    console.log(userDetails);
-    console.log(auctionDetails);
+  const saveNewAddress = async () => {
+    const data = await saveUserAddress(address);
+    setSelectValue("");
+    setUserDetails({ ...userDetails, addresses: data });
+  };
+  const clearCurrentAddress = () => {
+    setAddress(initialState);
+  };
+
+  const saveChangesInCurrentAddress = async () => {
+    const data = await editUserAddress(address);
+    setUserDetails({ ...userDetails, addresses: data });
   };
 
   const handleAddressDetailsChange = (e) => {
@@ -95,6 +110,7 @@ const Checkout = () => {
       city,
       postalCode,
       phone,
+      _id,
     } = object;
 
     setAddress({
@@ -106,10 +122,12 @@ const Checkout = () => {
       city,
       postalCode,
       phone,
+      _id,
     });
   };
 
   const handleAddressChange = (e) => {
+    setSelectValue(e.target.value);
     const selectedAddress = userDetails.addresses.find(
       (x) => x.address1 + " " + x.address2 === e.target.value
     );
@@ -125,97 +143,123 @@ const Checkout = () => {
           {/* Wróc tutaj  */}
           {select && (
             <FormRowSelect
+              value={selectValue}
               list={listOfAddresses(userDetails.addresses)}
               handleChange={handleAddressChange}
             />
           )}
         </div>
+        {!address ? (
+          <Loading />
+        ) : (
+          <div className="details">
+            <div className="Imie">
+              <FormRow
+                type="text"
+                name="name"
+                labelText="Imię"
+                required={true}
+                value={address ? address.name : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
 
-        <div className="details">
-          <div className="Imie">
-            <FormRow
-              type="text"
-              name="name"
-              labelText="Imię"
-              required={true}
-              value={address.name}
-              handleChange={handleAddressDetailsChange}
-            />
+            <div className="Nazwisko">
+              <FormRow
+                type="text"
+                name="lastName"
+                labelText="Nazwisko"
+                required={true}
+                value={address ? address.lastName : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="Adres">
+              <FormRow
+                type="text"
+                name="address1"
+                labelText="Adres(Ulica)"
+                required={true}
+                value={address ? address.address1 : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="Adres2">
+              <FormRow
+                type="text"
+                name="address2"
+                labelText="Adres2(nr domu/mieszkania)"
+                required={true}
+                value={address ? address.address2 : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="Województwo">
+              <FormRow
+                type="text"
+                name="state"
+                labelText="Województwo"
+                required={true}
+                value={address ? address.state : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="Miasto">
+              <FormRow
+                type="text"
+                name="city"
+                labelText="Miasto"
+                required={true}
+                value={address ? address.city : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="Kod-Pocztowy">
+              <FormRow
+                type="text"
+                name="postalCode"
+                labelText="Kod Pocztowy"
+                required={true}
+                value={address ? address.postalCode : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="Numer-Tel">
+              <FormRow
+                type="Number"
+                name="phone"
+                labelText="Numer telefonu"
+                required={true}
+                value={address ? address.phone : ""}
+                handleChange={handleAddressDetailsChange}
+              />
+            </div>
+
+            <div className="buttons-container">
+              <button className="btn save-address" onClick={saveNewAddress}>
+                Dodaj nowy
+              </button>
+              <button
+                className="btn save-address"
+                onClick={clearCurrentAddress}
+              >
+                Wyczyść pola
+              </button>
+              <button
+                className="btn save-address"
+                onClick={saveChangesInCurrentAddress}
+              >
+                Zapisz zmiany
+              </button>
+            </div>
           </div>
-          <div className="Nazwisko">
-            <FormRow
-              type="text"
-              name="lastName"
-              labelText="Nazwisko"
-              required={true}
-              value={address.lastName}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <div className="Adres">
-            <FormRow
-              type="text"
-              name="address1"
-              labelText="Adres(Ulica)"
-              required={true}
-              value={address.address1}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <div className="Adres2">
-            <FormRow
-              type="text"
-              name="address2"
-              labelText="Adres2(nr domu/mieszkania)"
-              required={true}
-              value={address.address2}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <div className="Województwo">
-            <FormRow
-              type="text"
-              name="state"
-              labelText="Województwo"
-              required={true}
-              value={address.state}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <div className="Miasto">
-            <FormRow
-              type="text"
-              name="city"
-              labelText="Miasto"
-              required={true}
-              value={address.city}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <div className="Kod-Pocztowy">
-            <FormRow
-              type="text"
-              name="postalCode"
-              labelText="Kod Pocztowy"
-              required={true}
-              value={address.postalCode}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <div className="Numer-Tel">
-            <FormRow
-              type="Number"
-              name="phone"
-              labelText="Numer telefonu"
-              required={true}
-              value={address.phone}
-              handleChange={handleAddressDetailsChange}
-            />
-          </div>
-          <button className="btn save-address" onClick={clickHandler}>
-            Zapisz adres
-          </button>
-        </div>
+        )}
       </div>
 
       <div className="ship-payment-details">
@@ -258,6 +302,7 @@ const Checkout = () => {
           <p className="payment-picked">{payment}</p>
         </div>
       </div>
+
       <div className="order-summary">
         <h2 className="title">Podsumowanie</h2>
         <hr className="underline"></hr>
@@ -266,13 +311,32 @@ const Checkout = () => {
             <img src={auctionDetails?.image[0].original}></img>
           </div>
           <div className="auction-desc">
-            <p>Nazwa: </p>
-            <p>Ilość Sztuk: </p>
-            <p>Dostawa: {deliveryOptions.pl}</p>
-            {deliveryOptions.parcelLockerNumber && deliveryOptions.pl === "Paczkomat" && (
-              <p>Paczkomat nr: {deliveryOptions.parcelLockerNumber}</p>
-            )}
+            <div className="row">
+              Nazwa: <div>{auctionDetails?.name}</div>{" "}
+            </div>
+            <div className="row">
+              Ilość Sztuk: <div>{searchParams.get("quantity")}</div>
+            </div>
+            <div className="row">
+              Dostawa: <div>{deliveryOptions.pl}</div>
+            </div>
+            {deliveryOptions.parcelLockerNumber &&
+              deliveryOptions.pl === "Paczkomat" && (
+                <div className="row">
+                  Paczkomat nr: <div>{deliveryOptions.parcelLockerNumber}</div>
+                </div>
+              )}
+            <div className="row">
+              Płatność: <div>{payment}</div>
+            </div>
+            <div className="row">
+              Cena:{" "}
+              <div>
+                {auctionDetails?.price * searchParams.get("quantity")} zł
+              </div>
+            </div>
           </div>
+        <button className="btn btn-payment">Przejdź do płatności</button>
         </div>
       </div>
     </Wrapper>

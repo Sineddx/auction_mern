@@ -13,6 +13,7 @@ const Wrapper = styled.section`
   .address,
   .ship-payment-details,
   .order-summary {
+    border: 0.5px solid grey;
     background-color: #fff;
     flex: 1;
     border-radius: 20px;
@@ -24,7 +25,7 @@ const Wrapper = styled.section`
   .ship-payment-details {
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 1rem;
   }
 
   .order-summary {
@@ -69,9 +70,15 @@ const Wrapper = styled.section`
     content: "*";
     color: red;
   }
-  .save-address {
-    padding: 1rem 0 1rem 0;
+  .buttons-container {
+    padding-top: 1rem;
+    display: flex;
     width: 200%;
+    gap: 5px;
+  }
+  .save-address {
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    flex: 1;
   }
   .payment {
   }
@@ -113,18 +120,35 @@ const Wrapper = styled.section`
   .auction-details {
     display: flex;
     padding: 3rem 1rem 0 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .auction-details img {
     width: 100%;
   }
   .auction-image {
-    width: 25%;
-    border: 1px solid green;
+    width: 50%;
+    height: 100%;
     display: flex;
     justify-content: center;
     margin-right: 1.5rem;
+    margin-bottom: 1rem;
   }
   .auction-desc {
+    width: 100%;
+    text-align: left;
+  }
+  .row {
+    font-weight: 800;
+    padding: 1rem 2rem 0 2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .row div {
+    color: var(--card-bg);
+    min-width: 8rem;
+    text-align: center;
   }
   .my-addresses-title {
     margin-bottom: -2rem;
@@ -132,6 +156,15 @@ const Wrapper = styled.section`
   }
   .addresses-list {
     width: 60%;
+    margin: 0 auto;
+  }
+  .btn-payment {
+    margin-top: 2rem;
+    padding: 1rem 0.5rem 1rem 0.5rem;
+    text-align: center;
+  }
+  .courier-pick {
+    width: 80%;
     margin: 0 auto;
   }
 `;

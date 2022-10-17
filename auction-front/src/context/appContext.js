@@ -22,6 +22,8 @@ import {
   PREPARE_FILTER,
   GET_SINGLE_OFFER_SUCCESS,
   TURN_LOADING_ON,
+  ADD_USER_ADDRESS_SUCCESS,
+  ADD_USER_ADDRESS_BEGIN,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -295,6 +297,21 @@ const AppProvider = ({ children }) => {
       return false;
     }
   };
+  const editUserAddress = async (address) => {
+    try {
+      const { data } = await axios.patch("/api/v1/user/address", address);
+      showToast("Dane zaktualizowane!");
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const saveUserAddress = async (address) => {
+    try {
+      const { data } = await axios.post("/api/v1/user/address", address);
+      return data
+    } catch (error) {}
+  };
   return (
     <AppContext.Provider
       value={{
@@ -320,6 +337,8 @@ const AppProvider = ({ children }) => {
         sendMessage,
         socket,
         createChat,
+        saveUserAddress,
+        editUserAddress,
       }}
     >
       {children}
