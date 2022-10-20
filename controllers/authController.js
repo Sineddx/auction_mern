@@ -59,7 +59,9 @@ const login = async (req, res) => {
     attachCookiesToResponse({ res, user: tokenUser, refreshToken });
     res
       .status(StatusCodes.OK)
-      .json({ user: { name: user.name, surname: user.surname, id: user._id } });
+      .json({
+        user: { name: user.name, surname: user.surname, id: user._id },
+      });
     return;
   }
   refreshToken = crypto.randomBytes(40).toString("hex");

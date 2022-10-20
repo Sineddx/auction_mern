@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Wrapper from "./Checkout.styled";
 import {
-  DeliveryOptions,
   FormRow,
   FormRowSelect,
   Loading,
@@ -10,11 +9,17 @@ import {
 import { useAppContext } from "../../context/appContext";
 import blik from "../../assets/images/blik.png";
 import card from "../../assets/images/karta.jpg";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Checkout = () => {
-  const { user, getUser, getSingleOffer, saveUserAddress, editUserAddress } =
-    useAppContext();
+  const {
+    user,
+    getUser,
+    getSingleOffer,
+    saveUserAddress,
+    editUserAddress,
+    createOrder,
+  } = useAppContext();
 
   const [userDetails, setUserDetails] = useState();
   const [auctionDetails, setAuctionDetails] = useState();
@@ -22,6 +27,7 @@ const Checkout = () => {
   const [payment, setPayment] = useState();
   const [select, setSelect] = useState();
   const [selectValue, setSelectValue] = useState("");
+  const navigate = useNavigate();
 
   const initialState = {
     name: "",
@@ -132,6 +138,18 @@ const Checkout = () => {
       (x) => x.address1 + " " + x.address2 === e.target.value
     );
     updateAddressFields(selectedAddress);
+  };
+  const handlePaymentPage = async () => {
+    const amount = searchParams.get("quantity");
+    const itemId = searchParams.get("auction");
+    const data = await createOrder(
+      itemId,
+      deliveryOptions,
+      payment,
+      amount,
+      address
+    );
+    navigate(`/payment?id=${data.order._id}&type=${data.order.paymentInfo}`);
   };
   return (
     <Wrapper>
@@ -336,7 +354,9 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-        <button className="btn btn-payment">Przejdź do płatności</button>
+          <button onClick={handlePaymentPage} className="btn btn-payment">
+            Przejdź do płatności
+          </button>
         </div>
       </div>
     </Wrapper>

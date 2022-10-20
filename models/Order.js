@@ -33,8 +33,22 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
   },
   deliveryType: {
+    type: String,
+    required: true,
+  },
+  packingList: {
+    type: String,
+  },
+  paymentInfo: {
+    type: String,
+    required: true,
+  },
+  addressDelivery: {
     type: {},
     required: true,
+  },
+  parcelLockerNumber: {
+    type: String,
   },
 });
 

@@ -22,8 +22,11 @@ import {
   PREPARE_FILTER,
   GET_SINGLE_OFFER_SUCCESS,
   TURN_LOADING_ON,
+  TURN_LOADING_OFF,
   ADD_USER_ADDRESS_SUCCESS,
   ADD_USER_ADDRESS_BEGIN,
+  CREATE_ORDER,
+  UPDATE_ORDER,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -309,8 +312,46 @@ const AppProvider = ({ children }) => {
   const saveUserAddress = async (address) => {
     try {
       const { data } = await axios.post("/api/v1/user/address", address);
-      return data
+      return data;
     } catch (error) {}
+  };
+  const createOrder = async (
+    item,
+    deliveryOptions,
+    paymentInfo,
+    amount,
+    address
+  ) => {
+    const deliveryType = deliveryOptions.id;
+    const parcelLockerNumber = deliveryOptions.parcelLockerNumber;
+    const packedData = {
+      item,
+      parcelLockerNumber,
+      paymentInfo,
+      amount,
+      address,
+      deliveryType,
+    };
+    try {
+      const { data } = await axios.post("/api/v1/order", packedData);
+      return data;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const updateOrder = async (id) => {
+    try {
+      dispatch({ type: TURN_LOADING_ON });
+      const { data } = await axios.patch("/api/v1/order/update", { id });
+      setTimeout(() => {
+        dispatch({ type: TURN_LOADING_OFF });
+      }, 3000);
+      if (data.status === "PAYMENT ACCEPTED") {
+        return `Zamówienie o numerze ${id} zostało opłacone`;
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <AppContext.Provider
@@ -339,6 +380,8 @@ const AppProvider = ({ children }) => {
         createChat,
         saveUserAddress,
         editUserAddress,
+        createOrder,
+        updateOrder,
       }}
     >
       {children}

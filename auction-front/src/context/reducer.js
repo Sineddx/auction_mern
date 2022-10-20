@@ -16,6 +16,7 @@ import {
   PREPARE_FILTER,
   GET_SINGLE_OFFER_SUCCESS,
   TURN_LOADING_ON,
+  TURN_LOADING_OFF,
 } from "./actions";
 
 const reducer = (state, action) => {
@@ -23,6 +24,12 @@ const reducer = (state, action) => {
     return {
       ...state,
       isLoading: true,
+    };
+  }
+  if (action.type === TURN_LOADING_OFF) {
+    return {
+      ...state,
+      isLoading: false,
     };
   }
   if (action.type === GET_SINGLE_OFFER_SUCCESS) {

@@ -15,9 +15,19 @@ const getCurrentUserOrders = async (req, res) => {
 };
 
 const createOrder = async (req, res) => {
-  const { seller, item: itemId, amount, deliveryType } = req.body;
+  // const { seller, item: itemId, amount, deliveryType } = req.body;
+
+  const {
+    item: itemId,
+    parcelLockerNumber,
+    paymentInfo,
+    amount,
+    deliveryType,
+    address,
+  } = req.body;
+
   const { userId: buyer } = req.user;
-  if (!seller || !itemId || !amount) {
+  if (!itemId || !amount || !deliveryType || !paymentInfo || !address) {
     throw new BadRequestError("Something went wrong");
   }
 
@@ -28,8 +38,16 @@ const createOrder = async (req, res) => {
   if (amount > item.quantity) {
     throw new BadRequestError("You can't order that many items");
   }
-  const total = item.price * amount + deliveryType.price;
+  const seller = await User.findOne({ _id: item.user._id });
+  if (!seller) {
+    throw new BadRequestError("No seller found");
+  }
+  const total = item.price * amount + 10;
   const date = new Date();
+  let payment = paymentInfo;
+  if (payment === "karta kredytowa") {
+    payment = "credit card";
+  }
 
   const order = await Order.create({
     seller,
@@ -39,7 +57,14 @@ const createOrder = async (req, res) => {
     total,
     date,
     deliveryType,
+    paymentInfo: payment,
+    addressDelivery: address,
+    parcelLockerNumber:
+      deliveryType === "parcelLocker-inpost" && parcelLockerNumber,
   });
+
+  const newAmount = item.quantity - amount;
+
   if (newAmount === 0) {
     await Product.updateOne(
       { _id: item._id },
@@ -57,4 +82,27 @@ const createOrder = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ order });
 };
 
-export { getAllOrders, getCurrentUserOrders, createOrder };
+const updateOrder = async (req, res) => {
+  const { id: orderId } = req.body;
+
+  const order = await Order.findOne({ _id: orderId });
+  const { userId: buyer } = req.user;
+
+  if (!order || !buyer) {
+    throw new BadRequestError("Can't find this order in my DB!");
+  }
+  if (order.status === "paid") {
+    throw new BadRequestError("Order is already paid");
+  }
+
+  if (buyer != order.buyer._id) {
+    throw new BadRequestError("You are not allowed to pay for this order!");
+  }
+
+  order.status = "paid";
+  order.save();
+
+  res.status(StatusCodes.OK).json({ status: "PAYMENT ACCEPTED" });
+};
+
+export { getAllOrders, getCurrentUserOrders, createOrder, updateOrder };

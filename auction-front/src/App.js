@@ -13,6 +13,7 @@ import {
 } from "./pages";
 
 import "react-image-gallery/styles/css/image-gallery.css";
+import Payment from "./pages/Payment/Payment";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
           <Route path="search" element={<SearchResult />} />
           <Route path="signin" element={<Register />} />
           <Route path="offer" element={<SingleOffer />} />
+          <Route path="payment" element={<Payment />} />
           <Route
             path="user/messages"
             element={
