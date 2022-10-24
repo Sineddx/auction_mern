@@ -341,17 +341,21 @@ const AppProvider = ({ children }) => {
   };
   const updateOrder = async (id) => {
     try {
+      setLoadingON();
       dispatch({ type: TURN_LOADING_ON });
       const { data } = await axios.patch("/api/v1/order/update", { id });
-      setTimeout(() => {
-        dispatch({ type: TURN_LOADING_OFF });
-      }, 3000);
       if (data.status === "PAYMENT ACCEPTED") {
-        return `Zamówienie o numerze ${id} zostało opłacone`;
+        return `ZAMÓWIENIE O NUMERZE ${id} ZOSTAŁO ZAAKCEPTOWANE DO REALIZACJI`;
       }
     } catch (e) {
       console.log(e);
     }
+  };
+  const setLoadingON = () => {
+    dispatch({ type: TURN_LOADING_ON });
+  };
+  const setLoadingOFF = () => {
+    dispatch({ type: TURN_LOADING_OFF });
   };
   return (
     <AppContext.Provider
@@ -382,6 +386,8 @@ const AppProvider = ({ children }) => {
         editUserAddress,
         createOrder,
         updateOrder,
+        setLoadingOFF,
+        setLoadingON,
       }}
     >
       {children}

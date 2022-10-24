@@ -1,6 +1,6 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
-  margin: 0.8rem 0.8rem 0 15%;
+  margin: 2rem 1rem 0 15%;
   width: 15%;
   .filter-area {
     /* width: 100%; */
@@ -10,6 +10,7 @@ const Wrapper = styled.section`
     grid-template-columns: 1fr;
     column-gap: 2rem;
     row-gap: 0.5rem;
+    box-shadow: 5px 5px 35px 3px var(--card-bg);
   }
   .clear-values {
     background-color: var(--card-bg);

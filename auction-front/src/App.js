@@ -10,6 +10,7 @@ import {
   Messages,
   Checkout,
   ProtectedRoute,
+  PaymentAccepted,
 } from "./pages";
 
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -24,6 +25,7 @@ function App() {
           <Route path="signin" element={<Register />} />
           <Route path="offer" element={<SingleOffer />} />
           <Route path="payment" element={<Payment />} />
+          <Route path="payment-accepted" element={<PaymentAccepted />} />
           <Route
             path="user/messages"
             element={

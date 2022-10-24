@@ -7,7 +7,12 @@ import Wrapper from "./Payment.styled";
 const Payment = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { loading, updateOrder } = useAppContext();
+  const { isLoading, updateOrder, setLoadingOFF, setLoadingON } =
+    useAppContext();
+  const [error, setError] = useState({
+    valid: true,
+    value: "Uzupełnij pole powyżej",
+  });
 
   const type = searchParams.get("type");
 
@@ -22,8 +27,34 @@ const Payment = () => {
   const clickHandler = async () => {
     const orderId = searchParams.get("id");
     const answer = await updateOrder(orderId);
+    setTimeout(() => {
+      setLoadingOFF();
+      navigate(`/payment-accepted?id=${orderId}`, { state: answer });
+    }, 3000);
   };
-  return !loading ? (
+  useEffect(() => {}, [select]);
+
+  const onChange = (e) => {
+    if (select === blikNumber) {
+      if (blikNumber.current.value.length !== 6) {
+        setError({ valid: true, value: "Kod blik musi składać się z 6 cyfr" });
+      } else {
+        setError({ valid: false, value: "" });
+      }
+    }
+    if (select === creditCardNumber) {
+      if (creditCardNumber.current.value.length !== 12) {
+        setError({
+          valid: true,
+          value: "Numer karty kredytowej musi składać się z 12 cyfr",
+        });
+      } else {
+        setError({ valid: false, value: "" });
+      }
+    }
+  };
+
+  return !isLoading ? (
     <Wrapper>
       <div className="payment-window">
         <label htmlFor={type === "blik" ? "blik" : "creditCard"}>
@@ -31,9 +62,18 @@ const Payment = () => {
         </label>
         <input
           ref={type === "blik" ? blikNumber : creditCardNumber}
+          type="number"
           name={type === "blik" ? "blik" : "creditCard"}
+          onChange={onChange}
         ></input>
-        <button className="btn payment-btn" onClick={clickHandler}>
+        {error.valid && <p className="error-message">{error.value}</p>}
+        <button
+          className={
+            !error.valid ? "btn btn-payment" : "btn btn-payment disabled"
+          }
+          onClick={clickHandler}
+          disabled={error.valid}
+        >
           Dokonaj płatności
         </button>
       </div>

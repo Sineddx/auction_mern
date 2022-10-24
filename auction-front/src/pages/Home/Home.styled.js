@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.section`
   .center-page {
-    margin-top: 10rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
   }
@@ -21,7 +21,7 @@ const Wrapper = styled.section`
   .categories {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
     justify-content: center;
   }
   .big-image {
@@ -60,6 +60,7 @@ const Wrapper = styled.section`
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 5px 5px 35px 3px var(--card-bg);
   }
   .single-category:hover {
     opacity: 0.65;

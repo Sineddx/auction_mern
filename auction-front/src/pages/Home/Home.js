@@ -33,15 +33,15 @@ const Home = () => {
             })}
           </div>
         </div>
-        <div className="half big-image">
-          <div
+        {/* <div className="half big-image"> */}
+          {/* <div
             onClick={() => handleClick("/add-auction")}
             className="btn add-auction-home"
           >
             Dodaj własną aukcję!
-          </div>
+          </div> */}
           {/* <img src={img} className="main-photo" alt="zdjecie zachecajace" /> */}
-        </div>
+        {/* </div> */}
       </div>
     </Wrapper>
   );

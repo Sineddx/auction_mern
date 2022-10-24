@@ -17,8 +17,8 @@ const Wrapper = styled.div`
   .wrapper {
     width: 90%;
     margin-right: 5rem;
-    margin-top: 0.8rem;
-    box-shadow: 2px 2px 2px 1px;
+    margin-top: 2rem;
+    box-shadow: 5px 5px 35px 3px var(--card-bg);
     transition: 0.2s;
   }
   .wrapper:hover {

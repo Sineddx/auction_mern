@@ -2,18 +2,16 @@ import styled from "styled-components";
 
 const Wrapper = styled.section`
   width: 90%;
-  height: 80vh;
-  /* background-color: #fff; */
   margin: 0 auto;
   margin-top: 2rem;
   display: flex;
-  gap: 15px;
+  gap: 25px;
   padding-bottom: 2rem;
 
   .address,
   .ship-payment-details,
   .order-summary {
-    border: 0.5px solid grey;
+    box-shadow: 0px 0px 35px 3px var(--card-bg);
     background-color: #fff;
     flex: 1;
     border-radius: 20px;
@@ -71,10 +69,11 @@ const Wrapper = styled.section`
     color: red;
   }
   .buttons-container {
-    padding-top: 1rem;
+    /* padding-top: 1rem; */
     display: flex;
-    width: 200%;
+    width: 100%;
     gap: 5px;
+    padding: 1rem 1rem 1rem 1rem;
   }
   .save-address {
     padding: 1rem 0.5rem 1rem 0.5rem;
@@ -160,12 +159,28 @@ const Wrapper = styled.section`
   }
   .btn-payment {
     margin-top: 2rem;
+    margin-bottom: 2rem;
     padding: 1rem 0.5rem 1rem 0.5rem;
     text-align: center;
   }
   .courier-pick {
     width: 80%;
     margin: 0 auto;
+  }
+  @media (max-width: 1122px) {
+    flex-direction: column;
+    .buttons-container {
+      width: 100%;
+    }
+  }
+  @media (max-width: 612px) {
+    .buttons-container {
+      width: 100%;
+    }
+    .details {
+      display: flex;
+      flex-direction: column;
+    }
   }
 `;
 

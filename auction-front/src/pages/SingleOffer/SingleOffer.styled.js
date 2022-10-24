@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   margin-top: 2rem;
   display: flex;
   justify-content: center;
@@ -14,7 +22,7 @@ const Wrapper = styled.section`
   }
   .gallery {
     flex: 1;
-
+    box-shadow: 5px 5px 35px 3px var(--card-bg);
     min-width: 50%;
     background-color: #fff;
     display: flex;
@@ -23,6 +31,7 @@ const Wrapper = styled.section`
   }
 
   .item-info {
+    box-shadow: 5px 5px 35px 3px var(--card-bg);
     flex: 1;
     background-color: #fff;
   }

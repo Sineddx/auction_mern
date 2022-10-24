@@ -1,6 +1,6 @@
 import { BiLogIn, BiRegistered, BiLogOut } from "react-icons/bi";
 import { MdContactSupport } from "react-icons/md";
-import { AiOutlineMessage } from "react-icons/ai";
+import { AiOutlineMessage, AiOutlinePlusCircle } from "react-icons/ai";
 
 const links = [
   {
@@ -21,19 +21,11 @@ const links = [
   },
   {
     id: 3,
-    text: "Dodaj  Produkt",
+    text: "Dodaj  aukcję",
     path: "/add-auction",
-    icon: <MdContactSupport />,
+    icon: <AiOutlinePlusCircle />,
     hideIfUser: false,
     public: false,
-  },
-  {
-    id: 4,
-    text: "Kontakt",
-    path: "/contact",
-    icon: <MdContactSupport />,
-    hideIfUser: false,
-    public: true,
   },
   {
     id: 6,

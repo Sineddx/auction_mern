@@ -62,7 +62,7 @@ const SingleOffer = () => {
             </div>
             <div className="offer-name">{oneOffer.name}</div>
             <div className="item-description">
-              {oneOffer.description}
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio ratione eveniet quidem fugiat animi ab incidunt eius laboriosam nobis molestiae in nihil quaerat earum reprehenderit cupiditate placeat, culpa deserunt nulla!
             </div>
             {oneOffer.auctionType === "buyNow" && (
               <OfferOptions

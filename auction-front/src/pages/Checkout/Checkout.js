@@ -258,26 +258,22 @@ const Checkout = () => {
                 handleChange={handleAddressDetailsChange}
               />
             </div>
-
-            <div className="buttons-container">
-              <button className="btn save-address" onClick={saveNewAddress}>
-                Dodaj nowy
-              </button>
-              <button
-                className="btn save-address"
-                onClick={clearCurrentAddress}
-              >
-                Wyczyść pola
-              </button>
-              <button
-                className="btn save-address"
-                onClick={saveChangesInCurrentAddress}
-              >
-                Zapisz zmiany
-              </button>
-            </div>
           </div>
         )}
+        <div className="buttons-container">
+          <button className="btn save-address" onClick={saveNewAddress}>
+            Dodaj
+          </button>
+          <button className="btn save-address" onClick={clearCurrentAddress}>
+            Wyczyść pola
+          </button>
+          <button
+            className="btn save-address"
+            onClick={saveChangesInCurrentAddress}
+          >
+            Zapisz zmiany
+          </button>
+        </div>
       </div>
 
       <div className="ship-payment-details">
