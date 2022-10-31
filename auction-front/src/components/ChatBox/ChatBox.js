@@ -5,7 +5,13 @@ import InputEmoji from "react-input-emoji";
 import moment from "moment";
 import "moment/locale/pl";
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
+const ChatBox = ({
+  chat,
+  currentUserId,
+  setSendMessage,
+  receiveMessage,
+  sendMessageFunc,
+}) => {
   const { getOtherUser, getMessages, sendMessage } = useAppContext();
   const defaultImage =
     "https://raw.githubusercontent.com/ZainRk/MERN-SocialMedia-ZAINKEEPSCODE/master/server/public/images/defaultProfile.png";
@@ -38,6 +44,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 
     if (chat !== null) fetchMessages();
   }, [chat]);
+  
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -54,7 +61,9 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       chatId: chat._id,
     };
     const receiverId = chat.members.find((id) => id !== currentUserId);
-    setSendMessage({ ...message, receiverId });
+
+    sendMessageFunc({ ...message, receiverId });
+
     const data = await sendMessage(message);
     setMessages([...messages, data]);
     setNewMessage("");

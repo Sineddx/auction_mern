@@ -12,6 +12,7 @@ const NavLinks = ({ toggleMenu }) => {
       toggleMenu();
     }
   };
+
   return (
     <div className="modal-body">
       {}
@@ -29,6 +30,7 @@ const NavLinks = ({ toggleMenu }) => {
                   key={id}
                   state={{ lastPath: location.pathname + location.search }}
                   onClick={() => handleClick(id)}
+                  reloadDocument
                 >
                   <span className="icon">{icon}</span>
                   {text}
@@ -48,6 +50,7 @@ const NavLinks = ({ toggleMenu }) => {
                   key={id}
                   state={{ lastPath: location.pathname + location.search }}
                   onClick={handleClick}
+                  reloadDocument
                 >
                   <span className="icon">{icon}</span>
                   {text}

@@ -9,7 +9,7 @@ import Wrapper from "./Header.styled";
 const Header = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const { user, logout, search, handleChange, refresh, clearFilter, socket } =
+  const { user, logout, search, handleChange, refresh, clearFilter } =
     useAppContext();
 
   const toggleMenu = (e) => {
@@ -24,11 +24,7 @@ const Header = () => {
       e.stopPropagation();
     }
   };
-  useEffect(() => {
-    if (user) {
-      socket.emit("new-user-add", user.id);
-    }
-  }, []);
+
   const handleSearch = (e) => {
     handleChange({ name: e.target.name, value: e.target.value });
   };

@@ -7,7 +7,8 @@ import { Loading, OfferOptions } from "../../components";
 import { images } from "../../utils/arrays";
 
 const SingleOffer = () => {
-  const { getSingleOffer, isLoading, user, createChat } = useAppContext();
+  const { getSingleOffer, isLoading, user, createChat, sendMessage } =
+    useAppContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const [oneOffer, setOneOffer] = useState();
   const navigate = useNavigate();
@@ -25,66 +26,79 @@ const SingleOffer = () => {
   const handleClick = async (receiverId, senderId) => {
     const obj = { receiverId, senderId };
     const chatCreated = await createChat(obj);
-    if (chatCreated === true) {
+    if (chatCreated.message === "Chat created") {
+      const message = {
+        senderId,
+        text: `Dzień dobry, chciałem zapytać o przedmiot ${oneOffer.name}`,
+        chatId: chatCreated.newChat._id,
+      };
+      await sendMessage(message);
       navigate("/user/messages");
+      // window.location.reload();
+    }
+    if (chatCreated.message === "Chat already existed") {
+      navigate("/user/messages");
+      // window.location.reload();
     }
   };
-  
-    return isLoading || !oneOffer ? (
-      <Loading />
-    ) : (
-      <Wrapper>
-        <div className="item-container">
-          <div className="gallery">
-            {oneOffer ? (
-              <ImageGallery
-                items={oneOffer.image.length > 0 ? oneOffer.image : images}
-              />
-            ) : null}
-          </div>
-          <div className="item-info">
-            <div className="seller">
-              <div className="seller-name-container">
-                <div className="seller-avatar">
-                  <img
-                    src="https://media.istockphoto.com/vectors/default-avatar-profile-icon-vector-vector-id1337144146?k=20&m=1337144146&s=612x612&w=0&h=Mz4oPre6r3fccgvm5lyd22S5VFqTnrEYRJj9clL3Q1o="
-                    alt="avatar sprzedawcy"
-                  />
-                </div>
-                <span>{oneOffer.user.nickname}</span>
-              </div>
-              <button
-                onClick={() => handleClick(oneOffer.user._id, user.id)}
-                className="btn call-seller"
-              >
-                Napisz do sprzedawcy
-              </button>
-            </div>
-            <div className="offer-name">{oneOffer.name}</div>
-            <div className="item-description">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio ratione eveniet quidem fugiat animi ab incidunt eius laboriosam nobis molestiae in nihil quaerat earum reprehenderit cupiditate placeat, culpa deserunt nulla!
-            </div>
-            {oneOffer.auctionType === "buyNow" && (
-              <OfferOptions
-                auctionType="buyNow"
-                price={oneOffer.price}
-                user={user}
-                availability={oneOffer.quantity}
-                auction={oneOffer}
-              />
-            )}
-            {oneOffer.auctionType === "bid" && (
-              <OfferOptions
-                auctionType="bid"
-                price={oneOffer.price}
-                user={user}
-              />
-            )}
-          </div>
+
+  return isLoading || !oneOffer ? (
+    <Loading />
+  ) : (
+    <Wrapper>
+      <div className="item-container">
+        <div className="gallery">
+          {oneOffer ? (
+            <ImageGallery
+              items={oneOffer.image.length > 0 ? oneOffer.image : images}
+            />
+          ) : null}
         </div>
-      </Wrapper>
-    );
-  
+        <div className="item-info">
+          <div className="seller">
+            <div className="seller-name-container">
+              <div className="seller-avatar">
+                <img
+                  src="https://media.istockphoto.com/vectors/default-avatar-profile-icon-vector-vector-id1337144146?k=20&m=1337144146&s=612x612&w=0&h=Mz4oPre6r3fccgvm5lyd22S5VFqTnrEYRJj9clL3Q1o="
+                  alt="avatar sprzedawcy"
+                />
+              </div>
+              <span>{oneOffer.user.nickname}</span>
+            </div>
+            <button
+              onClick={() => handleClick(oneOffer.user._id, user.id)}
+              className="btn call-seller"
+            >
+              Napisz do sprzedawcy
+            </button>
+          </div>
+          <div className="offer-name">{oneOffer.name}</div>
+          <div className="item-description">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio
+            ratione eveniet quidem fugiat animi ab incidunt eius laboriosam
+            nobis molestiae in nihil quaerat earum reprehenderit cupiditate
+            placeat, culpa deserunt nulla!
+          </div>
+          {oneOffer.auctionType === "buyNow" && (
+            <OfferOptions
+              auctionType="buyNow"
+              price={oneOffer.price}
+              user={user}
+              availability={oneOffer.quantity}
+              auction={oneOffer}
+            />
+          )}
+          {oneOffer.auctionType === "bid" && (
+            <OfferOptions
+              auctionType="bid"
+              price={oneOffer.price}
+              user={user}
+            />
+          )}
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 export default SingleOffer;

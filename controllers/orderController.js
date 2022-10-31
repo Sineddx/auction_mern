@@ -10,7 +10,7 @@ const getAllOrders = async (req, res) => {
 };
 
 const getCurrentUserOrders = async (req, res) => {
-  const orders = await Order.find({ user: req.user.userId });
+  const orders = await Order.find({ user: req.user.userId }).populate("item");
   res.status(StatusCodes.OK).json({ orders });
 };
 

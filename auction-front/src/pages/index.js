@@ -9,6 +9,7 @@ import Messages from "./Messages/Messages";
 import Checkout from "./Checkout/Checkout";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import PaymentAccepted from "./PaymentAccepted/PaymentAccepted";
+import Orders from "./Orders/Orders";
 export {
   Error,
   Home,
@@ -21,4 +22,5 @@ export {
   Checkout,
   ProtectedRoute,
   PaymentAccepted,
+  Orders,
 };

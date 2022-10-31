@@ -2,6 +2,7 @@ import React, { useReducer, useContext } from "react";
 import reducer from "./reducer";
 import axios from "axios";
 import { io } from "socket.io-client";
+// import socketIOClient from "socket.io-client";
 import { toast } from "react-toastify";
 
 import {
@@ -23,6 +24,7 @@ import {
   GET_SINGLE_OFFER_SUCCESS,
   TURN_LOADING_ON,
   TURN_LOADING_OFF,
+  GET_USER_ORDERS,
   ADD_USER_ADDRESS_SUCCESS,
   ADD_USER_ADDRESS_BEGIN,
   CREATE_ORDER,
@@ -59,6 +61,7 @@ const AppProvider = ({ children }) => {
   const socket = io.connect("http://localhost:5000", {
     transports: ["websocket"],
   });
+  // const socket = socketIOClient("http://localhost:5000");
 
   const handleChange = ({ name, value }) => {
     dispatch({
@@ -102,7 +105,8 @@ const AppProvider = ({ children }) => {
         payload: { user, alertText },
       });
       localStorage.setItem("user", JSON.stringify(user));
-      socket.emit("new-user-add", user.id);
+      // await socket.emit("new-user-add", user.id);
+      // await socket.emit("new-user-add", user.id);
       showToast("Pomyślnie zalogowano!");
     } catch (e) {
       dispatch({
@@ -117,11 +121,13 @@ const AppProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.delete("/api/v1/auth/logout");
+      // socket.emit("disconnect");
     } catch (error) {
       console.log(error);
     }
     dispatch({ type: LOGOUT_USER });
     localStorage.removeItem("user");
+    socket.disconnect();
     showToast("Pomyślnie wylogowano!");
   };
   const showToast = (string, type) => {
@@ -293,8 +299,8 @@ const AppProvider = ({ children }) => {
   };
   const createChat = async (obj) => {
     try {
-      await axios.post("/api/v1/chat", obj);
-      return true;
+      const { data } = await axios.post("/api/v1/chat", obj);
+      return data;
     } catch (e) {
       console.log(e);
       return false;
@@ -351,12 +357,21 @@ const AppProvider = ({ children }) => {
       console.log(e);
     }
   };
+  const fetchOrders = async () => {
+    try {
+      setLoadingON();
+      const { data } = await axios.get("/api/v1/order/showAllMyOrders");
+      setLoadingOFF();
+      return data;
+    } catch (error) {}
+  };
   const setLoadingON = () => {
     dispatch({ type: TURN_LOADING_ON });
   };
   const setLoadingOFF = () => {
     dispatch({ type: TURN_LOADING_OFF });
   };
+
   return (
     <AppContext.Provider
       value={{
@@ -388,6 +403,7 @@ const AppProvider = ({ children }) => {
         updateOrder,
         setLoadingOFF,
         setLoadingON,
+        fetchOrders,
       }}
     >
       {children}

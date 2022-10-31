@@ -1,6 +1,10 @@
 import { BiLogIn, BiRegistered, BiLogOut } from "react-icons/bi";
-import { MdContactSupport } from "react-icons/md";
-import { AiOutlineMessage, AiOutlinePlusCircle } from "react-icons/ai";
+import { MdLocalGroceryStore } from "react-icons/md";
+import {
+  AiOutlineMessage,
+  AiOutlinePlusCircle,
+  AiFillAppstore,
+} from "react-icons/ai";
 
 const links = [
   {
@@ -32,6 +36,14 @@ const links = [
     text: "Wiadomości",
     path: "/user/messages",
     icon: <AiOutlineMessage />,
+    hideIfUser: false,
+    public: false,
+  },
+  {
+    id: 7,
+    text: "Zamówienia",
+    path: "/user/orders",
+    icon: <MdLocalGroceryStore />,
     hideIfUser: false,
     public: false,
   },

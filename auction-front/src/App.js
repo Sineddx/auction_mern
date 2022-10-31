@@ -11,6 +11,7 @@ import {
   Checkout,
   ProtectedRoute,
   PaymentAccepted,
+  Orders,
 } from "./pages";
 
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -47,6 +48,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AddOffer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="user/orders"
+            element={
+              <ProtectedRoute>
+                <Orders />
               </ProtectedRoute>
             }
           />

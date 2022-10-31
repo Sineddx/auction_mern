@@ -2,11 +2,22 @@ import { StatusCodes } from "http-status-codes";
 import ChatModel from "../models/Chat.js";
 
 const createChat = async (req, res) => {
+  const existingChat = await ChatModel.findOne({
+    members: { $all: [req.body.senderId, req.body.receiverId] },
+  });
+  if (existingChat) {
+    res
+      .status(200)
+      .json({ newChat: existingChat, message: "Chat already existed" });
+    return;
+  }
+
   const newChat = new ChatModel({
     members: [req.body.senderId, req.body.receiverId],
   });
   const result = await newChat.save();
-  res.status(200).json(result);
+
+  res.status(200).json({ newChat: result, message: "Chat created" });
 };
 
 const userChats = async (req, res) => {
