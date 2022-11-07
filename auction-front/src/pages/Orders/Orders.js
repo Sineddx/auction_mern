@@ -3,6 +3,7 @@ import { useAppContext } from "../../context/appContext";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components";
 import {useNavigate} from "react-router-dom";
+import {images} from "../../utils/arrays";
 
 const Orders = () => {
   const { fetchOrders, loading } = useAppContext();
@@ -57,7 +58,7 @@ const Orders = () => {
 
             </div>
             <div className="item-image">
-              <img src={order.item.image[0].url}></img>
+              <img src={order?.item?.image[0]?.url || images[0].original}></img>
               {order.status === "paid" && (
                   <>
                 <button className="btn btn-add-opinion" onClick={() => handleClick(order._id)}>Wystaw opinię!</button>

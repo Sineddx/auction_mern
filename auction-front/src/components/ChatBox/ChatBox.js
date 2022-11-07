@@ -4,6 +4,7 @@ import Wrapper from "./ChatBox.styled";
 import InputEmoji from "react-input-emoji";
 import moment from "moment";
 import "moment/locale/pl";
+import AutoLinkText from "react-autolink-text2/src";
 
 const ChatBox = ({
   chat,
@@ -19,6 +20,7 @@ const ChatBox = ({
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const scroll = useRef();
+  const messagee = useRef();
 
   useEffect(() => {
     if (receiveMessage !== null && receiveMessage.chatId === chat._id) {
@@ -68,6 +70,11 @@ const ChatBox = ({
     setMessages([...messages, data]);
     setNewMessage("");
   };
+
+  const prepareMessage = (text) => {
+    console.log(messagee)
+    // messagee.current.innerHTML = text
+  }
   return (
     <Wrapper>
       <div className="ChatBox-container">
@@ -106,7 +113,7 @@ const ChatBox = ({
                       : "message"
                   }
                 >
-                  <span>{message.text}</span>
+                  <span><AutoLinkText text={message.text}/></span>
                   <span>{moment(message.createdAt).fromNow()}</span>
                 </div>
               ))}

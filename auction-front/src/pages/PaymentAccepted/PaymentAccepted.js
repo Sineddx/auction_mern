@@ -8,7 +8,7 @@ const PaymentAccepted = () => {
     navigate("/");
   };
   const ordersHistory = () => {
-    navigate("/");
+    navigate("/user/orders");
   };
   return (
     <Wrapper>

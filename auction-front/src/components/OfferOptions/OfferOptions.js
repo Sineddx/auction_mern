@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {useAppContext} from "../../context/appContext";
 
-const OfferOptions = ({ availability, price, user, auctionType, auction }) => {
+const OfferOptions = ({ availability, price, user, auctionType, auction, offerId, setRefresh, refresh }) => {
   const [bidValue, setBidValue] = useState(price);
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
+  const {raiseTheBidPrice} = useAppContext()
 
   const increaseAmount = () => {
     if (quantity === availability) {
@@ -50,6 +52,11 @@ const OfferOptions = ({ availability, price, user, auctionType, auction }) => {
   const navigateToCheckout = () => {
     navigate(`/checkout?auction=${auction._id}&quantity=${quantity}`);
   };
+
+  const handleBid = async () => {
+    await raiseTheBidPrice(offerId, bidValue)
+    setRefresh(!refresh)
+  }
   if (auctionType === "buyNow") {
     return (
       <div className="offer-price">
@@ -99,7 +106,7 @@ const OfferOptions = ({ availability, price, user, auctionType, auction }) => {
           </div>
         </div>
         {user ? (
-          <button className="btn">Licytuj</button>
+          <button className="btn" onClick={handleBid}>Licytuj</button>
         ) : (
           <button className="btn" onClick={handleLogin}>
             Zaloguj

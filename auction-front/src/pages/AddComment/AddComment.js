@@ -11,13 +11,15 @@ function AddComment(props) {
     const [currentOrder, setCurrentOrder] = useState();
     const [rating, setRating] = useState(5)
     const [view, setView] = useState(false)
+    const [desc, setDesc] = useState("")
     const navigate = useNavigate()
-    const {fetchSingleOrder, addRatingToSeller} = useAppContext();
+
+    const {fetchSingleOrder, addRatingToSeller, showToast} = useAppContext();
 
     useEffect(() => {
         const orderId = searchParams.get("order")
         setId(orderId)
-        const fetchOrder = async(id) => {
+        const fetchOrder = async (id) => {
             const data = await fetchSingleOrder(id)
             console.log(data);
             setCurrentOrder({...data.order[0]});
@@ -34,20 +36,30 @@ function AddComment(props) {
     const handleClick = async () => {
         const seller = currentOrder.seller;
         const order = currentOrder._id;
-        await addRatingToSeller(rating, seller, order);
-        navigate("/")
+        if (desc) {
+            await addRatingToSeller(rating, seller, order, desc);
+            navigate("/")
+        }else{
+            showToast("Uzupełnij opis", "warning")
+        }
     }
+    const placeholder = "Oceń na ile podobała Ci się transakcja!"
 
-    return currentOrder  ? (
+    return currentOrder ? (
             <Wrapper>
                 <div className="add-comment-container">
-                    <p>Oceń na ile podobała Ci się transakcja!</p>
-                    <div className="order-details">
-                        <p>Sprzedający: {currentOrder.seller.nickname}</p>
-                        <p>Przedmiot:  {currentOrder.item.name} </p>
-                        <p>Sztuk: {currentOrder.amount}</p>
+                    <div className="half">
+                        <div>
+                            <Rating onClick={handleRating} className="add-comment-rating" initialValue={rating}/>
+                            <div className="order-details">
+                                <p>Sprzedający: {currentOrder.seller.nickname}</p>
+                                <p>Przedmiot: {currentOrder.item.name} </p>
+                                <p>Sztuk: {currentOrder.amount}</p>
+                            </div>
+                        </div>
+                        <textarea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder={placeholder}/>
                     </div>
-                    <Rating onClick={handleRating} className="add-comment-rating" initialValue={rating}/>
+                    {/*<p>Oceń na ile podobała Ci się transakcja!</p>*/}
                     <button className="btn btn-add-comment" onClick={handleClick}>Oceń!</button>
                 </div>
             </Wrapper>

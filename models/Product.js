@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 //modify later
+const biddersSchema = new mongoose.Schema({
+    bidderId: {type: mongoose.Types.ObjectId, required: true},
+    bidAmount: {type: Number, required: true},
+})
 const ProductSchema = new mongoose.Schema(
   {
     name: {
@@ -71,6 +75,7 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       default: "active",
     },
+      bidders: [biddersSchema]
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

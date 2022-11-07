@@ -15,6 +15,8 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     box-shadow: 5px 5px 10px 2px var(--card-bg);
+    background-color: #fff;
+    background-color: #fff;
   }
   .order-container:hover{
     transform: scale(1.01);

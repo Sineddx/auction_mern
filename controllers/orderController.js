@@ -10,7 +10,7 @@ const getAllOrders = async (req, res) => {
 };
 
 const getCurrentUserOrders = async (req, res) => {
-  const orders = await Order.find({ user: req.user.userId }).populate("item")
+  const orders = await Order.find({ buyer: req.user.userId }).populate("item")
   res.status(StatusCodes.OK).json({ orders });
 };
 
@@ -21,7 +21,7 @@ const getSingleOrder = async(req, res) => {
 }
 
 const closeOrder = async(req, res) => {
-  const {rating, seller, order: orderId} = req.body;
+  const {rating, seller, order: orderId, desc} = req.body;
   const user = await User.findOne({_id: seller})
   const order = await Order.findOne({_id: orderId})
   if(!order){
@@ -30,12 +30,15 @@ const closeOrder = async(req, res) => {
   if(!user){
     throw new BadRequestError("Can't find that seller!")
   }
+  if(!desc){
+    throw new BadRequestError("Can't add rating without description!")
+  }
   if(order.closed === true){
     throw new BadRequestError("You can't rate this user again!")
   }
 
   order.closed = true;
-  user.ratings.push(rating);
+  user.ratings.push({rating, desc});
 
   order.save();
   user.save();
@@ -126,6 +129,7 @@ const updateOrder = async (req, res) => {
   if (buyer != order.buyer._id) {
     throw new BadRequestError("You are not allowed to pay for this order!");
   }
+
 
   order.status = "paid";
   order.save();

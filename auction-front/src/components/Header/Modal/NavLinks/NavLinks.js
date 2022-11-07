@@ -20,7 +20,7 @@ const NavLinks = ({ toggleMenu }) => {
         ? links
             .filter((link) => link.hideIfUser === false)
             .map((link) => {
-              const { text, path, id, icon } = link;
+              const { text, path, id, icon, reload } = link;
               return (
                 <NavLink
                   to={path}
@@ -30,7 +30,7 @@ const NavLinks = ({ toggleMenu }) => {
                   key={id}
                   state={{ lastPath: location.pathname + location.search }}
                   onClick={() => handleClick(id)}
-                  reloadDocument
+                  reloadDocument={reload}
                 >
                   <span className="icon">{icon}</span>
                   {text}
@@ -40,7 +40,7 @@ const NavLinks = ({ toggleMenu }) => {
         : links
             .filter((link) => link.public === true)
             .map((link) => {
-              const { text, path, id, icon } = link;
+              const { text, path, id, icon, reload } = link;
               return (
                 <NavLink
                   to={path}
@@ -50,7 +50,7 @@ const NavLinks = ({ toggleMenu }) => {
                   key={id}
                   state={{ lastPath: location.pathname + location.search }}
                   onClick={handleClick}
-                  reloadDocument
+                  reloadDocument={reload}
                 >
                   <span className="icon">{icon}</span>
                   {text}

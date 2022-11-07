@@ -9,6 +9,7 @@ import {
 import { useAppContext } from "../../context/appContext";
 import blik from "../../assets/images/blik.png";
 import card from "../../assets/images/karta.jpg";
+import {images} from "../../utils/arrays";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Checkout = () => {
@@ -322,7 +323,7 @@ const Checkout = () => {
         <hr className="underline"></hr>
         <div className="auction-details">
           <div className="auction-image">
-            <img src={auctionDetails?.image[0].original}></img>
+            <img src={auctionDetails?.image[0]?.original || images[0].original}></img>
           </div>
           <div className="auction-desc">
             <div className="row">

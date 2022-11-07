@@ -73,4 +73,20 @@ const getSingleOffer = async (req, res) => {
   res.status(StatusCodes.OK).json({ offer });
 };
 
-export { createProduct, getAllProducts, getSingleOffer };
+const raiseThePrice = async(req, res) => {
+  const {id: _id, bump: bidAmount} = req.body;
+  const bidderId = req.user.userId;
+  const offer = await Product.findOne({_id});
+  if(!offer){
+    throw new BadRequestError("Can't find that offer")
+  }
+  if(bidAmount < offer.price){
+    throw new BadRequestError("You can't bid less than the current bid")
+  }
+  offer.bidders.push({bidderId, bidAmount})
+  offer.price = bidAmount;
+  offer.save();
+  res.status(StatusCodes.OK).json({offer})
+}
+
+export { createProduct, getAllProducts, getSingleOffer, raiseThePrice };

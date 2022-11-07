@@ -120,15 +120,15 @@ const AppProvider = ({ children }) => {
 
   const logout = async () => {
     try {
+      dispatch({ type: LOGOUT_USER });
       await axios.delete("/api/v1/auth/logout");
-      // socket.emit("disconnect");
+      localStorage.removeItem("user");
+      socket.disconnect();
+      showToast("Pomyślnie wylogowano!");
     } catch (error) {
       console.log(error);
     }
-    dispatch({ type: LOGOUT_USER });
-    localStorage.removeItem("user");
-    socket.disconnect();
-    showToast("Pomyślnie wylogowano!");
+
   };
   const showToast = (string, type) => {
     if (type === "warning") {
@@ -351,6 +351,7 @@ const AppProvider = ({ children }) => {
       dispatch({ type: TURN_LOADING_ON });
       const { data } = await axios.patch("/api/v1/order/update", { id });
       if (data.status === "PAYMENT ACCEPTED") {
+
         return `ZAMÓWIENIE O NUMERZE ${id} ZOSTAŁO ZAAKCEPTOWANE DO REALIZACJI`;
       }
     } catch (e) {
@@ -373,8 +374,8 @@ const AppProvider = ({ children }) => {
       return data;
     }catch (error){}
   }
-  const addRatingToSeller = async (rating, seller, order) => {
-    const obj = {rating, seller, order}
+  const addRatingToSeller = async (rating, seller, order, desc) => {
+    const obj = {rating, seller, order, desc}
     try{
       setLoadingON()
       const {data} = await axios.patch("/api/v1/order/rating", obj)
@@ -382,7 +383,17 @@ const AppProvider = ({ children }) => {
       showToast("Ocena została wystawiona!")
       return data;
     }catch(error){}
+  }
 
+  const raiseTheBidPrice = async (id, bump) => {
+    const obj = {id, bump}
+    try{
+      setLoadingON()
+      const {data} = await axios.patch("/api/v1/products/updatePrice", obj)
+      setLoadingOFF()
+      showToast("Udało się zalicytować!")
+      return data;
+    }catch(error){}
   }
   const setLoadingON = () => {
     dispatch({ type: TURN_LOADING_ON });
@@ -424,7 +435,8 @@ const AppProvider = ({ children }) => {
         setLoadingON,
         fetchOrders,
         fetchSingleOrder,
-        addRatingToSeller
+        addRatingToSeller,
+        raiseTheBidPrice
       }}
     >
       {children}

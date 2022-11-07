@@ -14,6 +14,7 @@ const links = [
     icon: <BiLogIn />,
     hideIfUser: true,
     public: true,
+    reload: false
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const links = [
     icon: <BiRegistered />,
     hideIfUser: true,
     public: true,
+    reload: false
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const links = [
     icon: <AiOutlinePlusCircle />,
     hideIfUser: false,
     public: false,
+    reload: false
   },
   {
     id: 6,
@@ -38,6 +41,7 @@ const links = [
     icon: <AiOutlineMessage />,
     hideIfUser: false,
     public: false,
+    reload: true
   },
   {
     id: 7,
@@ -46,6 +50,7 @@ const links = [
     icon: <MdLocalGroceryStore />,
     hideIfUser: false,
     public: false,
+    reload: false
   },
   {
     id: 5,
@@ -54,6 +59,7 @@ const links = [
     icon: <BiLogOut />,
     hideIfUser: false,
     public: false,
+    reload: false
   },
 ];
 
