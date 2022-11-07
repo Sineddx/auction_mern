@@ -1,9 +1,12 @@
 import { forwardRef } from "react";
 
 const FormRow = (
-  { type, name, value, handleChange, labelText, textarea, cssName },
+  { type, name, value, handleChange, labelText, textarea, cssName, min },
   ref
 ) => {
+    if(!min){
+        min = null;
+    }
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label label-edit">
@@ -17,6 +20,7 @@ const FormRow = (
           name={name}
           onChange={handleChange}
           className={`form-input ${cssName}`}
+          min={min}
         />
       ) : (
         <textarea

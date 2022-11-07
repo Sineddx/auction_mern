@@ -109,6 +109,7 @@ const AddOffer = () => {
     }
   };
 
+
   return (
     <Wrapper>
       <form className="form">
@@ -201,6 +202,7 @@ const AddOffer = () => {
           handleChange={handleChange}
           labelText="Data zakończenia"
           required={true}
+          min={new Date().toISOString().slice(0,-8)}
         />
         <button type="submit" className="btn" onClick={handleSubmit}>
           Dodaj przedmiot!

@@ -365,6 +365,25 @@ const AppProvider = ({ children }) => {
       return data;
     } catch (error) {}
   };
+  const fetchSingleOrder = async(id) => {
+    try{
+      setLoadingON();
+      const {data} = await axios.get(`/api/v1/order/showOneOrder/${id}`)
+      setLoadingOFF();
+      return data;
+    }catch (error){}
+  }
+  const addRatingToSeller = async (rating, seller, order) => {
+    const obj = {rating, seller, order}
+    try{
+      setLoadingON()
+      const {data} = await axios.patch("/api/v1/order/rating", obj)
+      setLoadingOFF()
+      showToast("Ocena została wystawiona!")
+      return data;
+    }catch(error){}
+
+  }
   const setLoadingON = () => {
     dispatch({ type: TURN_LOADING_ON });
   };
@@ -404,6 +423,8 @@ const AppProvider = ({ children }) => {
         setLoadingOFF,
         setLoadingON,
         fetchOrders,
+        fetchSingleOrder,
+        addRatingToSeller
       }}
     >
       {children}

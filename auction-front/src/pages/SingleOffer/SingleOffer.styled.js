@@ -22,18 +22,22 @@ const Wrapper = styled.section`
   }
   .gallery {
     flex: 1;
-    box-shadow: 5px 5px 35px 3px var(--card-bg);
+    box-shadow: 5px 5px 10px 2px var(--card-bg);
     min-width: 50%;
     background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 30px;
+    border: 0.5px solid var(--card-bg);
   }
 
   .item-info {
-    box-shadow: 5px 5px 35px 3px var(--card-bg);
+    box-shadow: 5px 5px 10px 2px var(--card-bg);
+    border: 0.5px solid var(--card-bg);
     flex: 1;
     background-color: #fff;
+    border-radius: 30px;
   }
   .seller {
     padding-left: 2rem;

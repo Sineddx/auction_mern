@@ -28,6 +28,9 @@ const SearchItem = ({
   const handleClick = () => {
     navigate(`/offer?name=${name}&code=${_id}`);
   };
+  const calculateRating = () => {
+
+  }
   moment.locale("pl");
   moment().format("LTS");
   return (
@@ -51,6 +54,7 @@ const SearchItem = ({
                 {/* <p>Koniec aukcji: {moment(expiringDate).fromNow()}</p> */}
                 <br></br>
                 <span className="seller-name">Sprzedawca: {user.email}</span>
+
               </div>
               <div className="price-container">
                 <span className="auction-type">{auctionTypePL}</span>

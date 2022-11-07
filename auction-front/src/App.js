@@ -12,6 +12,7 @@ import {
   ProtectedRoute,
   PaymentAccepted,
   Orders,
+    AddComment
 } from "./pages";
 
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -59,6 +60,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+            <Route
+                path="user/orders/add-comment"
+                element={
+                <ProtectedRoute>
+                    <AddComment/>
+                </ProtectedRoute>
+                }
+                />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

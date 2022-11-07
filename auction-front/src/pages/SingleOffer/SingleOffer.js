@@ -42,6 +42,11 @@ const SingleOffer = () => {
     }
   };
 
+  const calculateRating = () => {
+    let ratings = oneOffer.user.ratings;
+    return ratings.reduce((x,y) => x+y) / ratings.length
+  }
+
   return isLoading || !oneOffer ? (
     <Loading />
   ) : (
@@ -63,7 +68,7 @@ const SingleOffer = () => {
                   alt="avatar sprzedawcy"
                 />
               </div>
-              <span>{oneOffer.user.nickname}</span>
+              <span>{oneOffer.user.nickname} <br/> Ocena: {calculateRating()} ⭐</span>
             </div>
             <button
               onClick={() => handleClick(oneOffer.user._id, user.id)}

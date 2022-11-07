@@ -10,12 +10,40 @@ const getAllOrders = async (req, res) => {
 };
 
 const getCurrentUserOrders = async (req, res) => {
-  const orders = await Order.find({ user: req.user.userId }).populate("item");
+  const orders = await Order.find({ user: req.user.userId }).populate("item")
   res.status(StatusCodes.OK).json({ orders });
 };
 
+const getSingleOrder = async(req, res) => {
+  const _id = req.params.orderId;
+  const order = await Order.find({_id}).populate("item").populate("seller")
+  res.status(StatusCodes.OK).json({order})
+}
+
+const closeOrder = async(req, res) => {
+  const {rating, seller, order: orderId} = req.body;
+  const user = await User.findOne({_id: seller})
+  const order = await Order.findOne({_id: orderId})
+  if(!order){
+    throw new BadRequestError("Can't find that order!")
+  }
+  if(!user){
+    throw new BadRequestError("Can't find that seller!")
+  }
+  if(order.closed === true){
+    throw new BadRequestError("You can't rate this user again!")
+  }
+
+  order.closed = true;
+  user.ratings.push(rating);
+
+  order.save();
+  user.save();
+
+  res.status(StatusCodes.OK).json({msg: "OK"})
+}
+
 const createOrder = async (req, res) => {
-  // const { seller, item: itemId, amount, deliveryType } = req.body;
 
   const {
     item: itemId,
@@ -105,4 +133,4 @@ const updateOrder = async (req, res) => {
   res.status(StatusCodes.OK).json({ status: "PAYMENT ACCEPTED" });
 };
 
-export { getAllOrders, getCurrentUserOrders, createOrder, updateOrder };
+export { getAllOrders, getCurrentUserOrders, createOrder, updateOrder, getSingleOrder, closeOrder };

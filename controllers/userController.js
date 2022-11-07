@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import BadRequestError from "../errors/bad-request.js";
 import User from "../models/User.js";
+import badRequest from "../errors/bad-request.js";
 
 const getSingleUser = async (req, res) => {
   const result = await User.findOne({ _id: req.user.userId });
@@ -98,4 +99,8 @@ const editUserAddress = async (req, res) => {
   res.status(StatusCodes.OK).json(user.addresses);
 };
 
-export { getSingleUser, getOtherUser, addUserAddress, editUserAddress };
+const addRatingToUser = async(req, res) => {
+
+}
+
+export { getSingleUser, getOtherUser, addUserAddress, editUserAddress, addRatingToUser };

@@ -10,6 +10,7 @@ import Checkout from "./Checkout/Checkout";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import PaymentAccepted from "./PaymentAccepted/PaymentAccepted";
 import Orders from "./Orders/Orders";
+import AddComment from "./AddComment/AddComment";
 export {
   Error,
   Home,
@@ -23,4 +24,5 @@ export {
   ProtectedRoute,
   PaymentAccepted,
   Orders,
+    AddComment
 };

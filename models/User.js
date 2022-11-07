@@ -58,9 +58,13 @@ const UserSchema = new mongoose.Schema(
     addedAuctions: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
     purchasedItems: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
     soldItems: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
+      ratings: {
+        type: []
+      }
   },
   { timestamps: true }
 );
+
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

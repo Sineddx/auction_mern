@@ -2,20 +2,23 @@ import Wrapper from "./Orders.styled";
 import { useAppContext } from "../../context/appContext";
 import { useEffect, useState } from "react";
 import { Loading } from "../../components";
+import {useNavigate} from "react-router-dom";
 
 const Orders = () => {
   const { fetchOrders, loading } = useAppContext();
   const [orders, setOrders] = useState([]);
   const [moreDetails, setMoreDetails] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDataFromDB = async () => {
       const data = await fetchOrders();
-      console.log(data);
-      setOrders([...data.orders].reverse());
+      const onlyNotRated = data.orders.filter((item) => item.closed === false)
+      // setOrders([...data.orders].reverse());
+      setOrders([...onlyNotRated].reverse())
     };
-    fetchDataFromDB();
-    return () => {};
+
+    return () => {fetchDataFromDB();};
   }, []);
 
   const quickTranslate = (word) => {
@@ -26,6 +29,9 @@ const Orders = () => {
       return "Opłacone";
     }
   };
+  const handleClick = (id) => {
+    navigate(`add-comment?order=${id}`)
+  }
 
   return !loading ? (
     <Wrapper>
@@ -35,23 +41,28 @@ const Orders = () => {
             className="order-container"
             onClick={() => setMoreDetails(!moreDetails)}
           >
-            <div className="item-image">
-              <img src={order.item.image[0].url}></img>
-            </div>
+
             <div className="order-details">
-              <p className="item-name">Nazwa: {order.item.name}</p>
-              <p className="item-amount">Ilość: {order.amount}</p>
-              <p className="item-price">Cena: {order.total} zł </p>
-              <p className="item-delivery">Dostawa: {order.deliveryType}</p>
+              <p className="item-name">Nazwa: <span>{order.item.name}</span></p>
+              <p className="item-amount">Ilość: <span>{order.amount}</span></p>
+              <p className="item-price">Cena: <span>{order.total} zł </span></p>
+              <p className="item-delivery">Dostawa: <span>{order.deliveryType}</span></p>
               <p className="order-address">
-                Adres: {order.addressDelivery.address1}{" "}
-                {order.addressDelivery.address2}
+                Adres: <span>{order.addressDelivery.address1}{" "}
+                {order.addressDelivery.address2}</span>
               </p>
               <p className="order-status">
-                Status: {quickTranslate(order.status)}
+                Status: <span>{quickTranslate(order.status)}</span>
               </p>
+
+            </div>
+            <div className="item-image">
+              <img src={order.item.image[0].url}></img>
               {order.status === "paid" && (
-                <button className="btn btn-add-opinion">Wystaw opinię!</button>
+                  <>
+                <button className="btn btn-add-opinion" onClick={() => handleClick(order._id)}>Wystaw opinię!</button>
+                <span className='order-opinion'>Można wystawić opinię!</span>
+                  </>
               )}
             </div>
           </div>
