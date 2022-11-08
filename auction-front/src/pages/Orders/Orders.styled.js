@@ -53,6 +53,25 @@ const Wrapper = styled.div`
   .btn-add-opinion{
     text-align: center;
   }
+  .no-orders{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 1rem;
+  }
+  .no-orders p{
+    border: 1px solid var(--card-bg);
+    border-radius: 30px;
+    padding: 1rem;
+    box-shadow: 1px 1px 1px 1px var(--card-bg);
+  }
+  .no-orders img{
+    width: 38%;
+  }
+  
   @media (max-width: 1250px){
     font-size: 14px;
     .order-container{
@@ -67,6 +86,9 @@ const Wrapper = styled.div`
       
       margin: 3rem 0 0 0;
       max-height: 60%;
+    }
+    .no-orders img{
+      width: 70%;
     }
   }
 `;

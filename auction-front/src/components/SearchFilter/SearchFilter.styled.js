@@ -1,9 +1,10 @@
 import styled from "styled-components";
 const Wrapper = styled.section`
   margin: 2rem 1rem 0 15%;
-  width: 15%;
+  min-width: 15%;
+
   .filter-area {
-    /* width: 100%; */
+     //width: 100%; 
     background-color: #fff;
     display: grid;
     padding: 0.5rem;
@@ -21,6 +22,7 @@ const Wrapper = styled.section`
   @media (max-width: 900px) {
     width: 95%;
     margin: 0 auto;
+    padding-top: 1rem;
   }
 `;
 export default Wrapper;

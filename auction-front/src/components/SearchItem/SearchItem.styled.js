@@ -14,6 +14,10 @@ const Wrapper = styled.div`
     align-items: center;
     cursor: pointer;
   }
+  .item-container p{
+    margin: 0;
+    padding: 0;
+  }
   .wrapper {
     width: 90%;
     margin-right: 5rem;
@@ -25,7 +29,7 @@ const Wrapper = styled.div`
     transform: scale(1.02);
   }
   .item-image {
-    min-width: 100px;
+    min-width: 150px;
     padding-top: 0.5rem;
     width: 15%;
     padding-left: 0.5rem;

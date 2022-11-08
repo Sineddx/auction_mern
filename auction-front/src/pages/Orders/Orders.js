@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Loading } from "../../components";
 import {useNavigate} from "react-router-dom";
 import {images} from "../../utils/arrays";
+import img from '../../assets/images/empty_orders.svg'
 
 const Orders = () => {
   const { fetchOrders, loading } = useAppContext();
@@ -36,7 +37,8 @@ const Orders = () => {
 
   return !loading ? (
     <Wrapper>
-      {orders?.map((order, index) => {
+
+      {orders.length > 0 ? orders?.map((order, index) => {
         return (
           <div
             className="order-container"
@@ -68,7 +70,10 @@ const Orders = () => {
             </div>
           </div>
         );
-      })}
+      }) : <div className="no-orders">
+        <p>Nie masz jeszcze żadnych zamówień!</p>
+        <img src={img} alt="brak zamówień!"></img>
+      </div>}
     </Wrapper>
   ) : (
     <Loading />

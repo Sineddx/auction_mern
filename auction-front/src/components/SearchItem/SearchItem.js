@@ -51,9 +51,8 @@ const SearchItem = ({
             <div>
               <div className="auction-name">
                 <span className="name">{name}</span>
-                {/* <p>Koniec aukcji: {moment(expiringDate).fromNow()}</p> */}
-                <br></br>
-                <span className="seller-name">Sprzedawca: {user.email}</span>
+                 <p>Koniec aukcji: {moment(expiringDate).fromNow()}</p>
+                <span className="seller-name">Sprzedawca: {user.nickname}</span>
 
               </div>
               <div className="price-container">

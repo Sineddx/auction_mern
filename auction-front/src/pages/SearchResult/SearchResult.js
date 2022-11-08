@@ -21,18 +21,19 @@ const SearchResult = () => {
     return (
       <Wrapper>
         <SearchFilter />
-        <h2>Brak produktów o podanych parametrach</h2>
+        <h2 className="no-products">Brak produktów o podanych parametrach</h2>
       </Wrapper>
     );
   }
   return (
     <Wrapper>
       <SearchFilter />
-      <div className="results-number">Znalezionych wyników: {totalOffers}</div>
+
       <div className="all-items">
         {offers.map((auctionItem, index) => {
           return <SearchItem key={index} auctionItem={auctionItem} />;
         })}
+          <div className="results-number">Znalezionych wyników: {totalOffers}</div>
         {numOfPages > 1 && <PageBtnContainer />}
       </div>
     </Wrapper>

@@ -32,6 +32,12 @@ const SearchFilter = () => {
   };
   const handleClear = () => {
     clearFilter();
+    searchParams.delete('searchCategory')
+    searchParams.delete('searchStates')
+    searchParams.delete('searchAuctionType')
+    searchParams.delete('sort')
+    searchParams.set("page", 1);
+    setSearchParams(searchParams)
   };
   useEffect(() => {
     const currentParams = Object.fromEntries([...searchParams]);
